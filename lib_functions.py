@@ -2094,9 +2094,9 @@ def is_glide(phone: Phonet) -> bool:
     if isinstance(phone, Consonant) and phone.manner == Manner.APPROXIMANT \
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return phone.place in [Place.PALATAL,
-                                 Place.LABIAL_VELAR,
-                                 Place.LABIAL_PALATAL,
-                                 Place.VELAR]
+                               Place.LABIAL_VELAR,
+                               Place.LABIAL_PALATAL,
+                               Place.VELAR]
     return False
 
 def consonantal(phone: Phonet) -> Optional[PhonemeFeature]:
@@ -2160,8 +2160,8 @@ def continuant(phone: Phonet) -> Optional[PhonemeFeature]:
       (see chart on page 259))
     """
     if isinstance(phone, Consonant) and phone.manner in [Manner.PLOSIVE,
-                                                           Manner.NASAL,
-                                                           Manner.AFFRICATE]:
+                                                         Manner.NASAL,
+                                                         Manner.AFFRICATE]:
         return ContinuantFeature(Polarity.MINUS)
     if isinstance(phone, Consonant) and phone.manner == Manner.APPROXIMANT:
         return ContinuantFeature(Polarity.PLUS)
@@ -2192,9 +2192,9 @@ def lateral(phone: Phonet) -> Optional[PhonemeFeature]:
     """
     if isinstance(phone, Consonant):
         if phone.manner in [Manner.LATERAL,
-                              Manner.LATERAL_APPROXIMANT,
-                              Manner.LATERAL_FRICATIVE,
-                              Manner.LATERAL_FLAP]:
+                            Manner.LATERAL_APPROXIMANT,
+                            Manner.LATERAL_FRICATIVE,
+                            Manner.LATERAL_FLAP]:
             return LateralFeature()
     return None
 
@@ -2242,11 +2242,11 @@ def coronal(phone: Phonet) -> Optional[PhonemeFeature]:
      Table 12. on page 265.)
     """
     if isinstance(phone, Consonant) and phone.place in [Place.DENTAL,
-                                                          Place.ALVEOLAR,
-                                                          Place.ALVEOLOPALATAL,
-                                                          Place.RETROFLEX,
-                                                          Place.PALATAL,
-                                                          Place.POSTALVEOLAR]:
+                                                        Place.ALVEOLAR,
+                                                        Place.ALVEOLOPALATAL,
+                                                        Place.RETROFLEX,
+                                                        Place.PALATAL,
+                                                        Place.POSTALVEOLAR]:
         return CoronalFeature()
     return None
 
@@ -2326,7 +2326,7 @@ def spread_glottis(phone: Phonet) -> Optional[PhonemeFeature]:
     """
     if isinstance(phone, Consonant) \
             and phone.vocal_folds in [VocalFolds.VOICELESS_ASPIRATED,
-                                        VocalFolds.VOICED_ASPIRATED] \
+                                      VocalFolds.VOICED_ASPIRATED] \
             and phone.manner == Manner.PLOSIVE:
         return SpreadGlottisFeature()
     return None
@@ -2372,9 +2372,9 @@ def anterior(phone: Phonet) -> Optional[PhonemeFeature]:
     if isinstance(phone, Consonant) and phone.place in [Place.DENTAL, Place.ALVEOLAR]:
         return AnteriorFeature(Polarity.PLUS)
     if isinstance(phone, Consonant) and phone.place in [Place.POSTALVEOLAR,
-                                                          Place.RETROFLEX,
-                                                          Place.PALATAL,
-                                                          Place.ALVEOLOPALATAL]:
+                                                        Place.RETROFLEX,
+                                                        Place.PALATAL,
+                                                        Place.ALVEOLOPALATAL]:
         return AnteriorFeature(Polarity.MINUS)
     return None
 
