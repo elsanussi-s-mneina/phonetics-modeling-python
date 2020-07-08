@@ -357,20 +357,20 @@ def voiced_phonet(phone: Phonet) -> Phonet:
     equivalent.
     """
     if isinstance(phone, Consonant):
-        place = phone.place()
-        airstream = phone.airstream()
-        manner = phone.manner()
-        if phone.vocal_folds() == VocalFolds.VOICELESS_ASPIRATED:
+        place = phone.place
+        airstream = phone.airstream
+        manner = phone.manner
+        if phone.vocal_folds == VocalFolds.VOICELESS_ASPIRATED:
             return Consonant(VocalFolds.VOICED_ASPIRATED, place, manner, airstream)
-        if phone.vocal_folds() == VocalFolds.VOICELESS or phone.vocal_folds() == VocalFolds.VOICED:
+        if phone.vocal_folds == VocalFolds.VOICELESS or phone.vocal_folds == VocalFolds.VOICED:
             return Consonant(VocalFolds.VOICED, place, manner, airstream)
-        if phone.vocal_folds() == VocalFolds.VOICED_ASPIRATED:
+        if phone.vocal_folds == VocalFolds.VOICED_ASPIRATED:
             return Consonant(VocalFolds.VOICED_ASPIRATED, place, manner, airstream)
         return Consonant(VocalFolds.VOICED, place, manner, airstream)
     if isinstance(phone, Vowel):
-        height = phone.height()
+        height = phone.height
         backness = phone.backness
-        rounding = phone.rounding()
+        rounding = phone.rounding
         return Vowel(height, backness, rounding, VocalFolds.VOICED)
     return 'Unrecognized kind of Phonet could not be handled!'
 
@@ -380,23 +380,23 @@ def devoiced_phonet(phone: Phonet) -> Phonet:
     equivalent.
     """
     if isinstance(phone, Consonant):
-        place = phone.place()
-        airstream = phone.airstream()
-        manner = phone.manner()
-        if phone.vocal_folds() == VocalFolds.VOICED:
+        place = phone.place
+        airstream = phone.airstream
+        manner = phone.manner
+        if phone.vocal_folds == VocalFolds.VOICED:
             return Consonant(VocalFolds.VOICELESS, place, manner, airstream)
-        if phone.vocal_folds() == VocalFolds.CREAKY_VOICED:
+        if phone.vocal_folds == VocalFolds.CREAKY_VOICED:
             return Consonant(VocalFolds.VOICELESS, place, manner, airstream)
-        if phone.vocal_folds() == VocalFolds.VOICELESS:
+        if phone.vocal_folds == VocalFolds.VOICELESS:
             return Consonant(VocalFolds.VOICELESS, place, manner, airstream)
-        if phone.vocal_folds() == VocalFolds.VOICED_ASPIRATED:
+        if phone.vocal_folds == VocalFolds.VOICED_ASPIRATED:
             return Consonant(VocalFolds.VOICELESS_ASPIRATED, place, manner, airstream)
-        if phone.vocal_folds() == VocalFolds.VOICELESS_ASPIRATED:
+        if phone.vocal_folds == VocalFolds.VOICELESS_ASPIRATED:
             return Consonant(VocalFolds.VOICELESS_ASPIRATED, place, manner, airstream)
     if isinstance(phone, Vowel):
         backness = phone.backness
-        height = phone.height()
-        rounding = phone.rounding()
+        height = phone.height
+        rounding = phone.rounding
         return Vowel(height, backness, rounding, VocalFolds.VOICELESS)
     return phone
 
@@ -409,12 +409,12 @@ def spirantized_phonet(phone: Phonet) -> Phonet:
     So the following line implements this
     change in place of articulation.
     """
-    if isinstance(phone, Consonant) and phone.manner() == Manner.PLOSIVE:
-        vocal_folds = phone.vocal_folds()
-        airstream = phone.airstream()
-        if phone.place() == Place.ALVEOLAR:
+    if isinstance(phone, Consonant) and phone.manner == Manner.PLOSIVE:
+        vocal_folds = phone.vocal_folds
+        airstream = phone.airstream
+        if phone.place == Place.ALVEOLAR:
             return Consonant(vocal_folds, Place.DENTAL, Manner.FRICATIVE, airstream)
-        place = phone.place()
+        place = phone.place
         return Consonant(vocal_folds, place, Manner.FRICATIVE, airstream)
     return phone
 
@@ -555,74 +555,74 @@ def impossible(phone: Phonet) -> bool:
     considered impossible according to the IPA (pulmonic) consonants chart.
     Does not work for other values.
     """
-    if (isinstance(phone, Consonant) and phone.vocal_folds() == VocalFolds.VOICED
-            and phone.place() == Place.PHARYNGEAL
-            and phone.manner() == Manner.PLOSIVE
-            and phone.airstream() == Airstream.PULMONIC_EGRESSIVE):
+    if (isinstance(phone, Consonant) and phone.vocal_folds == VocalFolds.VOICED
+            and phone.place == Place.PHARYNGEAL
+            and phone.manner == Manner.PLOSIVE
+            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
-    if (isinstance(phone, Consonant) and phone.vocal_folds() == VocalFolds.VOICED_ASPIRATED
-            and phone.place() == Place.PHARYNGEAL
-            and phone.manner() == Manner.PLOSIVE
-            and phone.airstream() == Airstream.PULMONIC_EGRESSIVE):
+    if (isinstance(phone, Consonant) and phone.vocal_folds == VocalFolds.VOICED_ASPIRATED
+            and phone.place == Place.PHARYNGEAL
+            and phone.manner == Manner.PLOSIVE
+            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
-    if (isinstance(phone, Consonant) and phone.vocal_folds() == VocalFolds.VOICELESS
-            and phone.place() == Place.GLOTTAL
-            and phone.manner() == Manner.PLOSIVE
-            and phone.airstream() == Airstream.PULMONIC_EGRESSIVE):
+    if (isinstance(phone, Consonant) and phone.vocal_folds == VocalFolds.VOICELESS
+            and phone.place == Place.GLOTTAL
+            and phone.manner == Manner.PLOSIVE
+            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return False # [ʔ] is not impossible.
     if (isinstance(phone, Consonant)
-            and phone.place() == Place.GLOTTAL
-            and phone.manner() == Manner.FRICATIVE
-            and phone.airstream() == Airstream.PULMONIC_EGRESSIVE):
+            and phone.place == Place.GLOTTAL
+            and phone.manner == Manner.FRICATIVE
+            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return False  # [h] and [ɦ] are not impossible.
     if (isinstance(phone, Consonant)
-            and phone.place() == Place.GLOTTAL
-            and phone.airstream() == Airstream.PULMONIC_EGRESSIVE):
+            and phone.place == Place.GLOTTAL
+            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True   # all other pulmonary egressive consonants are impossible..
     if (isinstance(phone, Consonant)
-            and phone.place() == Place.PHARYNGEAL
-            and phone.manner() == Manner.NASAL
-            and phone.airstream() == Airstream.PULMONIC_EGRESSIVE):
+            and phone.place == Place.PHARYNGEAL
+            and phone.manner == Manner.NASAL
+            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
     if (isinstance(phone, Consonant)
-            and phone.place() == Place.PHARYNGEAL
-            and phone.manner() == Manner.LATERAL_FRICATIVE
-            and phone.airstream() == Airstream.PULMONIC_EGRESSIVE):
+            and phone.place == Place.PHARYNGEAL
+            and phone.manner == Manner.LATERAL_FRICATIVE
+            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
     if (isinstance(phone, Consonant)
-            and phone.place() == Place.PHARYNGEAL
-            and phone.manner() == Manner.LATERAL_APPROXIMANT
-            and phone.airstream() == Airstream.PULMONIC_EGRESSIVE):
+            and phone.place == Place.PHARYNGEAL
+            and phone.manner == Manner.LATERAL_APPROXIMANT
+            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
     if (isinstance(phone, Consonant)
-            and phone.place() == Place.VELAR
-            and phone.manner() == Manner.TRILL
-            and phone.airstream() == Airstream.PULMONIC_EGRESSIVE):
+            and phone.place == Place.VELAR
+            and phone.manner == Manner.TRILL
+            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
     if (isinstance(phone, Consonant)
-            and phone.place() == Place.VELAR
-            and phone.manner() == Manner.TAP_OR_FLAP
-            and phone.airstream() == Airstream.PULMONIC_EGRESSIVE):
+            and phone.place == Place.VELAR
+            and phone.manner == Manner.TAP_OR_FLAP
+            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
     if (isinstance(phone, Consonant)
-            and phone.place() == Place.BILABIAL
-            and phone.manner() == Manner.LATERAL_FRICATIVE
-            and phone.airstream() == Airstream.PULMONIC_EGRESSIVE):
+            and phone.place == Place.BILABIAL
+            and phone.manner == Manner.LATERAL_FRICATIVE
+            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
     if (isinstance(phone, Consonant)
-            and phone.place() == Place.BILABIAL
-            and phone.manner() == Manner.LATERAL_APPROXIMANT
-            and phone.airstream() == Airstream.PULMONIC_EGRESSIVE):
+            and phone.place == Place.BILABIAL
+            and phone.manner == Manner.LATERAL_APPROXIMANT
+            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
     if (isinstance(phone, Consonant)
-            and phone.place() == Place.LABIODENTAL
-            and phone.manner() == Manner.LATERAL_FRICATIVE
-            and phone.airstream() == Airstream.PULMONIC_EGRESSIVE):
+            and phone.place == Place.LABIODENTAL
+            and phone.manner == Manner.LATERAL_FRICATIVE
+            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
     if (isinstance(phone, Consonant)
-            and phone.place() == Place.LABIODENTAL
-            and phone.manner() == Manner.LATERAL_APPROXIMANT
-            and phone.airstream() == Airstream.PULMONIC_EGRESSIVE):
+            and phone.place == Place.LABIODENTAL
+            and phone.manner == Manner.LATERAL_APPROXIMANT
+            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
     return False # Everything else is assumed to be possible.
 
@@ -1387,15 +1387,15 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
             full_grapheme: Optional[Phonet] = (ipa_text[:-1])
             if full_grapheme is not None:
                 if isinstance(full_grapheme, Consonant):
-                    place = full_grapheme.place()
-                    manner = full_grapheme.manner()
-                    airstream = full_grapheme.airstream()
+                    place = full_grapheme.place
+                    manner = full_grapheme.manner
+                    airstream = full_grapheme.airstream
 
                     return Consonant(VocalFolds.VOICELESS, place, manner, airstream)
                 if isinstance(full_grapheme, Vowel):
-                    height = full_grapheme.height()
+                    height = full_grapheme.height
                     backness = full_grapheme.backness
-                    rounding = full_grapheme.rounding()
+                    rounding = full_grapheme.rounding
                     return Vowel(height, backness, rounding, VocalFolds.VOICELESS)
             return None
         if ipa_text[-1] == "̬":
@@ -1403,35 +1403,35 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
             if full_grapheme is None:
                 return None
             if isinstance(full_grapheme, Consonant):
-                place = full_grapheme.place()
-                manner = full_grapheme.manner()
-                airstream = full_grapheme.airstream()
+                place = full_grapheme.place
+                manner = full_grapheme.manner
+                airstream = full_grapheme.airstream
                 return Consonant(VocalFolds.VOICED, place, manner, airstream)
             if isinstance(full_grapheme, Vowel):
-                height = full_grapheme.height()
+                height = full_grapheme.height
                 backness = full_grapheme.backness
-                rounding = full_grapheme.rounding()
+                rounding = full_grapheme.rounding
                 return Vowel(height, backness, rounding, VocalFolds.VOICED)
             return full_grapheme
         if ipa_text[-1] == "ʰ":
             full_grapheme: Optional[Phonet] = analyze_transcription(ipa_text[:-1])
             if isinstance(full_grapheme, Consonant) \
                     and full_grapheme.vocalFolds() == VocalFolds.VOICED:
-                place = full_grapheme.place()
-                manner = full_grapheme.manner()
-                airstream = full_grapheme.airstream()
+                place = full_grapheme.place
+                manner = full_grapheme.manner
+                airstream = full_grapheme.airstream
                 return Consonant(VocalFolds.VOICED_ASPIRATED, place, manner, airstream)
             if isinstance(full_grapheme, Consonant) \
                     and full_grapheme.vocalFolds() == VocalFolds.VOICELESS:
-                place = full_grapheme.place()
-                manner = full_grapheme.manner()
-                airstream = full_grapheme.airstream()
+                place = full_grapheme.place
+                manner = full_grapheme.manner
+                airstream = full_grapheme.airstream
                 return Consonant(VocalFolds.VOICELESS_ASPIRATED, place, manner, airstream)
             if isinstance(full_grapheme, Vowel):
-                height = full_grapheme.height()
+                height = full_grapheme.height
                 backness = full_grapheme.backness
-                rounding = full_grapheme.rounding()
-                voicing = full_grapheme.vocal_folds()
+                rounding = full_grapheme.rounding
+                voicing = full_grapheme.vocal_folds
                 return Vowel(height, backness, rounding, voicing)
             return full_grapheme
                 # (About the preceding line:) It is strange but we will just
@@ -1447,10 +1447,10 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
 
 def retract_phonet(phonete: Optional[Phonet]) -> Optional[Phonet]:
     if isinstance(phonete, Consonant):
-        voicing = phonete.vocal_folds()
-        place = phonete.place()
-        manner = phonete.manner()
-        airstream = phonete.airstream()
+        voicing = phonete.vocal_folds
+        place = phonete.place
+        manner = phonete.manner
+        airstream = phonete.airstream
         return Consonant(voicing, retracted_place(place), manner, airstream)
     return None
 
@@ -1790,11 +1790,11 @@ def construct_transcription_recursively(recursion_limit: int,
     # otherwise
     # it will try to represent it in IPA with more than
     # one character
-    if isinstance(phone, Consonant) and phone.place() == Place.POSTALVEOLAR and \
+    if isinstance(phone, Consonant) and phone.place == Place.POSTALVEOLAR and \
             recursion_level < recursion_limit:
-        vocal_folds = phone.vocal_folds()
-        manner = phone.manner()
-        airstream = phone.airstream()
+        vocal_folds = phone.vocal_folds
+        manner = phone.manner
+        airstream = phone.airstream
         result = construct_transcription_recursively(recursion_limit,
                                                      1 + recursion_level,
                                                      Consonant(vocal_folds,
@@ -1812,11 +1812,11 @@ def construct_transcription_recursively(recursion_limit: int,
     # and then put that diacritic that means voiceless after.
     # (The following two definitions are intended to implement that)
     # Add the small circle diacritic to consonants to make them voiceless.
-    if isinstance(phone, Consonant) and phone.vocal_folds() == VocalFolds.VOICELESS \
+    if isinstance(phone, Consonant) and phone.vocal_folds == VocalFolds.VOICELESS \
             and recursion_level < recursion_limit:
-        place = phone.place()
-        manner = phone.manner()
-        airstream = phone.airstream()
+        place = phone.place
+        manner = phone.manner
+        airstream = phone.airstream
 
         result = construct_transcription_recursively(recursion_limit,
                                                      1 + recursion_level,
@@ -1829,11 +1829,11 @@ def construct_transcription_recursively(recursion_limit: int,
         return result +  "̥" # add diacritic for voiceless
 
     # Add the small circle diacritic to vowels to make them voiceless.
-    if isinstance(phone, Vowel) and phone.vocal_folds() == VocalFolds.VOICELESS \
+    if isinstance(phone, Vowel) and phone.vocal_folds == VocalFolds.VOICELESS \
             and recursion_level < recursion_limit:
-        height = phone.height()
+        height = phone.height
         backness = phone.backness
-        rounding = phone.rounding()
+        rounding = phone.rounding
         result = construct_transcription_recursively(recursion_limit,
                                                      1 + recursion_level,
                                                      Vowel(height,
@@ -1847,11 +1847,11 @@ def construct_transcription_recursively(recursion_limit: int,
     # If there is no way to express a voiced consonant in a single
     # grapheme add a diacritic to the grapheme that represents
     # the voiceless counterpart.
-    if isinstance(phone, Consonant) and phone.vocal_folds() == VocalFolds.VOICED \
+    if isinstance(phone, Consonant) and phone.vocal_folds == VocalFolds.VOICED \
             and recursion_level < recursion_limit:
-        place = phone.place()
-        manner = phone.manner()
-        airstream = phone.airstream()
+        place = phone.place
+        manner = phone.manner
+        airstream = phone.airstream
 
         result = construct_transcription_recursively(recursion_limit,
                                                      1 + recursion_level,
@@ -1862,11 +1862,11 @@ def construct_transcription_recursively(recursion_limit: int,
         if result is None:
             return None
         return result + "̬"
-    if isinstance(phone, Vowel) and phone.vocal_folds() == VocalFolds.VOICED \
+    if isinstance(phone, Vowel) and phone.vocal_folds == VocalFolds.VOICED \
             and recursion_level < recursion_limit:
-        height = phone.height()
+        height = phone.height
         backness = phone.backness
-        rounding = phone.rounding()
+        rounding = phone.rounding
         result = construct_transcription_recursively(recursion_limit,
                                                      1 + recursion_level,
                                                      Vowel(height, backness, rounding,
@@ -1875,7 +1875,7 @@ def construct_transcription_recursively(recursion_limit: int,
             return None
         return result + "̬"
     if (isinstance(phone, Consonant) and phone.vocal_folds == VocalFolds.VOICED_ASPIRATED
-            and phone.airstream() == Airstream.PULMONIC_EGRESSIVE
+            and phone.airstream == Airstream.PULMONIC_EGRESSIVE
             and recursion_level < recursion_limit):
         result = construct_transcription_recursively(
             recursion_limit,
@@ -1885,16 +1885,16 @@ def construct_transcription_recursively(recursion_limit: int,
             return None
         return result + "ʰ"
 
-    if (isinstance(phone, Consonant) and phone.vocal_folds() == VocalFolds.VOICELESS_ASPIRATED
-            and phone.airstream() == Airstream.PULMONIC_EGRESSIVE
+    if (isinstance(phone, Consonant) and phone.vocal_folds == VocalFolds.VOICELESS_ASPIRATED
+            and phone.airstream == Airstream.PULMONIC_EGRESSIVE
             and recursion_level < recursion_limit):
         result = construct_transcription_recursively(
             recursion_limit, 1 + recursion_level, deaspirate(phone))
         if result is None:
             return None
         return result + "ʰ"
-    if (isinstance(phone, Consonant) and phone.vocal_folds() == VocalFolds.CREAKY_VOICED
-            and phone.airstream() == Airstream.PULMONIC_EGRESSIVE
+    if (isinstance(phone, Consonant) and phone.vocal_folds == VocalFolds.CREAKY_VOICED
+            and phone.airstream == Airstream.PULMONIC_EGRESSIVE
             and recursion_level < recursion_limit):
         result = construct_transcription_recursively(recursion_limit,
                                                      1 + recursion_level, decreak(phone))
@@ -1911,15 +1911,15 @@ def deaspirate(phone: Phonet) -> Phonet:
     Given an aspirated phone, it will return its non-aspirated counterpart.
     """
     if isinstance(phone, Consonant):
-        if phone.vocal_folds() == VocalFolds.VOICED_ASPIRATED:
-            place = phone.place()
-            manner = phone.manner()
-            airstream = phone.airstream()
+        if phone.vocal_folds == VocalFolds.VOICED_ASPIRATED:
+            place = phone.place
+            manner = phone.manner
+            airstream = phone.airstream
             return Consonant(VocalFolds.VOICED, place, manner, airstream)
-        if phone.vocal_folds() == VocalFolds.VOICELESS_ASPIRATED:
-            place = phone.place()
-            manner = phone.manner()
-            airstream = phone.airstream()
+        if phone.vocal_folds == VocalFolds.VOICELESS_ASPIRATED:
+            place = phone.place
+            manner = phone.manner
+            airstream = phone.airstream
             return Consonant(VocalFolds.VOICELESS, place, manner, airstream)
         return phone
     return phone
@@ -1931,9 +1931,9 @@ def decreak(phone: Phonet) -> Phonet:
     Given a creaky phone, it will return its non-creaky counterpart.
     """
     if isinstance(phone, Consonant) and phone.vocal_folds == VocalFolds.CREAKY_VOICED:
-        place = phone.place()
-        manner = phone.manner()
-        airstream = phone.airstream()
+        place = phone.place
+        manner = phone.manner
+        airstream = phone.airstream
         return Consonant(VocalFolds.VOICED, place, manner, airstream)
     return phone
 
@@ -2091,9 +2091,9 @@ def is_glide(phone: Phonet) -> bool:
     """
     Whether a segment is a glide.
     """
-    if isinstance(phone, Consonant) and phone.manner() == Manner.APPROXIMANT \
-            and phone.airstream() == Airstream.PULMONIC_EGRESSIVE:
-        return phone.place() in [Place.PALATAL,
+    if isinstance(phone, Consonant) and phone.manner == Manner.APPROXIMANT \
+            and phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return phone.place in [Place.PALATAL,
                                  Place.LABIAL_VELAR,
                                  Place.LABIAL_PALATAL,
                                  Place.VELAR]
@@ -2129,9 +2129,9 @@ def sonorant(phone: Phonet) -> Optional[PhonemeFeature]:
     (Source: page 258)
     """
     if isinstance(phone, Consonant):
-        if phone.manner() in [Manner.PLOSIVE, Manner.AFFRICATE, Manner.FRICATIVE]:
+        if phone.manner in [Manner.PLOSIVE, Manner.AFFRICATE, Manner.FRICATIVE]:
             return SonorantFeature(Polarity.MINUS)
-        if phone.manner() in [Manner.NASAL, Manner.APPROXIMANT, Manner.LATERAL]:
+        if phone.manner in [Manner.NASAL, Manner.APPROXIMANT, Manner.LATERAL]:
             return SonorantFeature(Polarity.PLUS)
         if is_glide(phone):
             return SonorantFeature(Polarity.PLUS)
@@ -2159,11 +2159,11 @@ def continuant(phone: Phonet) -> Optional[PhonemeFeature]:
       Lateral approximants may be considered [+continuant]. (arguable)
       (see chart on page 259))
     """
-    if isinstance(phone, Consonant) and phone.manner() in [Manner.PLOSIVE,
+    if isinstance(phone, Consonant) and phone.manner in [Manner.PLOSIVE,
                                                            Manner.NASAL,
                                                            Manner.AFFRICATE]:
         return ContinuantFeature(Polarity.MINUS)
-    if isinstance(phone, Consonant) and phone.manner() == Manner.APPROXIMANT:
+    if isinstance(phone, Consonant) and phone.manner == Manner.APPROXIMANT:
         return ContinuantFeature(Polarity.PLUS)
     if isinstance(phone, Vowel):
         return ContinuantFeature(Polarity.PLUS)
@@ -2177,7 +2177,7 @@ def nasal(phone: Phonet) -> Optional[PhonemeFeature]:
     # to do: add support for nasal vowels.
     All other segments are not defined for [nasal].
     """
-    if isinstance(phone, Consonant) and phone.manner() == Manner.NASAL:
+    if isinstance(phone, Consonant) and phone.manner == Manner.NASAL:
         return NasalFeature()
     return None
 
@@ -2191,7 +2191,7 @@ def lateral(phone: Phonet) -> Optional[PhonemeFeature]:
     All other segments are not defined for [lateral].
     """
     if isinstance(phone, Consonant):
-        if phone.manner() in [Manner.LATERAL,
+        if phone.manner in [Manner.LATERAL,
                               Manner.LATERAL_APPROXIMANT,
                               Manner.LATERAL_FRICATIVE,
                               Manner.LATERAL_FLAP]:
@@ -2205,7 +2205,7 @@ def delayed_release(phone: Phonet) -> Optional[PhonemeFeature]:
 
     (Source: page 260)
     """
-    if isinstance(phone, Consonant) and phone.manner() == Manner.AFFRICATE:
+    if isinstance(phone, Consonant) and phone.manner == Manner.AFFRICATE:
         return DelayedReleaseFeature
     return None
 
@@ -2219,7 +2219,7 @@ def labial(phone: Phonet) -> Optional[PhonemeFeature]:
     (Source: page 264)
     """
     if isinstance(phone, Consonant):
-        if phone.place() == Place.BILABIAL or phone.place() == Place.LABIODENTAL:
+        if phone.place == Place.BILABIAL or phone.place == Place.LABIODENTAL:
             return LabialFeature()
     return None
 
@@ -2241,7 +2241,7 @@ def coronal(phone: Phonet) -> Optional[PhonemeFeature]:
     (The fact that Post-alveolar consonants are coronal is indicated by
      Table 12. on page 265.)
     """
-    if isinstance(phone, Consonant) and phone.place() in [Place.DENTAL,
+    if isinstance(phone, Consonant) and phone.place in [Place.DENTAL,
                                                           Place.ALVEOLAR,
                                                           Place.ALVEOLOPALATAL,
                                                           Place.RETROFLEX,
@@ -2266,7 +2266,7 @@ def dorsal(phone: Phonet) -> Optional[PhonemeFeature]:
     All other segments are undefined for [dorsal].
     """
     if isinstance(phone, Consonant) \
-            and phone.place() in [Place.PALATAL, Place.VELAR, Place.UVULAR]:
+            and phone.place in [Place.PALATAL, Place.VELAR, Place.UVULAR]:
         return DorsalFeature()
     return None
 
@@ -2279,7 +2279,7 @@ def pharyngeal(phone: Phonet) -> Optional[PhonemeFeature]:
     (Source: page 264)
     """
     if isinstance(phone, Consonant) \
-            and phone.place() == Place.PHARYNGEAL and phone.manner() == Manner.FRICATIVE:
+            and phone.place == Place.PHARYNGEAL and phone.manner == Manner.FRICATIVE:
         return PharyngealFeature()
     return None
 
@@ -2290,7 +2290,7 @@ def laryngeal(phone: Phonet) -> Optional[PhonemeFeature]:
 
     (Source: page 265)
     """
-    if isinstance(phone, Consonant) and phone.place() == Place.GLOTTAL:
+    if isinstance(phone, Consonant) and phone.place == Place.GLOTTAL:
         return LaryngealFeature()
     return None
 
@@ -2303,17 +2303,17 @@ def voice(phone: Phonet) -> Optional[PhonemeFeature]:
     All other segments are [-voice].
     """
     if isinstance(phone, Consonant):
-        if phone.vocal_folds() == VocalFolds.VOICELESS \
-                and phone.Place() == Place.GLOTTAL \
-                and phone.manner() == Manner.PLOSIVE \
-                and phone.airstream() == Airstream.PULMONIC_EGRESSIVE:
+        if phone.vocal_folds == VocalFolds.VOICELESS \
+                and phone.place == Place.GLOTTAL \
+                and phone.manner == Manner.PLOSIVE \
+                and phone.airstream == Airstream.PULMONIC_EGRESSIVE:
             return VoiceFeature(Polarity.MINUS) # The voiceless glottal plosive is [-voice]
-        if phone.vocal_folds() == VocalFolds.VOICED_ASPIRATED:
+        if phone.vocal_folds == VocalFolds.VOICED_ASPIRATED:
             return VoiceFeature(Polarity.PLUS)
-        if phone.vocal_folds() == VocalFolds.VOICED:
+        if phone.vocal_folds == VocalFolds.VOICED:
             return VoiceFeature(Polarity.PLUS)
         return VoiceFeature(Polarity.MINUS)
-    if isinstance(phone, Vowel) and phone.vocal_folds() == VocalFolds.VOICED:
+    if isinstance(phone, Vowel) and phone.vocal_folds == VocalFolds.VOICED:
         return VoiceFeature(Polarity.PLUS)
     return VoiceFeature(Polarity.MINUS)
 
@@ -2325,9 +2325,9 @@ def spread_glottis(phone: Phonet) -> Optional[PhonemeFeature]:
     (Source: page 262)
     """
     if isinstance(phone, Consonant) \
-            and phone.vocal_folds() in [VocalFolds.VOICELESS_ASPIRATED,
+            and phone.vocal_folds in [VocalFolds.VOICELESS_ASPIRATED,
                                         VocalFolds.VOICED_ASPIRATED] \
-            and phone.manner() == Manner.PLOSIVE:
+            and phone.manner == Manner.PLOSIVE:
         return SpreadGlottisFeature()
     return None
 
@@ -2340,14 +2340,14 @@ def constricted_glottis(phone: Phonet) -> Optional[PhonemeFeature]:
 
     (Source: page 262)
     """
-    if isinstance(phone, Consonant) and phone.place() == Place.GLOTTAL \
-            and phone.manner() == Manner.PLOSIVE:
+    if isinstance(phone, Consonant) and phone.place == Place.GLOTTAL \
+            and phone.manner == Manner.PLOSIVE:
         return ConstrictedGlottisFeature()
-    if isinstance(phone, Consonant) and phone.vocal_folds() == VocalFolds.CREAKY_VOICED:
+    if isinstance(phone, Consonant) and phone.vocal_folds == VocalFolds.CREAKY_VOICED:
         if sonorant(phone) == SonorantFeature(Polarity.PLUS):
             return ConstrictedGlottisFeature()
         return None
-    if isinstance(phone, Vowel) and phone.vocal_folds() == VocalFolds.CREAKY_VOICED:
+    if isinstance(phone, Vowel) and phone.vocal_folds == VocalFolds.CREAKY_VOICED:
         if sonorant(phone) == SonorantFeature(Polarity.PLUS):
             return ConstrictedGlottisFeature()
         return None
@@ -2369,9 +2369,9 @@ def anterior(phone: Phonet) -> Optional[PhonemeFeature]:
     Alveolo-palatals are [-anterior].
     (SOURCE: not found)
     """
-    if isinstance(phone, Consonant) and phone.place() in [Place.DENTAL, Place.ALVEOLAR]:
+    if isinstance(phone, Consonant) and phone.place in [Place.DENTAL, Place.ALVEOLAR]:
         return AnteriorFeature(Polarity.PLUS)
-    if isinstance(phone, Consonant) and phone.place() in [Place.POSTALVEOLAR,
+    if isinstance(phone, Consonant) and phone.place in [Place.POSTALVEOLAR,
                                                           Place.RETROFLEX,
                                                           Place.PALATAL,
                                                           Place.ALVEOLOPALATAL]:
@@ -2386,17 +2386,17 @@ def distributed(phone: Phonet) -> Optional[PhonemeFeature]:
 
     Returns either [+ distributed], [- distributed] or nothing.
     """
-    if isinstance(phone, Consonant) and phone.place() == Place.DENTAL:
+    if isinstance(phone, Consonant) and phone.place == Place.DENTAL:
         return DistributedFeature(Polarity.PLUS)
-    if isinstance(phone, Consonant) and phone.place() == Place.ALVEOLAR:
+    if isinstance(phone, Consonant) and phone.place == Place.ALVEOLAR:
         return DistributedFeature(Polarity.MINUS)
-    if isinstance(phone, Consonant) and phone.place() == Place.POSTALVEOLAR:
+    if isinstance(phone, Consonant) and phone.place == Place.POSTALVEOLAR:
         return DistributedFeature(Polarity.PLUS)
-    if isinstance(phone, Consonant) and phone.place() == Place.RETROFLEX:
+    if isinstance(phone, Consonant) and phone.place == Place.RETROFLEX:
         return DistributedFeature(Polarity.MINUS)
-    if isinstance(phone, Consonant) and phone.place() == Place.PALATAL:
+    if isinstance(phone, Consonant) and phone.place == Place.PALATAL:
         return DistributedFeature(Polarity.PLUS)
-    if isinstance(phone, Consonant) and phone.place() == Place.ALVEOLOPALATAL:
+    if isinstance(phone, Consonant) and phone.place == Place.ALVEOLOPALATAL:
         return DistributedFeature(Polarity.PLUS)
     return None
 
@@ -2420,22 +2420,22 @@ def strident(phone: Phonet) -> Optional[PhonemeFeature]:
     "Natural classes".)
     """
     if isinstance(phone, Consonant) \
-            and phone.place() == Place.ALVEOLAR \
-            and phone.manner() in [Manner.FRICATIVE, Manner.AFFRICATE]:
+            and phone.place == Place.ALVEOLAR \
+            and phone.manner in [Manner.FRICATIVE, Manner.AFFRICATE]:
         return StridentFeature(Polarity.PLUS)
     if isinstance(phone, Consonant) \
-            and phone.place() == Place.POSTALVEOLAR \
-            and phone.manner() in [Manner.FRICATIVE, Manner.AFFRICATE]:
+            and phone.place == Place.POSTALVEOLAR \
+            and phone.manner in [Manner.FRICATIVE, Manner.AFFRICATE]:
         return StridentFeature(Polarity.PLUS)
     if isinstance(phone, Consonant) \
-            and phone.place() == Place.LABIODENTAL \
-            and phone.manner() in [Manner.FRICATIVE, Manner.AFFRICATE]:
+            and phone.place == Place.LABIODENTAL \
+            and phone.manner in [Manner.FRICATIVE, Manner.AFFRICATE]:
         return StridentFeature(Polarity.PLUS)
     if isinstance(phone, Consonant) \
-            and phone.place() == Place.UVULAR \
-            and phone.manner() in [Manner.FRICATIVE, Manner.AFFRICATE]:
+            and phone.place == Place.UVULAR \
+            and phone.manner in [Manner.FRICATIVE, Manner.AFFRICATE]:
         return StridentFeature(Polarity.PLUS)
-    if isinstance(phone, Consonant) and phone.manner() in [Manner.FRICATIVE, Manner.AFFRICATE]:
+    if isinstance(phone, Consonant) and phone.manner in [Manner.FRICATIVE, Manner.AFFRICATE]:
         return StridentFeature(Polarity.MINUS)
     return None
 
@@ -2452,19 +2452,19 @@ def high(phone: Phonet) -> Optional[PhonemeFeature]:
     Near-close vowels are [+high].
     All other vowels are [-high].
     """
-    if isinstance(phone, Consonant) and phone.place() == Place.PALATAL:
+    if isinstance(phone, Consonant) and phone.place == Place.PALATAL:
         return HighFeature(Polarity.PLUS)
-    if isinstance(phone, Consonant) and phone.place() == Place.ALVEOLOPALATAL:
+    if isinstance(phone, Consonant) and phone.place == Place.ALVEOLOPALATAL:
         return HighFeature(Polarity.PLUS)
-    if isinstance(phone, Consonant) and phone.place() == Place.VELAR:
+    if isinstance(phone, Consonant) and phone.place == Place.VELAR:
         return HighFeature(Polarity.PLUS)
-    if isinstance(phone, Consonant) and phone.place() == Place.UVULAR:
+    if isinstance(phone, Consonant) and phone.place == Place.UVULAR:
         return HighFeature(Polarity.MINUS)
     if isinstance(phone, Consonant):
         return None
-    if isinstance(phone, Vowel) and phone.height() == Height.CLOSE:
+    if isinstance(phone, Vowel) and phone.height == Height.CLOSE:
         return HighFeature(Polarity.PLUS)
-    if isinstance(phone, Vowel) and phone.height() == Height.NEAR_CLOSE:
+    if isinstance(phone, Vowel) and phone.height == Height.NEAR_CLOSE:
         return HighFeature(Polarity.PLUS)
     if isinstance(phone, Vowel):
         return HighFeature(Polarity.MINUS)
@@ -2481,17 +2481,17 @@ def low(phone: Phonet) -> Optional[PhonemeFeature]:
     Near open vowels are [+low].
     All other vowels are [-low].
     """
-    if isinstance(phone, Consonant) and phone.place() == Place.UVULAR:
+    if isinstance(phone, Consonant) and phone.place == Place.UVULAR:
         return LowFeature(Polarity.PLUS)
-    if isinstance(phone, Consonant) and phone.place() == Place.PHARYNGEAL:
+    if isinstance(phone, Consonant) and phone.place == Place.PHARYNGEAL:
         return LowFeature(Polarity.PLUS)
-    if isinstance(phone, Consonant) and phone.place() == Place.GLOTTAL:
+    if isinstance(phone, Consonant) and phone.place == Place.GLOTTAL:
         return LowFeature(Polarity.PLUS)
     if isinstance(phone, Consonant):
         return None
-    if isinstance(phone, Vowel) and phone.height() == Height.OPEN:
+    if isinstance(phone, Vowel) and phone.height == Height.OPEN:
         return LowFeature(Polarity.PLUS)
-    if isinstance(phone, Vowel) and phone.height() == Height.NEAR_OPEN:
+    if isinstance(phone, Vowel) and phone.height == Height.NEAR_OPEN:
         return LowFeature(Polarity.PLUS)
     if isinstance(phone, Vowel):
         return LowFeature(Polarity.MINUS)
@@ -2521,7 +2521,7 @@ def lip_round(phone: Phonet) -> Optional[PhonemeFeature]:
     All other vowels are [-round].
     All other segments are [-round].
     """
-    if isinstance(phone, Vowel) and phone.rounding() == Rounding.ROUNDED:
+    if isinstance(phone, Vowel) and phone.rounding == Rounding.ROUNDED:
         return RoundFeature(Polarity.PLUS)
     if isinstance(phone, Vowel):
         return RoundFeature(Polarity.MINUS)
@@ -2533,88 +2533,88 @@ def atr(phone: Phonet) -> Optional[PhonemeFeature]:
     Advanced tongue root
     """
     if isinstance(phone, Vowel) \
-            and phone.height() == Height.CLOSE \
+            and phone.height == Height.CLOSE \
             and phone.backness == Backness.FRONT \
-            and phone.rounding() == Rounding.UNROUNDED \
-            and phone.vocal_folds() == VocalFolds.VOICED:
+            and phone.rounding == Rounding.UNROUNDED \
+            and phone.vocal_folds == VocalFolds.VOICED:
         return AdvancedTongueRootFeature(Polarity.PLUS)
     if isinstance(phone, Vowel) \
-            and phone.height() == Height.CLOSE_MID \
+            and phone.height == Height.CLOSE_MID \
             and phone.backness == Backness.FRONT \
-            and phone.rounding() == Rounding.UNROUNDED \
-            and phone.vocal_folds() == VocalFolds.VOICED:
+            and phone.rounding == Rounding.UNROUNDED \
+            and phone.vocal_folds == VocalFolds.VOICED:
         return AdvancedTongueRootFeature(Polarity.PLUS)
     if isinstance(phone, Vowel) \
-            and phone.height() == Height.CLOSE \
+            and phone.height == Height.CLOSE \
             and phone.backness == Backness.BACK \
-            and phone.rounding() == Rounding.ROUNDED \
-            and phone.vocal_folds() == VocalFolds.VOICED:
+            and phone.rounding == Rounding.ROUNDED \
+            and phone.vocal_folds == VocalFolds.VOICED:
         return AdvancedTongueRootFeature(Polarity.PLUS)
     if isinstance(phone, Vowel) \
-            and phone.height() == Height.CLOSE_MID \
+            and phone.height == Height.CLOSE_MID \
             and phone.backness == Backness.FRONT \
-            and phone.rounding() == Rounding.ROUNDED \
-            and phone.vocal_folds() == VocalFolds.VOICED:
+            and phone.rounding == Rounding.ROUNDED \
+            and phone.vocal_folds == VocalFolds.VOICED:
         return AdvancedTongueRootFeature(Polarity.PLUS)
     if isinstance(phone, Vowel) \
-            and phone.height() == Height.CLOSE_MID \
+            and phone.height == Height.CLOSE_MID \
             and phone.backness == Backness.BACK \
-            and phone.rounding() == Rounding.ROUNDED \
-            and phone.vocal_folds() == VocalFolds.VOICED:
+            and phone.rounding == Rounding.ROUNDED \
+            and phone.vocal_folds == VocalFolds.VOICED:
         return AdvancedTongueRootFeature(Polarity.PLUS)
     if isinstance(phone, Vowel) \
-            and phone.height() == Height.CLOSE \
+            and phone.height == Height.CLOSE \
             and phone.backness == Backness.FRONT \
-            and phone.rounding() == Rounding.ROUNDED \
-            and phone.vocal_folds() == VocalFolds.VOICED:
+            and phone.rounding == Rounding.ROUNDED \
+            and phone.vocal_folds == VocalFolds.VOICED:
         return AdvancedTongueRootFeature(Polarity.PLUS)
     if isinstance(phone, Vowel) \
-            and phone.height() == Height.NEAR_OPEN \
+            and phone.height == Height.NEAR_OPEN \
             and phone.backness == Backness.FRONT \
-            and phone.rounding() == Rounding.UNROUNDED \
-            and phone.vocal_folds() == VocalFolds.VOICED:
+            and phone.rounding == Rounding.UNROUNDED \
+            and phone.vocal_folds == VocalFolds.VOICED:
         return AdvancedTongueRootFeature(Polarity.MINUS)
     if isinstance(phone, Vowel) \
-            and phone.height() == Height.OPEN \
+            and phone.height == Height.OPEN \
             and phone.backness == Backness.BACK \
-            and phone.rounding() == Rounding.UNROUNDED \
-            and phone.vocal_folds() == VocalFolds.VOICED:
+            and phone.rounding == Rounding.UNROUNDED \
+            and phone.vocal_folds == VocalFolds.VOICED:
         return AdvancedTongueRootFeature(Polarity.MINUS)
     if isinstance(phone, Vowel) \
-            and phone.height() == Height.CLOSE \
+            and phone.height == Height.CLOSE \
             and phone.backness == Backness.CENTRAL \
-            and phone.rounding() == Rounding.UNROUNDED \
+            and phone.rounding == Rounding.UNROUNDED \
             and phone.vocal_folds == VocalFolds.VOICED:
         return AdvancedTongueRootFeature(Polarity.MINUS)
     if isinstance(phone, Vowel) \
-            and phone.height() == Height.OPEN_MID \
+            and phone.height == Height.OPEN_MID \
             and phone.backness == Backness.BACK \
-            and phone.rounding() == Rounding.UNROUNDED \
+            and phone.rounding == Rounding.UNROUNDED \
             and phone.vocal_folds == VocalFolds.VOICED:
         return AdvancedTongueRootFeature(Polarity.MINUS)
     if isinstance(phone, Vowel) \
-            and phone.height() == Height.NEAR_CLOSE \
+            and phone.height == Height.NEAR_CLOSE \
             and phone.backness == Backness.FRONT \
-            and phone.rounding() == Rounding.UNROUNDED \
-            and phone.vocal_folds() == VocalFolds.VOICED:
+            and phone.rounding == Rounding.UNROUNDED \
+            and phone.vocal_folds == VocalFolds.VOICED:
         return AdvancedTongueRootFeature(Polarity.MINUS)
     if isinstance(phone, Vowel) \
-            and phone.height() == Height.NEAR_CLOSE \
+            and phone.height == Height.NEAR_CLOSE \
             and phone.backness == Backness.BACK \
-            and phone.rounding() == Rounding.ROUNDED \
-            and phone.vocal_folds() == VocalFolds.VOICED:
+            and phone.rounding == Rounding.ROUNDED \
+            and phone.vocal_folds == VocalFolds.VOICED:
         return AdvancedTongueRootFeature(Polarity.MINUS)
     if isinstance(phone, Vowel) \
-            and phone.height() == Height.OPEN_MID \
+            and phone.height == Height.OPEN_MID \
             and phone.backness == Backness.FRONT \
-            and phone.rounding() == Rounding.UNROUNDED \
-            and phone.vocal_folds() == VocalFolds.VOICED:
+            and phone.rounding == Rounding.UNROUNDED \
+            and phone.vocal_folds == VocalFolds.VOICED:
         return AdvancedTongueRootFeature(Polarity.MINUS)
     if isinstance(phone, Vowel) \
-            and phone.height() == Height.OPEN_MID \
+            and phone.height == Height.OPEN_MID \
             and phone.backness == Backness.BACK \
-            and phone.rounding() == Rounding.ROUNDED \
-            and phone.vocal_folds() == VocalFolds.VOICED:
+            and phone.rounding == Rounding.ROUNDED \
+            and phone.vocal_folds == VocalFolds.VOICED:
         return AdvancedTongueRootFeature(Polarity.MINUS)
     return None
 
@@ -2695,17 +2695,17 @@ def show_phonet(phonet: Phonet) -> str:
     e.g. "voiced bilabial plosive pulmonic egressive"
     """
     if isinstance(phonet, Consonant):
-        vocal_folds = phonet.vocal_folds()
-        place = phonet.place()
-        manner = phonet.manner()
-        airstream = phonet.airstream()
+        vocal_folds = phonet.vocal_folds
+        place = phonet.place
+        manner = phonet.manner
+        airstream = phonet.airstream
         return ' '.join([show_vocal_folds(vocal_folds), show_place(place),
                          show_manner(manner), show_airstream(airstream), consonant_Text])
     if isinstance(phonet, Vowel):
-        height = phonet.height()
+        height = phonet.height
         backness = phonet.backness
-        rounding = phonet.rounding()
-        vocal_folds = phonet.vocal_folds()
+        rounding = phonet.rounding
+        vocal_folds = phonet.vocal_folds
         return ' '.join([show_vocal_folds(vocal_folds), show_rounding(rounding),
                          show_height(height), show_backness(backness), vowel_Text])
     return "[Unrecognized kind of phonete!]"
