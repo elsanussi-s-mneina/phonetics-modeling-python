@@ -77,17 +77,17 @@ class Manner(Enum):
     Does it go through the nose? Does it go to the sides of the tongue?
     How much friction is in the airflow.
     """
-    PLOSIVE = auto
-    NASAL = auto
-    TRILL = auto
-    TAP_OR_FLAP = auto
-    APPROXIMANT = auto
-    FRICATIVE = auto
-    AFFRICATE = auto
-    LATERAL_FRICATIVE = auto
-    LATERAL_APPROXIMANT = auto
-    LATERAL_FLAP = auto  # There are very few IPA symbols for lateral flaps
-    LATERAL = auto       # we need this one for the lateral click.
+    PLOSIVE = auto()
+    NASAL = auto()
+    TRILL = auto()
+    TAP_OR_FLAP = auto()
+    APPROXIMANT = auto()
+    FRICATIVE = auto()
+    AFFRICATE = auto()
+    LATERAL_FRICATIVE = auto()
+    LATERAL_APPROXIMANT = auto()
+    LATERAL_FLAP = auto()  # There are very few IPA symbols for lateral flaps
+    LATERAL = auto()       # we need this one for the lateral click.
 
 @unique
 class Airstream(Enum):
@@ -111,10 +111,13 @@ class Consonant(Phonet):
         self.airstream = airstream
 
     def __eq__(self, other):
-        return (self.vocal_folds == other.vocal_folds and
-                self.place == other.place and
-                self.manner == other.manner and
-                self.airstream == other.airstream)
+        try:
+            return (self.vocal_folds == other.vocal_folds and
+                    self.place == other.place and
+                    self.manner == other.manner and
+                    self.airstream == other.airstream)
+        except AttributeError:
+            return False
 
     def __ne__(self, other):
         return not self.__eq__(other)
