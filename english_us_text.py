@@ -16,8 +16,6 @@ Enter the number representing your selection below:
 after the prompt: and press enter/return.\n\n\n"""
 
 
-print(menu)
-
 userInput_viewEnglishPhonemeInventory: str = "1"
 userInput_makeAPhonemeVoiced: str = "2"
 userInput_makeAPhonemeUnvoiced: str = "3"
