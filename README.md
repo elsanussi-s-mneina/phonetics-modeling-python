@@ -1,5 +1,4 @@
 # Phonetics Modeling (Python version)
-Very little is tested.
 
 
 This is the translation from the Haskell version.
@@ -9,7 +8,7 @@ Run the following at the command line:
 
 `python3 main.py`
 
-It doesn't do much, but at least you will know whether the source code compiles.
+So far it does most of what the Haskell version does, but cannot split IPA text into phonemes yet.
 
 ## How to run the tests:
 Type the following line at the command line, and press enter.
@@ -21,3 +20,8 @@ Plans:
 - Create a program that processes phonetics data,  and represents concepts from phonology.
 - Use the Python programming language.
 - Make it follow closely the design decisions in the phonetics-modeling project at http://github.com/elsanussi-s-mneina/phonetics-modeling
+
+## Current Issues
+- splitting IPA text into phonemes does not work
+- more unit tests wanted
+- neeed to rename identifiers to be consistent (specifically using snake-case, and consistent use or lack of use of abbreviations)
