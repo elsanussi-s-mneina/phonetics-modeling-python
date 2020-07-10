@@ -1416,13 +1416,13 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
         if ipa_text[-1] == "ʰ":
             full_grapheme: Optional[Phonet] = analyze_transcription(ipa_text[:-1])
             if isinstance(full_grapheme, Consonant) \
-                    and full_grapheme.vocalFolds() == VocalFolds.VOICED:
+                    and full_grapheme.vocal_folds == VocalFolds.VOICED:
                 place = full_grapheme.place
                 manner = full_grapheme.manner
                 airstream = full_grapheme.airstream
                 return Consonant(VocalFolds.VOICED_ASPIRATED, place, manner, airstream)
             if isinstance(full_grapheme, Consonant) \
-                    and full_grapheme.vocalFolds() == VocalFolds.VOICELESS:
+                    and full_grapheme.vocal_folds == VocalFolds.VOICELESS:
                 place = full_grapheme.place
                 manner = full_grapheme.manner
                 airstream = full_grapheme.airstream
@@ -2898,17 +2898,17 @@ def show_phoneme_feature(feature: PhonemeFeature) -> str:
     or [delayed release]
     """
     if isinstance(feature, SyllabicFeature):
-        return show_polarity(feature.polarity()) + syllabic_PhonemeFeatureText
+        return show_polarity(feature.polarity) + syllabic_PhonemeFeatureText
     if isinstance(feature, ConsonantalFeature):
-        return show_polarity(feature.polarity()) + consonantal_PhonemeFeatureText
+        return show_polarity(feature.polarity) + consonantal_PhonemeFeatureText
     if isinstance(feature, SonorantFeature):
-        return show_polarity(feature.polarity()) + sonorant_PhonemeFeatureText
+        return show_polarity(feature.polarity) + sonorant_PhonemeFeatureText
     if isinstance(feature, ContinuantFeature):
-        return show_polarity(feature.polarity()) + continuant_PhonemeFeatureText
+        return show_polarity(feature.polarity) + continuant_PhonemeFeatureText
     if isinstance(feature, VoiceFeature):
-        return show_polarity(feature.polarity()) + voice_PhonemeFeatureText
+        return show_polarity(feature.polarity) + voice_PhonemeFeatureText
     if isinstance(feature, AdvancedTongueRootFeature):
-        return show_polarity(feature.polarity()) + atr_PhonemeFeatureText
+        return show_polarity(feature.polarity) + atr_PhonemeFeatureText
     if isinstance(feature, NasalFeature):
         return nasal_PhonemeFeatureText
     if isinstance(feature, LateralFeature):
@@ -2930,19 +2930,19 @@ def show_phoneme_feature(feature: PhonemeFeature) -> str:
     if isinstance(feature, LaryngealFeature):
         return laryngeal_PhonemeFeatureText
     if isinstance(feature, RoundFeature):
-        return show_polarity(feature.polarity()) + round_PhonemeFeatureText
+        return show_polarity(feature.polarity) + round_PhonemeFeatureText
     if isinstance(feature, AnteriorFeature):
-        return show_polarity(feature.polarity()) + anterior_PhonemeFeatureText
+        return show_polarity(feature.polarity) + anterior_PhonemeFeatureText
     if isinstance(feature, DistributedFeature):
-        return show_polarity(feature.polarity()) + distributed_PhonemeFeatureText
+        return show_polarity(feature.polarity) + distributed_PhonemeFeatureText
     if isinstance(feature, StridentFeature):
-        return show_polarity(feature.polarity()) + strident_PhonemeFeatureText
+        return show_polarity(feature.polarity) + strident_PhonemeFeatureText
     if isinstance(feature, HighFeature):
-        return show_polarity(feature.polarity()) + high_PhonemeFeatureText
+        return show_polarity(feature.polarity) + high_PhonemeFeatureText
     if isinstance(feature, LowFeature):
-        return show_polarity(feature.polarity()) + low_PhonemeFeatureText
+        return show_polarity(feature.polarity) + low_PhonemeFeatureText
     if isinstance(feature, BackFeature):
-        return show_polarity(feature.polarity()) + back_PhonemeFeatureText
+        return show_polarity(feature.polarity) + back_PhonemeFeatureText
     return "[Unrecognized phoneme feature!]"
 
 # I added some English vowels. I did not choose any specific dialect.
