@@ -18,45 +18,57 @@ def put_prompt() -> None:
     """
     print(prompt, end="")
 
+
 def analyze_transcription_to_sound_patterns_of_english(transcription: str) -> str:
     result = show_features(analyze_features(analyze_transcription(transcription)))
     if result is None:
         return sorryUnableToCalculate
     return result
 
+
 def put_blank_line() -> None:
     print("")
+
 
 def put_blank_lines(count: int) -> None:
     for _ in range(count):
         put_blank_line()
+
 
 def prompt_for_text_and_apply(func: Callable[[str], str], instructions: str) -> None:
     print(instructions)
     put_prompt()
     interact(func)
 
+
 def interact(func: Callable[[str], str]) -> None:
     user_input = input()
     print(func(user_input))
 
+
 def prompt_for_phoneme_to_devoice() -> None:
     prompt_for_text_and_apply(devoiced_transcription, phonemeToDevoiceMessage)
+
 
 def prompt_for_phoneme_to_voice() -> None:
     prompt_for_text_and_apply(voiced_transcription, phonemeToVoiceMessage)
 
+
 def prompt_for_phoneme_to_describe() -> None:
     prompt_for_text_and_apply(describe_transcription, phonemeToDescribeMessage)
+
 
 def prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from() -> None:
     prompt_for_text_and_apply(analyze_transcription_to_sound_patterns_of_english,
                               phonemeToCalculateSPEMessage)
 
+
 def prompt_for_transcription_text_to_split() -> None:
     prompt_for_text_and_apply(ipa_text_to_phonet_list_report, ipaTextToDivideMessage)
 
-makeAPhonemeUnvoicedText : str = "make a phoneme unvoiced"
+
+makeAPhonemeUnvoicedText: str = "make a phoneme unvoiced"
+
 
 class Application(Frame):
     def __init__(self, master=None):
@@ -80,7 +92,7 @@ class Application(Frame):
         self.devoice_phoneme_button["text"] = makeAPhonemeUnvoicedText
         self.devoice_phoneme_button["command"] = self.make_phoneme_unvoiced
         self.devoice_phoneme_button.pack(side="top")
-        
+
         self.describe_phoneme_button = Button(self)
         self.describe_phoneme_button["text"] = describePhonemeText
         self.describe_phoneme_button["command"] = self.prompt_for_phoneme_to_describe
@@ -88,23 +100,24 @@ class Application(Frame):
 
         self.featurize_phoneme_button = Button(self)
         self.featurize_phoneme_button["text"] = getFeaturesOfPhonemeText
-        self.featurize_phoneme_button["command"] = self.prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from
+        self.featurize_phoneme_button[
+            "command"] = \
+            self.prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from
         self.featurize_phoneme_button.pack(side="top")
 
         self.split_transcription_button = Button(self)
         self.split_transcription_button["text"] = splitTranscriptionText
         self.split_transcription_button["command"] = self.prompt_for_transcription_text_to_split
-        self.split_transcription_button.pack(side="top")        
- 
+        self.split_transcription_button.pack(side="top")
+
         self.output_to_user = StringVar()
         self.output_to_user_label = Label(self, textvariable=self.output_to_user, relief=RAISED)
 
         self.output_to_user.set("")
         self.output_to_user_label.pack(side="bottom")
 
-
         self.quit = Button(self, text=quitText, fg="red",
-                              command=self.master.destroy)
+                           command=self.master.destroy)
         self.quit.pack(side="bottom")
 
     def show_english_phoneme_inventory(self):
@@ -152,16 +165,19 @@ def main() -> None:
     print(programTerminatedNormallyMessage)
     put_blank_lines(2)
 
+
 def handle_selection(selection: str) -> None:
     print()
     print(' '.join([userSelectedMessage, selection]))
     put_blank_line()
     respond_to_selection(selection)
 
+
 def open_window():
     root = Tk()
     app = Application(master=root)
     app.mainloop()
+
 
 def respond_to_selection(selection: str) -> None:
     if selection == userInput_viewEnglishPhonemeInventory:
@@ -181,11 +197,13 @@ def respond_to_selection(selection: str) -> None:
     else:
         print(unrecognizedSelectionMessage)
 
+
 def do_analyze_transcription(x: str) -> str:
     result = show_phonet(analyze_transcription(x))
     if result is None:
         return noAnalysisFoundMessage
     return result
+
 
 def do_construct_transcription(phonet: Phonet) -> None:
     print(construct_transcription(phonet))
