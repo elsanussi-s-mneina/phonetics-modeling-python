@@ -56,7 +56,6 @@ def prompt_for_transcription_text_to_split() -> None:
     prompt_for_text_and_apply(ipa_text_to_phonet_list_report, ipaTextToDivideMessage)
 
 def main() -> None:
-    print("hi")
     print(pleaseReadReadmeMessage)
     print(menu, end="")
     put_prompt()
