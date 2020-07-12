@@ -172,4 +172,4 @@ back_PhonemeFeatureText: str = "back"
 showPhonemeInventoryText : str = "Show English Phoneme Inventory"
 makeAPhonemeVoicedText : str = "make a phoneme voiced"
 quitText : str = "Quit"
-
+makeAPhonemeUnvoicedText : str = "make a phoneme unvoiced"

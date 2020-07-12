@@ -56,6 +56,7 @@ def prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from() ->
 def prompt_for_transcription_text_to_split() -> None:
     prompt_for_text_and_apply(ipa_text_to_phonet_list_report, ipaTextToDivideMessage)
 
+makeAPhonemeUnvoicedText : str = "make a phoneme unvoiced"
 
 class Application(Frame):
     def __init__(self, master=None):
@@ -75,6 +76,10 @@ class Application(Frame):
         self.voice_phoneme_button["command"] = self.make_phoneme_voiced
         self.voice_phoneme_button.pack(side="top")
 
+        self.devoice_phoneme_button = Button(self)
+        self.devoice_phoneme_button["text"] = makeAPhonemeUnvoicedText
+        self.devoice_phoneme_button["command"] = self.make_phoneme_unvoiced
+        self.devoice_phoneme_button.pack(side="top")
         
         self.output_to_user = StringVar()
         self.output_to_user_label = Label(self, textvariable=self.output_to_user, relief=RAISED)
@@ -98,6 +103,13 @@ class Application(Frame):
         voiced_phoneme = voiced_transcription(answer)
         self.output_to_user.set(voiced_phoneme)
 
+    def make_phoneme_unvoiced(self):
+        self.prompt_for_phoneme_to_unvoice()
+
+    def prompt_for_phoneme_to_unvoice(self):
+        answer = simpledialog.askstring("title", phonemeToDevoiceMessage)
+        devoiced_phoneme = devoiced_transcription(answer)
+        self.output_to_user.set(devoiced_phoneme)
 
 def main() -> None:
     print(pleaseReadReadmeMessage)
