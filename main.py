@@ -1,4 +1,5 @@
 from typing import Callable
+from tkinter import Button, simpledialog, Tk, Frame, StringVar, Label, RAISED
 
 from english_us_text import *
 from lib_functions import (analyze_features, analyze_transcription, construct_transcription,
@@ -55,6 +56,49 @@ def prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from() ->
 def prompt_for_transcription_text_to_split() -> None:
     prompt_for_text_and_apply(ipa_text_to_phonet_list_report, ipaTextToDivideMessage)
 
+
+class Application(Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master = master
+        self.pack()
+        self.create_widgets()
+
+    def create_widgets(self):
+        self.show_inventory_button = Button(self)
+        self.show_inventory_button["text"] = "Show English Phoneme Inventory"
+        self.show_inventory_button["command"] = self.show_english_phoneme_inventory
+        self.show_inventory_button.pack(side="top")
+
+        self.voice_phoneme_button = Button(self)
+        self.voice_phoneme_button["text"] = "make a phoneme voiced"
+        self.voice_phoneme_button["command"] = self.make_phoneme_voiced
+        self.voice_phoneme_button.pack(side="top")
+
+
+        self.output_to_user = StringVar()
+        self.output_to_user_label = Label(self, textvariable=self.output_to_user, relief=RAISED)
+
+        self.output_to_user.set("Output will appear here.")
+        self.output_to_user_label.pack(side="bottom")
+
+
+        self.quit = Button(self, text="QUIT", fg="red",
+                              command=self.master.destroy)
+        self.quit.pack(side="bottom")
+
+    def show_english_phoneme_inventory(self):
+        self.output_to_user.set(english_phonet_inventory_report)
+
+    def make_phoneme_voiced(self):
+        self.prompt_for_phoneme_to_voice()
+
+    def prompt_for_phoneme_to_voice(self) -> None:
+        answer = simpledialog.askstring("title", phonemeToVoiceMessage)
+        voiced_phoneme = voiced_transcription(answer)
+        self.output_to_user.set(voiced_phoneme)
+
+
 def main() -> None:
     print(pleaseReadReadmeMessage)
     print(menu, end="")
@@ -71,6 +115,10 @@ def handle_selection(selection: str) -> None:
     put_blank_line()
     respond_to_selection(selection)
 
+def open_window():
+    root = Tk()
+    app = Application(master=root)
+    app.mainloop()
 
 def respond_to_selection(selection: str) -> None:
     if selection == userInput_viewEnglishPhonemeInventory:
@@ -85,6 +133,8 @@ def respond_to_selection(selection: str) -> None:
         prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from()
     elif selection == userInput_chunkIPAByPhoneme:
         prompt_for_transcription_text_to_split()
+    elif selection == userInput_openWindow:
+        open_window()
     else:
         print(unrecognizedSelectionMessage)
 

@@ -11,7 +11,7 @@ menu: str = \
 4) describe a phoneme in English.
 5) describe a phoneme in SPE Features.
 6) divide IPA text into phonemes (chunk)
-
+7) open window (user-friendly mode)
 Enter the number representing your selection below:
 after the prompt: and press enter/return.\n\n\n"""
 
@@ -22,6 +22,7 @@ userInput_makeAPhonemeUnvoiced: str = "3"
 userInput_describeAPhonemeInEnglish: str = "4"
 userInput_describeAPhonemeInSPE: str = "5"
 userInput_chunkIPAByPhoneme: str = "6"
+userInput_openWindow: str = "7"
 
 prompt: str = "(PROMPT:) "
 
