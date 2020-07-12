@@ -66,24 +66,24 @@ class Application(Frame):
 
     def create_widgets(self):
         self.show_inventory_button = Button(self)
-        self.show_inventory_button["text"] = "Show English Phoneme Inventory"
+        self.show_inventory_button["text"] = showPhonemeInventoryText
         self.show_inventory_button["command"] = self.show_english_phoneme_inventory
         self.show_inventory_button.pack(side="top")
 
         self.voice_phoneme_button = Button(self)
-        self.voice_phoneme_button["text"] = "make a phoneme voiced"
+        self.voice_phoneme_button["text"] = makeAPhonemeVoicedText
         self.voice_phoneme_button["command"] = self.make_phoneme_voiced
         self.voice_phoneme_button.pack(side="top")
 
-
+        
         self.output_to_user = StringVar()
         self.output_to_user_label = Label(self, textvariable=self.output_to_user, relief=RAISED)
 
-        self.output_to_user.set("Output will appear here.")
+        self.output_to_user.set("")
         self.output_to_user_label.pack(side="bottom")
 
 
-        self.quit = Button(self, text="QUIT", fg="red",
+        self.quit = Button(self, text=quitText, fg="red",
                               command=self.master.destroy)
         self.quit.pack(side="bottom")
 

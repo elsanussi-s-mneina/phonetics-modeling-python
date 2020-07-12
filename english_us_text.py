@@ -166,3 +166,10 @@ strident_PhonemeFeatureText: str = "strident"
 high_PhonemeFeatureText: str = "high"
 low_PhonemeFeatureText: str = "low"
 back_PhonemeFeatureText: str = "back"
+
+
+
+showPhonemeInventoryText : str = "Show English Phoneme Inventory"
+makeAPhonemeVoicedText : str = "make a phoneme voiced"
+quitText : str = "Quit"
+
