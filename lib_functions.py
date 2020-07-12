@@ -280,11 +280,6 @@ def is_exponential_after(a_char: str) -> bool:
 
 def is_exponential_before(a_char: str) -> bool:
     """
-    Whether a character is a superscript character, that
-    often goes before a full character to modify the
-    full character's meaning.
-    For example in the International Phonetic Alphabet,
-    a superscript `n`.
     """
     return elem_w(exponentials_before)(a_char)
 
@@ -306,6 +301,15 @@ def elem_w(string_list: List[str]) -> Callable[[str], bool]:
 
 
 def prediacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
+    """
+    Gets a pre-diacritic exponential with a segmental,
+    the segmental may have a tie bar.
+    If it has a tie-bar the character after the tie-bar
+    is also included. These
+    are returned in the first part of the tuple.
+    the text not yet parsed is in the second part
+    of the tuple.
+    """
     if (not len(text) == 0 and is_exponential_before(text[0])
             and is_segmental_at(1, text)):
         if is_tie_bar_at(2, text):
@@ -2185,7 +2189,7 @@ def nasal(phone: Phonet) -> Optional[PhonemeFeature]:
 def lateral(phone: Phonet) -> Optional[PhonemeFeature]:
     """
     Lateral consonants are [lateral].
-    Lateral Approximant consonants are [lateral].
+    Lateral approximant consonants are [lateral].
     Lateral fricative consonants are [lateral].
     Lateral flap consonants are [lateral].
     All other segments are not defined for [lateral].
