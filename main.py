@@ -81,6 +81,21 @@ class Application(Frame):
         self.devoice_phoneme_button["command"] = self.make_phoneme_unvoiced
         self.devoice_phoneme_button.pack(side="top")
         
+        self.describe_phoneme_button = Button(self)
+        self.describe_phoneme_button["text"] = describePhonemeText
+        self.describe_phoneme_button["command"] = self.prompt_for_phoneme_to_describe
+        self.describe_phoneme_button.pack(side="top")
+
+        self.featurize_phoneme_button = Button(self)
+        self.featurize_phoneme_button["text"] = getFeaturesOfPhonemeText
+        self.featurize_phoneme_button["command"] = self.prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from
+        self.featurize_phoneme_button.pack(side="top")
+
+        self.split_transcription_button = Button(self)
+        self.split_transcription_button["text"] = splitTranscriptionText
+        self.split_transcription_button["command"] = self.prompt_for_transcription_text_to_split
+        self.split_transcription_button.pack(side="top")        
+ 
         self.output_to_user = StringVar()
         self.output_to_user_label = Label(self, textvariable=self.output_to_user, relief=RAISED)
 
@@ -110,6 +125,22 @@ class Application(Frame):
         answer = simpledialog.askstring("title", phonemeToDevoiceMessage)
         devoiced_phoneme = devoiced_transcription(answer)
         self.output_to_user.set(devoiced_phoneme)
+
+    def prompt_for_phoneme_to_describe(self) -> None:
+        answer = simpledialog.askstring("title", phonemeToDescribeMessage)
+        description = describe_transcription(answer)
+        self.output_to_user.set(description)
+
+    def prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from(self) -> None:
+        answer = simpledialog.askstring("title", phonemeToCalculateSPEMessage)
+        features = analyze_transcription_to_sound_patterns_of_english(answer)
+        self.output_to_user.set(features)
+
+    def prompt_for_transcription_text_to_split(self) -> None:
+        answer = simpledialog.askstring("title", ipaTextToDivideMessage)
+        report = ipa_text_to_phonet_list_report(answer)
+        self.output_to_user.set(report)
+
 
 def main() -> None:
     print(pleaseReadReadmeMessage)
