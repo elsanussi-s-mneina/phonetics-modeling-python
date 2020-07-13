@@ -76,9 +76,9 @@ def ipa_and_phonet_format(
 
 def ipa_text_to_phonet_list(
         text: str) -> List[Tuple[str, Optional[Phonet]]]:
-    ipa_chunks = split_by_phonetes(text)
+    ipa_chunks = list(filter(lambda x: len(x) > 0, split_by_phonetes(text)))
     phonetes = map(analyze_transcription, ipa_chunks)
-    return zip(ipa_chunks, phonetes)
+    return list(zip(ipa_chunks, phonetes))
 
 #  let ipa_chunks = split_by_phonetes text
 #      phonetes = map analyze_transcription ipa_chunks
@@ -180,7 +180,6 @@ def split_by_phonetes(some_text: str) -> List[str]:
     return parse_start(some_text)
 
 def parse_start(some_text: str) -> List[str]:
-
     return split_by_phonetes_prepostdiacrtic(some_text)
 
 def split_by_phonetes_prediacritic(text: str) -> List[str]:
@@ -207,6 +206,7 @@ def split_by_phonetes_prepostdiacrtic(text: str) -> List[str]:
 
 def split_by_phonetes_postdiacrtic(text: str) -> List[str]:
     result: Optional[Tuple[str, str]] = postdiacritic_parser_function(text)
+
     if result is None:
         return split_by_phonetes_nondiacrtic(text)
 
@@ -222,7 +222,7 @@ def split_by_phonetes_nondiacrtic(text: str) -> List[str]:
     return [chunk] + parse_start(rest)
 
 def nondiacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
-    if len(text) == 0 and is_segmental(text[0]):
+    if len(text) > 0 and is_segmental(text[0]):
         if is_tie_bar_at(1, text):
             return (text[:3], text[3:])
         return (text[:1], text[1:])

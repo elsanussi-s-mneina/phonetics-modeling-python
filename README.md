@@ -22,6 +22,4 @@ Plans:
 - Make it follow closely the design decisions in the phonetics-modeling project at http://github.com/elsanussi-s-mneina/phonetics-modeling
 
 ## Current Issues
-- splitting IPA text into phonemes does not work
 - more unit tests wanted
-- neeed to rename identifiers to be consistent (specifically using snake-case, and consistent use or lack of use of abbreviations)
