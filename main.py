@@ -1,5 +1,5 @@
 from typing import Callable
-from tkinter import Button, simpledialog, Tk, Frame, StringVar, Label, RAISED
+from tkinter import Button, simpledialog, Tk, Frame, StringVar, Label, RAISED, LEFT
 
 from english_us_text import *
 from lib_functions import (analyze_features, analyze_transcription, construct_transcription,
@@ -103,9 +103,9 @@ class Application(Frame):
         self.split_transcription_button["text"] = splitTranscriptionText
         self.split_transcription_button["command"] = self.prompt_for_transcription_text_to_split
         self.split_transcription_button.pack(side="top")
-
         self.output_to_user = StringVar()
-        self.output_to_user_label = Label(self, textvariable=self.output_to_user, relief=RAISED)
+        self.output_to_user_label = Label(self, textvariable=self.output_to_user, relief=RAISED,
+                                          width=100, wraplength=1000, justify=LEFT)
 
         self.output_to_user.set("")
         self.output_to_user_label.pack(side="bottom")
