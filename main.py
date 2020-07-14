@@ -1,5 +1,5 @@
 from typing import Callable
-from tkinter import Button, simpledialog, Tk, Frame, StringVar, Label, RAISED, LEFT
+from tkinter import Button, simpledialog, Tk, Frame, StringVar, Label, RAISED, LEFT, E
 
 from english_us_text import *
 from lib_functions import (analyze_features, analyze_transcription, construct_transcription,
@@ -108,11 +108,11 @@ class Application(Frame):
                                           width=100, wraplength=1000, justify=LEFT)
 
         self.output_to_user.set("")
-        self.output_to_user_label.pack(side="bottom")
+        self.output_to_user_label.pack(side="top")
 
         self.quit = Button(self, text=quitText, fg="red",
                            command=self.master.destroy)
-        self.quit.pack(side="bottom")
+        self.quit.pack(side="right", padx=30)
 
     def show_english_phoneme_inventory(self):
         self.output_to_user.set(english_phonet_inventory_report)
