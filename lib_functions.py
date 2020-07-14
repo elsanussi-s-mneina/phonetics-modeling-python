@@ -80,10 +80,6 @@ def ipa_text_to_phonet_list(
     phonetes = map(analyze_transcription, ipa_chunks)
     return list(zip(ipa_chunks, phonetes))
 
-#  let ipa_chunks = split_by_phonetes text
-#      phonetes = map analyze_transcription ipa_chunks
-#  in zip ipa_chunks phonetes
-
 
 def equivalent_in_place(place_1: Place, place_2: Place) -> bool:
     """
