@@ -152,6 +152,10 @@ makeAPhonemeUnvoicedText: str = "make a phoneme unvoiced"
 
 
 class Application(Frame):
+    """
+    A window where the user can select an action to do,
+    and results are shown at the bottom of the window.
+    """
     def __init__(self, master=None):
         """
         Initialize the main window
@@ -275,21 +279,30 @@ def main() -> None:
     print(pleaseReadReadmeMessage)
     print(menu, end="")
     put_prompt()
-    user_input = input()
-    handle_selection(user_input)
+    selection = input()
+    acknowledge_and_respond(selection)
     put_blank_line()
     print(programTerminatedNormallyMessage)
     put_blank_lines(2)
 
 
-def handle_selection(selection: str) -> None:
+def acknowledge_and_respond(selection: str) -> None:
+    """
+    Tell the user what they selected. This is necessary
+    for better user-friendliness.
+    :param selection: what the user typed in
+    :return: None
+    """
     print()
     print(' '.join([userSelectedMessage, selection]))
     put_blank_line()
     respond_to_selection(selection)
 
-
-def open_window():
+def open_window() -> None:
+    """
+    Open a window.
+    :return: None
+    """
     root = Tk()
     root.wm_title(application_title)
     app = Application(master=root)
