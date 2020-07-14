@@ -12,22 +12,22 @@ instead of via text.
 from typing import Callable
 from tkinter import Button, simpledialog, Tk, Frame, StringVar, Label, RAISED, LEFT
 
-from english_us_text import phonemeToDevoiceMessage, phonemeToVoiceMessage, \
-    phonemeToDescribeMessage, phonemeToCalculateSPEMessage, \
-    ipaTextToDivideMessage, showPhonemeInventoryText, \
-    makeAPhonemeVoicedText, describePhonemeText, getFeaturesOfPhonemeText, \
-    splitTranscriptionText, quitText, prompt, pleaseReadReadmeMessage, \
-    programTerminatedNormallyMessage, userSelectedMessage, application_title, \
-    userInput_viewEnglishPhonemeInventory, \
-    userInput_makeAPhonemeUnvoiced, \
-    userInput_describeAPhonemeInEnglish, \
-    userInput_describeAPhonemeInSPE, \
-    userInput_chunkIPAByPhoneme, \
-    userInput_makeAPhonemeVoiced, \
-    userInput_openWindow, \
-    unrecognizedSelectionMessage, \
-    noAnalysisFoundMessage, \
-    menu
+from english_us_text import PHONEME_TO_DEVOICE_MESSAGE, PHONEME_TO_VOICE_MESSAGE, \
+    PHONEME_TO_DESCRIBE_MESSAGE, PHONEME_TO_CALCULATE_SPE_MESSAGE, \
+    ipaTextToDivideMessage, SHOW_PHONEME_INVENTORY_TEXT, \
+    MAKE_A_PHONEME_VOICED_TEXT, DESCRIBE_PHONEME_TEXT, GET_FEATURES_OF_PHONEME_TEXT, \
+    SPLIT_TRANSCRIPTION_TEXT, QUIT_TEXT, PROMPT, PLEASE_READ_README_MESSAGE, \
+    PROGRAM_TERMINATED_NORMALLY_MESSAGE, USER_SELECTED_MESSAGE, APPLICATION_TITLE, \
+    USER_INPUT_VIEW_ENGLISH_PHONEME_INVENTORY, \
+    USER_INPUT_MAKE_A_PHONEME_UNVOICED, \
+    USER_INPUT_DESCRIBE_A_PHONEME_IN_ENGLISH, \
+    USER_INPUT_DESCRIBE_A_PHONEME_IN_SPE, \
+    USER_INPUT_CHUNK_IPA_BY_PHONEME, \
+    USER_INPUT_MAKE_A_PHONEME_VOICED, \
+    USER_INPUT_OPEN_WINDOW, \
+    UNRECOGNIZED_SELECTION_MESSAGE, \
+    NO_ANALYSIS_FOUND_MESSAGE, \
+    MENU
 
 from lib_functions import (analyze_transcription, construct_transcription,
                            describe_transcription, devoiced_transcription,
@@ -44,7 +44,7 @@ def put_prompt() -> None:
     user knows that they are expected to enter
     some text.
     """
-    print(prompt, end="")
+    print(PROMPT, end="")
 
 
 def put_blank_line() -> None:
@@ -100,7 +100,7 @@ def prompt_for_phoneme_to_devoice() -> None:
     to the original phoneme, but unvoiced.
     :return: None
     """
-    prompt_for_text_and_apply(devoiced_transcription, phonemeToDevoiceMessage)
+    prompt_for_text_and_apply(devoiced_transcription, PHONEME_TO_DEVOICE_MESSAGE)
 
 
 def prompt_for_phoneme_to_voice() -> None:
@@ -111,7 +111,7 @@ def prompt_for_phoneme_to_voice() -> None:
     to the original phoneme, but voiced.
     :return: None
     """
-    prompt_for_text_and_apply(voiced_transcription, phonemeToVoiceMessage)
+    prompt_for_text_and_apply(voiced_transcription, PHONEME_TO_VOICE_MESSAGE)
 
 
 def prompt_for_phoneme_to_describe() -> None:
@@ -122,7 +122,7 @@ def prompt_for_phoneme_to_describe() -> None:
     description of the phoneme.
     :return: None
     """
-    prompt_for_text_and_apply(describe_transcription, phonemeToDescribeMessage)
+    prompt_for_text_and_apply(describe_transcription, PHONEME_TO_DESCRIBE_MESSAGE)
 
 
 def prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from() -> None:
@@ -135,7 +135,7 @@ def prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from() ->
     :return: None
     """
     prompt_for_text_and_apply(analyze_transcription_to_sound_patterns_of_english,
-                              phonemeToCalculateSPEMessage)
+                              PHONEME_TO_CALCULATE_SPE_MESSAGE)
 
 
 def prompt_for_transcription_text_to_split() -> None:
@@ -171,12 +171,12 @@ class Application(Frame):
         Create widgets that go on the window
         """
         self.show_inventory_button = Button(self)
-        self.show_inventory_button["text"] = showPhonemeInventoryText
+        self.show_inventory_button["text"] = SHOW_PHONEME_INVENTORY_TEXT
         self.show_inventory_button["command"] = self.show_english_phoneme_inventory
         self.show_inventory_button.pack(side="top")
 
         self.voice_phoneme_button = Button(self)
-        self.voice_phoneme_button["text"] = makeAPhonemeVoicedText
+        self.voice_phoneme_button["text"] = MAKE_A_PHONEME_VOICED_TEXT
         self.voice_phoneme_button["command"] = self.prompt_for_phoneme_to_voice
         self.voice_phoneme_button.pack(side="top")
 
@@ -186,19 +186,19 @@ class Application(Frame):
         self.devoice_phoneme_button.pack(side="top")
 
         self.describe_phoneme_button = Button(self)
-        self.describe_phoneme_button["text"] = describePhonemeText
+        self.describe_phoneme_button["text"] = DESCRIBE_PHONEME_TEXT
         self.describe_phoneme_button["command"] = self.prompt_for_phoneme_to_describe
         self.describe_phoneme_button.pack(side="top")
 
         self.featurize_phoneme_button = Button(self)
-        self.featurize_phoneme_button["text"] = getFeaturesOfPhonemeText
+        self.featurize_phoneme_button["text"] = GET_FEATURES_OF_PHONEME_TEXT
         self.featurize_phoneme_button[
             "command"] = \
             self.prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from
         self.featurize_phoneme_button.pack(side="top")
 
         self.split_transcription_button = Button(self)
-        self.split_transcription_button["text"] = splitTranscriptionText
+        self.split_transcription_button["text"] = SPLIT_TRANSCRIPTION_TEXT
         self.split_transcription_button["command"] = self.prompt_for_transcription_text_to_split
         self.split_transcription_button.pack(side="top")
         self.output_to_user = StringVar()
@@ -208,7 +208,7 @@ class Application(Frame):
         self.output_to_user.set("")
         self.output_to_user_label.pack(side="top")
 
-        self.quit = Button(self, text=quitText, fg="red",
+        self.quit = Button(self, text=QUIT_TEXT, fg="red",
                            command=self.master.destroy)
         self.quit.pack(side="right", padx=30)
 
@@ -225,7 +225,7 @@ class Application(Frame):
         and show the closest phoneme to it that is voiced.
         :return: None
         """
-        answer = simpledialog.askstring("title", phonemeToVoiceMessage)
+        answer = simpledialog.askstring("title", PHONEME_TO_VOICE_MESSAGE)
         voiced_phoneme = voiced_transcription(answer)
         self.output_to_user.set(voiced_phoneme)
 
@@ -235,7 +235,7 @@ class Application(Frame):
         and show the closest phoneme to it that is unvoiced.
         :return: None
         """
-        answer = simpledialog.askstring("title", phonemeToDevoiceMessage)
+        answer = simpledialog.askstring("title", PHONEME_TO_DEVOICE_MESSAGE)
         devoiced_phoneme = devoiced_transcription(answer)
         self.output_to_user.set(devoiced_phoneme)
 
@@ -245,7 +245,7 @@ class Application(Frame):
         and show the description of the phoneme.
         :return: None
         """
-        answer = simpledialog.askstring("title", phonemeToDescribeMessage)
+        answer = simpledialog.askstring("title", PHONEME_TO_DESCRIBE_MESSAGE)
         description = describe_transcription(answer)
         self.output_to_user.set(description)
 
@@ -255,7 +255,7 @@ class Application(Frame):
         and show its features according to Sound Patterns of English.
         :return: None
         """
-        answer = simpledialog.askstring("title", phonemeToCalculateSPEMessage)
+        answer = simpledialog.askstring("title", PHONEME_TO_CALCULATE_SPE_MESSAGE)
         features = analyze_transcription_to_sound_patterns_of_english(answer)
         self.output_to_user.set(features)
 
@@ -276,13 +276,13 @@ def main() -> None:
     This function is where the program starts running.
     :return: None
     """
-    print(pleaseReadReadmeMessage)
-    print(menu, end="")
+    print(PLEASE_READ_README_MESSAGE)
+    print(MENU, end="")
     put_prompt()
     selection = input()
     acknowledge_and_respond(selection)
     put_blank_line()
-    print(programTerminatedNormallyMessage)
+    print(PROGRAM_TERMINATED_NORMALLY_MESSAGE)
     put_blank_lines(2)
 
 
@@ -294,7 +294,7 @@ def acknowledge_and_respond(selection: str) -> None:
     :return: None
     """
     print()
-    print(' '.join([userSelectedMessage, selection]))
+    print(' '.join([USER_SELECTED_MESSAGE, selection]))
     put_blank_line()
     respond_to_selection(selection)
 
@@ -304,7 +304,7 @@ def open_window() -> None:
     :return: None
     """
     root = Tk()
-    root.wm_title(application_title)
+    root.wm_title(APPLICATION_TITLE)
     app = Application(master=root)
     app.mainloop()
 
@@ -315,22 +315,22 @@ def respond_to_selection(selection: str) -> None:
     :param selection: the text the user put in after being shown the menu.
     :return: None
     """
-    if selection == userInput_viewEnglishPhonemeInventory:
+    if selection == USER_INPUT_VIEW_ENGLISH_PHONEME_INVENTORY:
         print(english_phonet_inventory_report)
-    elif selection == userInput_makeAPhonemeVoiced:
+    elif selection == USER_INPUT_MAKE_A_PHONEME_VOICED:
         prompt_for_phoneme_to_voice()
-    elif selection == userInput_makeAPhonemeUnvoiced:
+    elif selection == USER_INPUT_MAKE_A_PHONEME_UNVOICED:
         prompt_for_phoneme_to_devoice()
-    elif selection == userInput_describeAPhonemeInEnglish:
+    elif selection == USER_INPUT_DESCRIBE_A_PHONEME_IN_ENGLISH:
         prompt_for_phoneme_to_describe()
-    elif selection == userInput_describeAPhonemeInSPE:
+    elif selection == USER_INPUT_DESCRIBE_A_PHONEME_IN_SPE:
         prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from()
-    elif selection == userInput_chunkIPAByPhoneme:
+    elif selection == USER_INPUT_CHUNK_IPA_BY_PHONEME:
         prompt_for_transcription_text_to_split()
-    elif selection == userInput_openWindow:
+    elif selection == USER_INPUT_OPEN_WINDOW:
         open_window()
     else:
-        print(unrecognizedSelectionMessage)
+        print(UNRECOGNIZED_SELECTION_MESSAGE)
 
 
 def do_analyze_transcription(transcription: str) -> str:
@@ -344,7 +344,7 @@ def do_analyze_transcription(transcription: str) -> str:
     """
     result = show_phonet(analyze_transcription(transcription))
     if result is None:
-        return noAnalysisFoundMessage
+        return NO_ANALYSIS_FOUND_MESSAGE
     return result
 
 

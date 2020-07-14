@@ -19,40 +19,40 @@ from lib_types import (Phonet, Height, Backness, Rounding, VocalFolds, AdvancedT
                        LowFeature, BackFeature, PhonetInventory
                       )
 
-from english_us_text import (back_PhonemeFeatureText,
-                             low_PhonemeFeatureText, high_PhonemeFeatureText,
-                             strident_PhonemeFeatureText, distributed_PhonemeFeatureText,
-                             anterior_PhonemeFeatureText, round_PhonemeFeatureText,
-                             laryngeal_PhonemeFeatureText, pharyngeal_PhonemeFeatureText,
-                             dorsal_PhonemeFeatureText, coronal_PhonemeFeatureText,
-                             labial_PhonemeFeatureText, constrictedGlottis_PhonemeFeatureText,
-                             spreadGlottis_PhonemeFeatureText, delayedRelease_PhonemeFeatureText,
-                             lateral_PhonemeFeatureText, nasal_PhonemeFeatureText,
-                             atr_PhonemeFeatureText, voice_PhonemeFeatureText,
-                             continuant_PhonemeFeatureText, sonorant_PhonemeFeatureText,
-                             consonantal_PhonemeFeatureText, syllabic_PhonemeFeatureText,
-                             plosive_MannerText, nasal_MannerText, trill_MannerText,
-                             tapOrFlap_MannerText, approximant_MannerText, fricative_MannerText,
-                             affricate_MannerText, lateralFricative_MannerText,
-                             lateralApproximant_MannerText,
-                             lateralFlap_MannerText, lateral_MannerText,
-                             creakyVoiced_VocalFoldsText, implosive_AirstreamText,
-                             click_AirstreamText, pulmonicEgressive_AirstreamText,
-                             palatoAlveolar_PlaceText, alveoloPalatal_PlaceText,
-                             labialPalatal_PlaceText,
-                             labialVelar_PlaceText, epiglottal_PlaceText, glottal_PlaceText,
-                             pharyngeal_PlaceText, uvular_PlaceText, velar_PlaceText,
-                             palatal_PlaceText, retroflex_PlaceText, postAlveolar_PlaceText,
-                             alveolar_PlaceText, dental_PlaceText, labioDental_PlaceText,
-                             bilabial_PlaceText, unrounded_RoundingText, rounded_RoundingText,
-                             open_HeightText, nearOpen_HeightText, openMid_HeightText,
-                             mid_HeightText, closeMid_HeightText, nearClose_HeightText,
-                             close_HeightText, back_BacknessText, central_BacknessText,
-                             front_BacknessText,
-                             vowel_Text, consonant_Text, voicelessAspirated_VocalFoldsText,
-                             voicedAspirated_VocalFoldsText, voiceless_VocalFoldsText,
-                             voiced_VocalFoldsText, noEnglishDescriptionFound_message,
-                             sorryUnableToCalculate)
+from english_us_text import (BACK_PHONEME_FEATURE_TEXT,
+                             LOW_PHONEME_FEATURE_TEXT, HIGH_PHONEME_FEATURE_TEXT,
+                             STRIDENT_PHONEME_FEATURE_TEXT, DISTRIBUTED_PHONEME_FEATURE_TEXT,
+                             ANTERIOR_PHONEME_FEATURE_TEXT, ROUND_PHONEME_FEATURE_TEXT,
+                             LARYNGEAL_PHONEME_FEATURE_TEXT, PHARYNGEAL_PHONEME_FEATURE_TEXT,
+                             DORSAL_PHONEME_FEATURE_TEXT, CORONAL_PHONEME_FEATURE_TEXT,
+                             LABIAL_PHONEME_FEATURE_TEXT, CONSTRICTED_GLOTTIS_PHONEME_FEATURE_TEXT,
+                             SPREAD_GLOTTIS_PHONEME_FEATURE_TEXT, DELAYED_RELEASE_PHONEME_FEATURE_TEXT,
+                             LATERAL_PHONEME_FEATURE_TEXT, NASAL_PHONEME_FEATURE_TEXT,
+                             ATR_PHONEME_FEATURE_TEXT, VOICE_PHONEME_FEATURE_TEXT,
+                             CONTINUANT_PHONEME_FEATURE_TEXT, SONORANT_PHONEME_FEATURE_TEXT,
+                             CONSONANTAL_PHONEME_FEATURE_TEXT, SYLLABIC_PHONEME_FEATURE_TEXT,
+                             PLOSIVE_MANNER_TEXT, NASAL_MANNER_TEXT, TRILL_MANNER_TEXT,
+                             TAP_OR_FLAP_MANNER_TEXT, APPROXIMANT_MANNER_TEXT, FRICATIVE_MANNER_TEXT,
+                             AFFRICATE_MANNER_TEXT, LATERAL_FRICATIVE_MANNER_TEXT,
+                             LATERAL_APPROXIMANT_MANNER_TEXT,
+                             LATERAL_FLAP_MANNER_TEXT, LATERAL_MANNER_TEXT,
+                             CREAKY_VOICED_VOCAL_FOLDS_TEXT, IMPLOSIVE_AIRSTREAM_TEXT,
+                             CLICK_AIRSTREAM_TEXT, PULMONIC_EGRESSIVE_AIRSTREAM_TEXT,
+                             PALATOALVEOLAR_PLACE_TEXT, ALVEOLOPALATAL_PLACE_TEXT,
+                             LABIALPALATAL_PLACE_TEXT,
+                             LABIALVELAR_PLACE_TEXT, EPIGLOTTAL_PLACE_TEXT, GLOTTAL_PLACE_TEXT,
+                             PHARYNGEAL_PLACE_TEXT, UVULAR_PLACE_TEXT, VELAR_PLACE_TEXT,
+                             PALATAL_PLACE_TEXT, RETROFLEX_PLACE_TEXT, POSTALVEOLAR_PLACE_TEXT,
+                             ALVEOLAR_PLACE_TEXT, DENTAL_PLACE_TEXT, LABIODENTAL_PLACE_TEXT,
+                             BILABIAL_PLACE_TEXT, UNROUNDED_ROUNDING_TEXT, ROUNDED_ROUNDING_TEXT,
+                             OPEN_HEIGHT_TEXT, NEAR_OPEN_HEIGHT_TEXT, OPEN_MID_HEIGHT_TEXT,
+                             MID_HEIGHT_TEXT, CLOSE_MID_HEIGHT_TEXT, NEAR_CLOSE_HEIGHT_TEXT,
+                             CLOSE_HEIGHT_TEXT, BACK_BACKNESS_TEXT, CENTRAL_BACKNESS_TEXT,
+                             FRONT_BACKNESS_TEXT,
+                             VOWEL_TEXT, CONSONANT_TEXT, VOICELESS_ASPIRATED_VOCAL_FOLDS_TEXT,
+                             VOICED_ASPIRATED_VOCAL_FOLDS_TEXT, VOICELESS_VOCAL_FOLDS_TEXT,
+                             VOICED_VOCAL_FOLDS_TEXT, NO_ENGLISH_DESCRIPTION_FOUND_MESSAGE,
+                             SORRY_UNABLE_TO_CALCULATE)
 
 
 
@@ -1979,7 +1979,7 @@ def describe_transcription(some_text: str) -> str:
     """
     result = show_phonet(analyze_transcription(some_text))
     if result is None:
-        return noEnglishDescriptionFound_message
+        return NO_ENGLISH_DESCRIPTION_FOUND_MESSAGE
     return result
 
 
@@ -2701,14 +2701,14 @@ def show_phonet(phonet: Phonet) -> str:
         manner = phonet.manner
         airstream = phonet.airstream
         return ' '.join([show_vocal_folds(vocal_folds), show_place(place),
-                         show_manner(manner), show_airstream(airstream), consonant_Text])
+                         show_manner(manner), show_airstream(airstream), CONSONANT_TEXT])
     if isinstance(phonet, Vowel):
         height = phonet.height
         backness = phonet.backness
         rounding = phonet.rounding
         vocal_folds = phonet.vocal_folds
         return ' '.join([show_vocal_folds(vocal_folds), show_rounding(rounding),
-                         show_height(height), show_backness(backness), vowel_Text])
+                         show_height(height), show_backness(backness), VOWEL_TEXT])
     return "[Unrecognized kind of phonete!]"
 
 
@@ -2721,11 +2721,11 @@ def show_backness(backness: Backness) -> str:
     e.g. "central"
     """
     if backness == Backness.FRONT:
-        return front_BacknessText
+        return FRONT_BACKNESS_TEXT
     if backness == Backness.CENTRAL:
-        return central_BacknessText
+        return CENTRAL_BACKNESS_TEXT
     if backness == Backness.BACK:
-        return back_BacknessText
+        return BACK_BACKNESS_TEXT
     return "[Unrecognized vowel backness!]"
 
 
@@ -2739,19 +2739,19 @@ def show_height(height: Height) -> str:
     e.g. "mid"
     """
     if height == Height.CLOSE:
-        return close_HeightText
+        return CLOSE_HEIGHT_TEXT
     if height == Height.NEAR_CLOSE:
-        return nearClose_HeightText
+        return NEAR_CLOSE_HEIGHT_TEXT
     if height == Height.CLOSE_MID:
-        return closeMid_HeightText
+        return CLOSE_MID_HEIGHT_TEXT
     if height == Height.MID:
-        return mid_HeightText
+        return MID_HEIGHT_TEXT
     if height == Height.OPEN_MID:
-        return openMid_HeightText
+        return OPEN_MID_HEIGHT_TEXT
     if height == Height.NEAR_OPEN:
-        return nearOpen_HeightText
+        return NEAR_OPEN_HEIGHT_TEXT
     if height == Height.OPEN:
-        return open_HeightText
+        return OPEN_HEIGHT_TEXT
     return "[Unrecognized vowel height!]"
 
 def show_rounding(rounding: Rounding) -> str:
@@ -2761,9 +2761,9 @@ def show_rounding(rounding: Rounding) -> str:
     e.g. "rounded"
     """
     if rounding == Rounding.ROUNDED:
-        return rounded_RoundingText
+        return ROUNDED_ROUNDING_TEXT
     if rounding == Rounding.UNROUNDED:
-        return unrounded_RoundingText
+        return UNROUNDED_ROUNDING_TEXT
     return "[Unrecognized rounding!]"
 
 
@@ -2776,37 +2776,37 @@ def show_place(place: Place) -> str:
     Convert place to a string that the user can read.
     """
     if place == Place.BILABIAL:
-        return bilabial_PlaceText
+        return BILABIAL_PLACE_TEXT
     if place == Place.LABIODENTAL:
-        return labioDental_PlaceText
+        return LABIODENTAL_PLACE_TEXT
     if place == Place.DENTAL:
-        return dental_PlaceText
+        return DENTAL_PLACE_TEXT
     if place == Place.ALVEOLAR:
-        return alveolar_PlaceText
+        return ALVEOLAR_PLACE_TEXT
     if place == Place.POSTALVEOLAR:
-        return postAlveolar_PlaceText
+        return POSTALVEOLAR_PLACE_TEXT
     if place == Place.RETROFLEX:
-        return retroflex_PlaceText
+        return RETROFLEX_PLACE_TEXT
     if place == Place.PALATAL:
-        return palatal_PlaceText
+        return PALATAL_PLACE_TEXT
     if place == Place.VELAR:
-        return velar_PlaceText
+        return VELAR_PLACE_TEXT
     if place == Place.UVULAR:
-        return uvular_PlaceText
+        return UVULAR_PLACE_TEXT
     if place == Place.PHARYNGEAL:
-        return pharyngeal_PlaceText
+        return PHARYNGEAL_PLACE_TEXT
     if place == Place.GLOTTAL:
-        return glottal_PlaceText
+        return GLOTTAL_PLACE_TEXT
     if place == Place.EPIGLOTTAL:
-        return epiglottal_PlaceText
+        return EPIGLOTTAL_PLACE_TEXT
     if place == Place.LABIAL_VELAR:
-        return labialVelar_PlaceText
+        return LABIALVELAR_PLACE_TEXT
     if place == Place.LABIAL_PALATAL:
-        return labialPalatal_PlaceText
+        return LABIALPALATAL_PLACE_TEXT
     if place == Place.ALVEOLOPALATAL:
-        return alveoloPalatal_PlaceText
+        return ALVEOLOPALATAL_PLACE_TEXT
     if place == Place.PALATOALVEOLAR:
-        return palatoAlveolar_PlaceText
+        return PALATOALVEOLAR_PLACE_TEXT
     if isinstance(place, MultiPlace):
         return ' '.join(map(show_place, place.places()))
     return '[Error: unrecognized place!]'
@@ -2818,27 +2818,27 @@ def show_manner(manner1: Manner) -> str:
     the manner of articulation.
     """
     if manner1 == Manner.PLOSIVE:
-        return plosive_MannerText
+        return PLOSIVE_MANNER_TEXT
     if manner1 == Manner.NASAL:
-        return nasal_MannerText
+        return NASAL_MANNER_TEXT
     if manner1 == Manner.TRILL:
-        return trill_MannerText
+        return TRILL_MANNER_TEXT
     if manner1 == Manner.TAP_OR_FLAP:
-        return tapOrFlap_MannerText
+        return TAP_OR_FLAP_MANNER_TEXT
     if manner1 == Manner.APPROXIMANT:
-        return approximant_MannerText
+        return APPROXIMANT_MANNER_TEXT
     if manner1 == Manner.FRICATIVE:
-        return fricative_MannerText
+        return FRICATIVE_MANNER_TEXT
     if manner1 == Manner.AFFRICATE:
-        return affricate_MannerText
+        return AFFRICATE_MANNER_TEXT
     if manner1 == Manner.LATERAL_FRICATIVE:
-        return lateralFricative_MannerText
+        return LATERAL_FRICATIVE_MANNER_TEXT
     if manner1 == Manner.LATERAL_APPROXIMANT:
-        return lateralApproximant_MannerText
+        return LATERAL_APPROXIMANT_MANNER_TEXT
     if manner1 == Manner.LATERAL_FLAP:
-        return lateralFlap_MannerText
+        return LATERAL_FLAP_MANNER_TEXT
     if manner1 == Manner.LATERAL:
-        return lateral_MannerText
+        return LATERAL_MANNER_TEXT
     return "[Unrecognized manner!]"
 
 
@@ -2849,11 +2849,11 @@ def show_airstream(airstream_1: Airstream) -> str:
     e.g. "pulmonic egressive"
     """
     if airstream_1 == Airstream.PULMONIC_EGRESSIVE:
-        return pulmonicEgressive_AirstreamText
+        return PULMONIC_EGRESSIVE_AIRSTREAM_TEXT
     if airstream_1 == Airstream.CLICK:
-        return click_AirstreamText
+        return CLICK_AIRSTREAM_TEXT
     if airstream_1 == Airstream.IMPLOSIVE:
-        return implosive_AirstreamText
+        return IMPLOSIVE_AIRSTREAM_TEXT
     return "[Unrecognized airstream!]"
 
 
@@ -2863,15 +2863,15 @@ def show_vocal_folds(vocal_folds_1: VocalFolds) -> str:
     e.g. "voiced", "creaky voiced"
     """
     if vocal_folds_1 == VocalFolds.VOICED:
-        return voiced_VocalFoldsText
+        return VOICED_VOCAL_FOLDS_TEXT
     if vocal_folds_1 == VocalFolds.VOICELESS:
-        return voiceless_VocalFoldsText
+        return VOICELESS_VOCAL_FOLDS_TEXT
     if vocal_folds_1 == VocalFolds.VOICED_ASPIRATED:
-        return voicedAspirated_VocalFoldsText
+        return VOICED_ASPIRATED_VOCAL_FOLDS_TEXT
     if vocal_folds_1 == VocalFolds.VOICELESS_ASPIRATED:
-        return voicelessAspirated_VocalFoldsText
+        return VOICELESS_ASPIRATED_VOCAL_FOLDS_TEXT
     if vocal_folds_1 == VocalFolds.CREAKY_VOICED:
-        return creakyVoiced_VocalFoldsText
+        return CREAKY_VOICED_VOCAL_FOLDS_TEXT
     return "[Unrecognized vocal folds!]"
 
 def show_phonet_inventory(inventory: PhonetInventory) -> str:
@@ -2899,51 +2899,51 @@ def show_phoneme_feature(feature: PhonemeFeature) -> str:
     or [delayed release]
     """
     if isinstance(feature, SyllabicFeature):
-        return show_polarity(feature.polarity) + syllabic_PhonemeFeatureText
+        return show_polarity(feature.polarity) + SYLLABIC_PHONEME_FEATURE_TEXT
     if isinstance(feature, ConsonantalFeature):
-        return show_polarity(feature.polarity) + consonantal_PhonemeFeatureText
+        return show_polarity(feature.polarity) + CONSONANTAL_PHONEME_FEATURE_TEXT
     if isinstance(feature, SonorantFeature):
-        return show_polarity(feature.polarity) + sonorant_PhonemeFeatureText
+        return show_polarity(feature.polarity) + SONORANT_PHONEME_FEATURE_TEXT
     if isinstance(feature, ContinuantFeature):
-        return show_polarity(feature.polarity) + continuant_PhonemeFeatureText
+        return show_polarity(feature.polarity) + CONTINUANT_PHONEME_FEATURE_TEXT
     if isinstance(feature, VoiceFeature):
-        return show_polarity(feature.polarity) + voice_PhonemeFeatureText
+        return show_polarity(feature.polarity) + VOICE_PHONEME_FEATURE_TEXT
     if isinstance(feature, AdvancedTongueRootFeature):
-        return show_polarity(feature.polarity) + atr_PhonemeFeatureText
+        return show_polarity(feature.polarity) + ATR_PHONEME_FEATURE_TEXT
     if isinstance(feature, NasalFeature):
-        return nasal_PhonemeFeatureText
+        return NASAL_PHONEME_FEATURE_TEXT
     if isinstance(feature, LateralFeature):
-        return lateral_PhonemeFeatureText
+        return LATERAL_PHONEME_FEATURE_TEXT
     if isinstance(feature, DelayedReleaseFeature):
-        return delayedRelease_PhonemeFeatureText
+        return DELAYED_RELEASE_PHONEME_FEATURE_TEXT
     if isinstance(feature, SpreadGlottisFeature):
-        return spreadGlottis_PhonemeFeatureText
+        return SPREAD_GLOTTIS_PHONEME_FEATURE_TEXT
     if isinstance(feature, ConstrictedGlottisFeature):
-        return constrictedGlottis_PhonemeFeatureText
+        return CONSTRICTED_GLOTTIS_PHONEME_FEATURE_TEXT
     if isinstance(feature, LabialFeature):
-        return labial_PhonemeFeatureText
+        return LABIAL_PHONEME_FEATURE_TEXT
     if isinstance(feature, CoronalFeature):
-        return coronal_PhonemeFeatureText
+        return CORONAL_PHONEME_FEATURE_TEXT
     if isinstance(feature, DorsalFeature):
-        return dorsal_PhonemeFeatureText
+        return DORSAL_PHONEME_FEATURE_TEXT
     if isinstance(feature, PharyngealFeature):
-        return pharyngeal_PhonemeFeatureText
+        return PHARYNGEAL_PHONEME_FEATURE_TEXT
     if isinstance(feature, LaryngealFeature):
-        return laryngeal_PhonemeFeatureText
+        return LARYNGEAL_PHONEME_FEATURE_TEXT
     if isinstance(feature, RoundFeature):
-        return show_polarity(feature.polarity) + round_PhonemeFeatureText
+        return show_polarity(feature.polarity) + ROUND_PHONEME_FEATURE_TEXT
     if isinstance(feature, AnteriorFeature):
-        return show_polarity(feature.polarity) + anterior_PhonemeFeatureText
+        return show_polarity(feature.polarity) + ANTERIOR_PHONEME_FEATURE_TEXT
     if isinstance(feature, DistributedFeature):
-        return show_polarity(feature.polarity) + distributed_PhonemeFeatureText
+        return show_polarity(feature.polarity) + DISTRIBUTED_PHONEME_FEATURE_TEXT
     if isinstance(feature, StridentFeature):
-        return show_polarity(feature.polarity) + strident_PhonemeFeatureText
+        return show_polarity(feature.polarity) + STRIDENT_PHONEME_FEATURE_TEXT
     if isinstance(feature, HighFeature):
-        return show_polarity(feature.polarity) + high_PhonemeFeatureText
+        return show_polarity(feature.polarity) + HIGH_PHONEME_FEATURE_TEXT
     if isinstance(feature, LowFeature):
-        return show_polarity(feature.polarity) + low_PhonemeFeatureText
+        return show_polarity(feature.polarity) + LOW_PHONEME_FEATURE_TEXT
     if isinstance(feature, BackFeature):
-        return show_polarity(feature.polarity) + back_PhonemeFeatureText
+        return show_polarity(feature.polarity) + BACK_PHONEME_FEATURE_TEXT
     return "[Unrecognized phoneme feature!]"
 
 # I added some English vowels. I did not choose any specific dialect.
@@ -2974,5 +2974,5 @@ english_phonet_inventory_report: str = ipa_text_to_phonet_list_report(
 def analyze_transcription_to_sound_patterns_of_english(transcription: str) -> str:
     result = show_features(analyze_features(analyze_transcription(transcription)))
     if result is None:
-        return sorryUnableToCalculate
+        return SORRY_UNABLE_TO_CALCULATE
     return result
