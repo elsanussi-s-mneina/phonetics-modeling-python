@@ -5,7 +5,8 @@ from english_us_text import *
 from lib_functions import (analyze_features, analyze_transcription, construct_transcription,
                            describe_transcription, devoiced_transcription,
                            english_phonet_inventory_report, ipa_text_to_phonet_list_report,
-                           show_features, show_phonet, voiced_transcription
+                           show_features, show_phonet, voiced_transcription,
+                           analyze_transcription_to_sound_patterns_of_english
                            )
 from lib_types import (Phonet)
 
@@ -17,13 +18,6 @@ def put_prompt() -> None:
     some text.
     """
     print(prompt, end="")
-
-
-def analyze_transcription_to_sound_patterns_of_english(transcription: str) -> str:
-    result = show_features(analyze_features(analyze_transcription(transcription)))
-    if result is None:
-        return sorryUnableToCalculate
-    return result
 
 
 def put_blank_line() -> None:

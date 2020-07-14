@@ -2972,3 +2972,10 @@ def show_transcription(inventory: PhonetInventory) -> str:
 
 english_phonet_inventory_report: str = ipa_text_to_phonet_list_report(
     show_transcription(english_phonet_inventory()))
+
+
+def analyze_transcription_to_sound_patterns_of_english(transcription: str) -> str:
+    result = show_features(analyze_features(analyze_transcription(transcription)))
+    if result is None:
+        return sorryUnableToCalculate
+    return result
