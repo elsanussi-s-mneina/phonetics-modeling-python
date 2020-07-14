@@ -1,11 +1,38 @@
-from typing import Callable
-from tkinter import Button, simpledialog, Tk, Frame, StringVar, Label, RAISED, LEFT, E
+"""
+This is the main module.
+This module is where the program begins running.
+It first runs by showing the user text at the terminal.
+First it shows a menu.
+When the user enters the number for a menu item, it does what that menu item says.
 
-from english_us_text import *
-from lib_functions import (analyze_features, analyze_transcription, construct_transcription,
+One of the options is to open a window, so that the user can use the program graphically,
+instead of via text.
+"""
+
+from typing import Callable
+from tkinter import Button, simpledialog, Tk, Frame, StringVar, Label, RAISED, LEFT
+
+from english_us_text import phonemeToDevoiceMessage, phonemeToVoiceMessage, \
+    phonemeToDescribeMessage, phonemeToCalculateSPEMessage, \
+    ipaTextToDivideMessage, showPhonemeInventoryText, \
+    makeAPhonemeVoicedText, describePhonemeText, getFeaturesOfPhonemeText, \
+    splitTranscriptionText, quitText, prompt, pleaseReadReadmeMessage, \
+    programTerminatedNormallyMessage, userSelectedMessage, application_title, \
+    userInput_viewEnglishPhonemeInventory, \
+    userInput_makeAPhonemeUnvoiced, \
+    userInput_describeAPhonemeInEnglish, \
+    userInput_describeAPhonemeInSPE, \
+    userInput_chunkIPAByPhoneme, \
+    userInput_makeAPhonemeVoiced, \
+    userInput_openWindow, \
+    unrecognizedSelectionMessage, \
+    noAnalysisFoundMessage, \
+    menu
+
+from lib_functions import (analyze_transcription, construct_transcription,
                            describe_transcription, devoiced_transcription,
                            english_phonet_inventory_report, ipa_text_to_phonet_list_report,
-                           show_features, show_phonet, voiced_transcription,
+                           show_phonet, voiced_transcription,
                            analyze_transcription_to_sound_patterns_of_english
                            )
 from lib_types import (Phonet)
@@ -193,8 +220,8 @@ def respond_to_selection(selection: str) -> None:
         print(unrecognizedSelectionMessage)
 
 
-def do_analyze_transcription(x: str) -> str:
-    result = show_phonet(analyze_transcription(x))
+def do_analyze_transcription(transcription: str) -> str:
+    result = show_phonet(analyze_transcription(transcription))
     if result is None:
         return noAnalysisFoundMessage
     return result
