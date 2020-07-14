@@ -3,6 +3,8 @@ A module for containing any user facing text in the
 English language.
 """
 
+application_title = "Phonetics Modeling Program"
+
 menu: str = \
     """What do you want to accomplish?
   1) view the English phoneme inventory (as IPA graphemes).

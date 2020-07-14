@@ -169,6 +169,7 @@ def handle_selection(selection: str) -> None:
 
 def open_window():
     root = Tk()
+    root.wm_title(application_title)
     app = Application(master=root)
     app.mainloop()
 
