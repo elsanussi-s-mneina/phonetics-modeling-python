@@ -120,12 +120,13 @@ def equivalent_in_place(place_1: Place, place_2: Place) -> bool:
     if place_1 == Place.EPIGLOTTAL and place_2 == Place.EPIGLOTTAL:
         return True
 
+    if isinstance(place_2, MultiPlace):
+        return place_1 in place_2.places
+
+    if isinstance(place_1, MultiPlace):
+        return equivalent_in_place(place_2, place_1)
+
     return False
-
-
-# x            `equivalent_in_place` Places pList        = x `elem` pList
-# Places x     `equivalent_in_place` y                   = y `equivalent_in_place` Places x
-# _            `equivalent_in_place` _                   = False
 
 
 def retracted_place(place: Place) -> Place:
