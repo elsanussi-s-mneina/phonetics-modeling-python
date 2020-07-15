@@ -156,12 +156,24 @@ class Application(Frame):
     A window where the user can select an action to do,
     and results are shown at the bottom of the window.
     """
+
     def __init__(self, master=None):
         """
         Initialize the main window
         :param master: the root of Tkinter
         """
         super().__init__(master)
+        self.voice_phoneme_button = Button(self)
+        self.devoice_phoneme_button = Button(self)
+        self.describe_phoneme_button = Button(self)
+        self.featurize_phoneme_button = Button(self)
+        self.split_transcription_button = Button(self)
+        self.output_to_user = StringVar()
+        self.output_to_user_label = Label(self, textvariable=self.output_to_user, relief=RAISED,
+                                          width=100, wraplength=1000, justify=LEFT)
+        self.quit = Button(self, text=QUIT_TEXT, fg="red",
+                           command=self.master.destroy)
+        self.show_inventory_button = Button(self)
         self.master = master
         self.pack()
         self.create_widgets()
@@ -170,46 +182,34 @@ class Application(Frame):
         """
         Create widgets that go on the window
         """
-        self.show_inventory_button = Button(self)
         self.show_inventory_button["text"] = SHOW_PHONEME_INVENTORY_TEXT
         self.show_inventory_button["command"] = self.show_english_phoneme_inventory
         self.show_inventory_button.pack(side="top")
 
-        self.voice_phoneme_button = Button(self)
         self.voice_phoneme_button["text"] = MAKE_A_PHONEME_VOICED_TEXT
         self.voice_phoneme_button["command"] = self.prompt_for_phoneme_to_voice
         self.voice_phoneme_button.pack(side="top")
 
-        self.devoice_phoneme_button = Button(self)
         self.devoice_phoneme_button["text"] = makeAPhonemeUnvoicedText
         self.devoice_phoneme_button["command"] = self.prompt_for_phoneme_to_unvoice
         self.devoice_phoneme_button.pack(side="top")
 
-        self.describe_phoneme_button = Button(self)
         self.describe_phoneme_button["text"] = DESCRIBE_PHONEME_TEXT
         self.describe_phoneme_button["command"] = self.prompt_for_phoneme_to_describe
         self.describe_phoneme_button.pack(side="top")
 
-        self.featurize_phoneme_button = Button(self)
         self.featurize_phoneme_button["text"] = GET_FEATURES_OF_PHONEME_TEXT
-        self.featurize_phoneme_button[
-            "command"] = \
+        self.featurize_phoneme_button["command"] = \
             self.prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from
         self.featurize_phoneme_button.pack(side="top")
 
-        self.split_transcription_button = Button(self)
         self.split_transcription_button["text"] = SPLIT_TRANSCRIPTION_TEXT
         self.split_transcription_button["command"] = self.prompt_for_transcription_text_to_split
         self.split_transcription_button.pack(side="top")
-        self.output_to_user = StringVar()
-        self.output_to_user_label = Label(self, textvariable=self.output_to_user, relief=RAISED,
-                                          width=100, wraplength=1000, justify=LEFT)
 
         self.output_to_user.set("")
         self.output_to_user_label.pack(side="top")
 
-        self.quit = Button(self, text=QUIT_TEXT, fg="red",
-                           command=self.master.destroy)
         self.quit.pack(side="right", padx=30)
 
     def show_english_phoneme_inventory(self) -> None:
@@ -302,6 +302,7 @@ def acknowledge_and_respond(selection: str) -> None:
     print(' '.join([USER_SELECTED_MESSAGE, selection]))
     put_blank_line()
     respond_to_selection(selection)
+
 
 def open_window() -> None:
     """

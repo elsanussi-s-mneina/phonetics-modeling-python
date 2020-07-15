@@ -10,7 +10,8 @@ It should not contain any functions other than those
  debugging purposes on the screen.
 """
 from enum import Enum, auto, unique
-from typing import List
+from typing import List, Union
+
 
 class Phonet:
     """
@@ -26,6 +27,8 @@ class Phonet:
     and we might refactor this type out of existence.
     """
 
+    def __init__(self):
+        pass
 
 
 class VocalFolds(Enum):
@@ -40,8 +43,7 @@ class VocalFolds(Enum):
     CREAKY_VOICED = auto()
 
 
-
-class Place:
+class Place(Enum):
     """
     Represents the place where the sound is made.
     That is, where the tongue is positioned.
@@ -63,12 +65,14 @@ class Place:
     LABIAL_VELAR = auto()
     LABIAL_PALATAL = auto()
     ALVEOLOPALATAL = auto()
-    PALATOALVEOLAR = auto() # To do: investigate what the difference
+    PALATOALVEOLAR = auto()  # To do: investigate what the difference
     # is between alveolopalatal, and palatoalveolar
+
 
 class MultiPlace:
     def __init__(self, places: List[Place]):
         self.places = places
+
 
 class Manner(Enum):
     """
@@ -87,7 +91,8 @@ class Manner(Enum):
     LATERAL_FRICATIVE = auto()
     LATERAL_APPROXIMANT = auto()
     LATERAL_FLAP = auto()  # There are very few IPA symbols for lateral flaps
-    LATERAL = auto()       # we need this one for the lateral click.
+    LATERAL = auto()  # we need this one for the lateral click.
+
 
 @unique
 class Airstream(Enum):
@@ -99,12 +104,19 @@ class Airstream(Enum):
     CLICK = auto()
     IMPLOSIVE = auto()
 
+
 class Consonant(Phonet):
     """
     A consonant is a sound.
     Consonants have voicing, place, manner, and an airstream mechanism.
     """
-    def __init__(self, vocal_folds: VocalFolds, place: Place, manner: Manner, airstream: Airstream):
+
+    def __init__(self,
+                 vocal_folds: VocalFolds,
+                 place: Union[Place, MultiPlace],
+                 manner: Manner,
+                 airstream: Airstream):
+        super().__init__()
         self.vocal_folds = vocal_folds
         self.place = place
         self.manner = manner
@@ -122,6 +134,7 @@ class Consonant(Phonet):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+
 @unique
 class Backness(Enum):
     """
@@ -132,6 +145,7 @@ class Backness(Enum):
     FRONT = auto()
     CENTRAL = auto()
     BACK = auto()
+
 
 @unique
 class Height(Enum):
@@ -147,6 +161,7 @@ class Height(Enum):
     NEAR_OPEN = auto()
     OPEN = auto()
 
+
 @unique
 class Rounding(Enum):
     """
@@ -161,11 +176,10 @@ class Vowel(Phonet):
     A vowel is a sound.
     Vowels have a height, backness, rounding, and vocal fold configuration.
     """
-    def __init__(self,
-                 height: Height,
-                 backness: Backness,
-                 rounding: Rounding,
+
+    def __init__(self, height: Height, backness: Backness, rounding: Rounding,
                  vocal_folds: VocalFolds):
+        super().__init__()
         self.height = height
         self.backness = backness
         self.rounding = rounding
@@ -182,14 +196,15 @@ class Vowel(Phonet):
         return not self.__eq__(other)
 
 
-
 class PhonetInventory:
     """
     A collection of phonemes. Usually,
     all the phonemes in a language.
     """
+
     def __init__(self, contents: List[Phonet]):
         self.contents = contents
+
 
 class UnmarkablePhonet:
     """
@@ -203,16 +218,23 @@ class UnmarkablePhonet:
     to represent all possible places of articulation.
     """
 
+    def __init__(self):
+        pass
+
+
 class UnmarkableVocalFolds:
-    pass
+    def __init__(self):
+        pass
+
 
 class UnmarkedVocalFolds(UnmarkableVocalFolds):
     """
     For matching against any vocal fold
     configuration.
     """
+
     def __init__(self):
-        pass
+        super().__init__()
 
     def __eq__(self, other):
         return isinstance(other, UnmarkedVocalFolds)
@@ -220,12 +242,15 @@ class UnmarkedVocalFolds(UnmarkableVocalFolds):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+
 class MarkedVocalFolds(UnmarkableVocalFolds):
     """
     For matching against only one vocal fold
     configuration.
     """
+
     def __init__(self, vocal_fold):
+        super().__init__()
         self.vocal_fold = vocal_fold
 
     def __eq__(self, other):
@@ -239,14 +264,20 @@ class UnmarkablePlace:
     """
     For matching with places of articulation.
     """
+
+    def __init__(self):
+        pass
+
     pass
+
 
 class UnmarkedPlace(UnmarkablePlace):
     """
     For matching with any place of articulation.
     """
+
     def __init__(self):
-        pass
+        super().__init__()
 
     def __eq__(self, other):
         return isinstance(other, UnmarkedPlace)
@@ -254,11 +285,14 @@ class UnmarkedPlace(UnmarkablePlace):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+
 class MarkedPlace(UnmarkablePlace):
     """
     For matching with a specific place of articulation.
     """
+
     def __init__(self, place: Place):
+        super().__init__()
         self.place = place
 
     def __eq__(self, other):
@@ -267,18 +301,25 @@ class MarkedPlace(UnmarkablePlace):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+
 class UnmarkableManner:
     """
     For matching with manners of articulation.
     """
+
+    def __init__(self):
+        pass
+
     pass
+
 
 class UnmarkedManner(UnmarkableManner):
     """
     For matching with any manner of articulation.
     """
+
     def __init__(self):
-        pass
+        super().__init__()
 
     def __eq__(self, other):
         return isinstance(other, UnmarkedManner)
@@ -286,11 +327,14 @@ class UnmarkedManner(UnmarkableManner):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+
 class MarkedManner(UnmarkableManner):
     """
     For matching with a specific manner of articulation.
     """
+
     def __init__(self, manner):
+        super().__init__()
         self.manner = manner
 
     def __eq__(self, other):
@@ -299,18 +343,25 @@ class MarkedManner(UnmarkableManner):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+
 class UnmarkableAirstream:
     """
     For matching with airstream mechanisms.
     """
+
+    def __init__(self):
+        pass
+
     pass
+
 
 class UnmarkedAirstream(UnmarkableAirstream):
     """
     For matching with any airstream mechanism.
     """
+
     def __init__(self):
-        pass
+        super().__init__()
 
     def __eq__(self, other):
         return isinstance(other, UnmarkedAirstream)
@@ -323,7 +374,9 @@ class MarkedAirstream(UnmarkableAirstream):
     """
     For matching with a specific airstream mechanism.
     """
+
     def __init__(self, airstream):
+        super().__init__()
         self.airstream = airstream
 
     def __eq__(self, other):
@@ -332,41 +385,48 @@ class MarkedAirstream(UnmarkableAirstream):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+
 class UnmarkableConsonant(UnmarkablePhonet):
     """
     For matching with consonants.
     """
-    def __init__(self,
-                 vocal_folds: UnmarkableVocalFolds,
-                 place: UnmarkablePlace,
-                 manner: UnmarkableManner,
-                 airstream: UnmarkableAirstream):
+
+    def __init__(self, vocal_folds: UnmarkableVocalFolds, place: UnmarkablePlace,
+                 manner: UnmarkableManner, airstream: UnmarkableAirstream):
+        super().__init__()
         self.vocal_folds = vocal_folds
         self.place = place
         self.manner = manner
         self.airstream = airstream
 
 
-
 class UnmarkableBackness:
     """
     For matching with kinds of backness
     """
+
+    def __init__(self):
+        pass
+
     pass
+
 
 class UnmarkedBackness(UnmarkableBackness):
     """
     For matching with any kind of backness.
     """
+
     def __init__(self):
-        pass
+        super().__init__()
 
 
 class MarkedBackness(UnmarkableBackness):
     """
     For matching with a particular kind of backness.
     """
+
     def __init__(self, backness: Backness):
+        super().__init__()
         self.backness = backness
 
     def __eq__(self, other):
@@ -375,18 +435,25 @@ class MarkedBackness(UnmarkableBackness):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+
 class UnmarkableHeight:
     """
     For matching with kinds of height.
     """
+
+    def __init__(self):
+        pass
+
     pass
+
 
 class UnmarkedHeight(UnmarkableHeight):
     """
     For matching with any kind of height.
     """
+
     def __init__(self):
-        pass
+        super().__init__()
 
     def __eq__(self, other):
         return isinstance(other, UnmarkedHeight)
@@ -394,11 +461,14 @@ class UnmarkedHeight(UnmarkableHeight):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+
 class MarkedHeight(UnmarkableHeight):
     """
     For matching with a specific kind of height.
     """
+
     def __init__(self, height: Height):
+        super().__init__()
         self.height = height
 
     def __eq__(self, other):
@@ -408,18 +478,24 @@ class MarkedHeight(UnmarkableHeight):
         return not self.__eq__(other)
 
 
-class UnmarkableRounding():
+class UnmarkableRounding:
     """
     For matching with kinds of lip rounding.
     """
+
+    def __init__(self):
+        pass
+
     pass
+
 
 class UnmarkedRounding(UnmarkableRounding):
     """
     For matching with all kinds of lip rounding.
     """
+
     def __init__(self):
-        pass
+        super().__init__()
 
     def __eq__(self, other):
         return isinstance(other, UnmarkedRounding)
@@ -427,11 +503,14 @@ class UnmarkedRounding(UnmarkableRounding):
     def __ne__(self, other):
         return self.__eq__(other)
 
+
 class MarkedRounding(UnmarkableRounding):
     """
     For matching with a specific kind of lip rounding.
     """
+
     def __init__(self, rounding: Rounding):
+        super().__init__()
         self.rounding = rounding
 
     def __eq__(self, other):
@@ -441,20 +520,19 @@ class MarkedRounding(UnmarkableRounding):
         return self.__eq__(other)
 
 
-
 class UnmarkableVowel(UnmarkablePhonet):
     """
     For matching with vowels.
     """
-    def __init__(self,
-                 height: UnmarkableHeight,
-                 backness: UnmarkableBackness,
-                 rounding: UnmarkableRounding,
-                 vocal_folds: UnmarkableVocalFolds):
+
+    def __init__(self, height: UnmarkableHeight, backness: UnmarkableBackness,
+                 rounding: UnmarkableRounding, vocal_folds: UnmarkableVocalFolds):
+        super().__init__()
         self.height = height
         self.backness = backness
         self.rounding = rounding
         self.vocal_folds = vocal_folds
+
 
 @unique
 class Polarity(Enum):
@@ -465,7 +543,6 @@ class Polarity(Enum):
     """
     PLUS = auto()
     MINUS = auto()
-
 
 
 class PhonemeFeature:
@@ -518,74 +595,99 @@ class PhonemeFeature:
     vs French). This is not implemented here.
     """
 
+    def __init__(self):
+        pass
+
+
 class SyllabicFeature(PhonemeFeature):
     def __init__(self, polarity: Polarity):
+        super().__init__()
         self.polarity = polarity
+
 
 class ConsonantalFeature(PhonemeFeature):
     def __init__(self, polarity: Polarity):
+        super().__init__()
         self.polarity = polarity
+
 
 class SonorantFeature(PhonemeFeature):
     def __init__(self, polarity: Polarity):
+        super().__init__()
         self.polarity = polarity
+
 
 class ContinuantFeature(PhonemeFeature):
     def __init__(self, polarity: Polarity):
+        super().__init__()
         self.polarity = polarity
+
 
 class VoiceFeature(PhonemeFeature):
     def __init__(self, polarity: Polarity):
+        super().__init__()
         self.polarity = polarity
+
 
 class AdvancedTongueRootFeature(PhonemeFeature):
     def __init__(self, polarity: Polarity):
+        super().__init__()
         self.polarity = polarity
+
 
 class NasalFeature(PhonemeFeature):
     def __init__(self):
-        pass
+        super().__init__()
+
 
 class LateralFeature(PhonemeFeature):
     def __init__(self):
-        pass
-
+        super().__init__()
 
 
 class DelayedReleaseFeature(PhonemeFeature):
     def __init__(self):
-        pass
+        super().__init__()
+
 
 class SpreadGlottisFeature(PhonemeFeature):
     def __init__(self):
-        pass
+        super().__init__()
+
 
 class ConstrictedGlottisFeature(PhonemeFeature):
     def __init__(self):
-        pass
+        super().__init__()
+
 
 class LabialFeature(PhonemeFeature):
     def __init__(self):
-        pass
+        super().__init__()
+
 
 class CoronalFeature(PhonemeFeature):
     def __init__(self):
-        pass
+        super().__init__()
+
 
 class DorsalFeature(PhonemeFeature):
     def __init__(self):
-        pass
+        super().__init__()
+
 
 class PharyngealFeature(PhonemeFeature):
     def __init__(self):
-        pass
+        super().__init__()
+
 
 class LaryngealFeature(PhonemeFeature):
     def __init__(self):
-        pass
+        super().__init__()
+
 
 class RoundFeature(PhonemeFeature):
     def __init__(self, polarity: Polarity):
+        super().__init__()
         self.polarity = polarity
 
     def __eq__(self, other):
@@ -593,9 +695,11 @@ class RoundFeature(PhonemeFeature):
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
 
 class AnteriorFeature(PhonemeFeature):
     def __init__(self, polarity: Polarity):
+        super().__init__()
         self.polarity = polarity
 
     def __eq__(self, other):
@@ -603,9 +707,11 @@ class AnteriorFeature(PhonemeFeature):
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
 
 class DistributedFeature(PhonemeFeature):
     def __init__(self, polarity: Polarity):
+        super().__init__()
         self.polarity = polarity
 
     def __eq__(self, other):
@@ -613,9 +719,11 @@ class DistributedFeature(PhonemeFeature):
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
 
 class StridentFeature(PhonemeFeature):
     def __init__(self, polarity: Polarity):
+        super().__init__()
         self.polarity = polarity
 
     def __eq__(self, other):
@@ -623,9 +731,11 @@ class StridentFeature(PhonemeFeature):
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
 
 class HighFeature(PhonemeFeature):
     def __init__(self, polarity: Polarity):
+        super().__init__()
         self.polarity = polarity
 
     def __eq__(self, other):
@@ -633,9 +743,11 @@ class HighFeature(PhonemeFeature):
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
 
 class LowFeature(PhonemeFeature):
     def __init__(self, polarity: Polarity):
+        super().__init__()
         self.polarity = polarity
 
     def __eq__(self, other):
@@ -644,8 +756,10 @@ class LowFeature(PhonemeFeature):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+
 class BackFeature(PhonemeFeature):
     def __init__(self, polarity: Polarity):
+        super().__init__()
         self.polarity = polarity
 
     def __eq__(self, other):

@@ -3,9 +3,8 @@ Functions for manipulating phonemes, represented in international phonetic alpha
 as Sound Patterns of English features.
 """
 
-from typing import Callable, List, Optional, Tuple
+from typing import Callable, List, Optional, Tuple, Iterator
 from functools import partial
-
 
 from lib_types import (Phonet, Height, Backness, Rounding, VocalFolds, AdvancedTongueRootFeature,
                        Polarity, Vowel, Consonant, Place, Manner, Airstream, PhonemeFeature,
@@ -17,7 +16,7 @@ from lib_types import (Phonet, Height, Backness, Rounding, VocalFolds, AdvancedT
                        RoundFeature, AnteriorFeature, DistributedFeature, StridentFeature,
                        HighFeature,
                        LowFeature, BackFeature, PhonetInventory
-                      )
+                       )
 
 from english_us_text import (BACK_PHONEME_FEATURE_TEXT,
                              LOW_PHONEME_FEATURE_TEXT, HIGH_PHONEME_FEATURE_TEXT,
@@ -26,13 +25,15 @@ from english_us_text import (BACK_PHONEME_FEATURE_TEXT,
                              LARYNGEAL_PHONEME_FEATURE_TEXT, PHARYNGEAL_PHONEME_FEATURE_TEXT,
                              DORSAL_PHONEME_FEATURE_TEXT, CORONAL_PHONEME_FEATURE_TEXT,
                              LABIAL_PHONEME_FEATURE_TEXT, CONSTRICTED_GLOTTIS_PHONEME_FEATURE_TEXT,
-                             SPREAD_GLOTTIS_PHONEME_FEATURE_TEXT, DELAYED_RELEASE_PHONEME_FEATURE_TEXT,
+                             SPREAD_GLOTTIS_PHONEME_FEATURE_TEXT,
+                             DELAYED_RELEASE_PHONEME_FEATURE_TEXT,
                              LATERAL_PHONEME_FEATURE_TEXT, NASAL_PHONEME_FEATURE_TEXT,
                              ATR_PHONEME_FEATURE_TEXT, VOICE_PHONEME_FEATURE_TEXT,
                              CONTINUANT_PHONEME_FEATURE_TEXT, SONORANT_PHONEME_FEATURE_TEXT,
                              CONSONANTAL_PHONEME_FEATURE_TEXT, SYLLABIC_PHONEME_FEATURE_TEXT,
                              PLOSIVE_MANNER_TEXT, NASAL_MANNER_TEXT, TRILL_MANNER_TEXT,
-                             TAP_OR_FLAP_MANNER_TEXT, APPROXIMANT_MANNER_TEXT, FRICATIVE_MANNER_TEXT,
+                             TAP_OR_FLAP_MANNER_TEXT, APPROXIMANT_MANNER_TEXT,
+                             FRICATIVE_MANNER_TEXT,
                              AFFRICATE_MANNER_TEXT, LATERAL_FRICATIVE_MANNER_TEXT,
                              LATERAL_APPROXIMANT_MANNER_TEXT,
                              LATERAL_FLAP_MANNER_TEXT, LATERAL_MANNER_TEXT,
@@ -55,7 +56,6 @@ from english_us_text import (BACK_PHONEME_FEATURE_TEXT,
                              SORRY_UNABLE_TO_CALCULATE)
 
 
-
 def ipa_text_to_phonet_list_report(text: str) -> str:
     """
     Given text containing international phonetic alphabet symbols
@@ -65,6 +65,7 @@ def ipa_text_to_phonet_list_report(text: str) -> str:
     """
     phonet_list = ipa_text_to_phonet_list(text)
     return '\n'.join(map(ipa_and_phonet_format, phonet_list))
+
 
 def ipa_and_phonet_format(
         transcription_and_phonet: Tuple[str, Optional[Phonet]]) -> str:
@@ -119,7 +120,6 @@ def equivalent_in_place(place_1: Place, place_2: Place) -> bool:
     if place_1 == Place.EPIGLOTTAL and place_2 == Place.EPIGLOTTAL:
         return True
 
-
     return False
 
 
@@ -159,12 +159,12 @@ def retracted_place(place: Place) -> Place:
     return place
 
 
-
 def english_description(phone: Phonet) -> str:
     """
     Gives the English description of a phone.
     """
     return show_phonet(phone)
+
 
 def split_by_phonetes(some_text: str) -> List[str]:
     """
@@ -176,14 +176,17 @@ def split_by_phonetes(some_text: str) -> List[str]:
     """
     return parse_start(some_text)
 
+
 def parse_start(some_text: str) -> List[str]:
     return split_by_phonetes_prepostdiacrtic(some_text)
+
 
 def split_by_phonetes_prediacritic(text: str) -> List[str]:
     result: Optional[Tuple[str, str]] = prediacritic_parser_function(text)
     if result is None:
         return split_by_phonetes_postdiacrtic(text)
     return [result[0]] + parse_start(result[1])
+
 
 def split_by_phonetes_prepostdiacrtic(text: str) -> List[str]:
     """
@@ -200,7 +203,6 @@ def split_by_phonetes_prepostdiacrtic(text: str) -> List[str]:
     return [chunk] + parse_start(rest)
 
 
-
 def split_by_phonetes_postdiacrtic(text: str) -> List[str]:
     result: Optional[Tuple[str, str]] = postdiacritic_parser_function(text)
 
@@ -210,24 +212,27 @@ def split_by_phonetes_postdiacrtic(text: str) -> List[str]:
     (chunk, rest) = result
     return [chunk] + parse_start(rest)
 
+
 def split_by_phonetes_nondiacrtic(text: str) -> List[str]:
     result: Optional[Tuple[str, str]] = nondiacritic_parser_function(text)
     if result is None:
-        return [text] # stop parsing!
+        return [text]  # stop parsing!
 
     (chunk, rest) = result
     return [chunk] + parse_start(rest)
 
+
 def nondiacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
     if len(text) > 0 and is_segmental(text[0]):
         if is_tie_bar_at(1, text):
-            return (text[:3], text[3:])
-        return (text[:1], text[1:])
+            return text[:3], text[3:]
+        return text[:1], text[1:]
     return None
 
 
 def is_consonant_at(index: int, some_text: str) -> bool:
     return is_such_at(is_consonant, index, some_text)
+
 
 def is_consonant(a_char: str) -> bool:
     """
@@ -237,12 +242,14 @@ def is_consonant(a_char: str) -> bool:
     """
     return elem_w(consonants)(a_char)
 
+
 def is_segmental_at(index: int, some_text: str) -> bool:
     """
     Whether a character in some text, at a specific place
     within the text is a "segmental" (i.e. not a diacritic or modifier).
     """
     return is_such_at(is_segmental, index, some_text)
+
 
 def is_segmental(a_char: str) -> bool:
     """
@@ -254,14 +261,18 @@ def is_segmental(a_char: str) -> bool:
     """
     return elem_w(strict_segmentals)(a_char)
 
+
 def is_exponential_after_at(index: int, some_text: str) -> bool:
     return is_such_at(is_exponential_after, index, some_text)
+
 
 def is_tie_bar_at(index: int, some_text: str) -> bool:
     return is_such_at(is_tie_bar, index, some_text)
 
+
 def is_such_at(func: Callable[[str], bool], index: int, text: str) -> bool:
     return index < len(text) and func(text[index])
+
 
 def is_exponential_after(a_char: str) -> bool:
     """
@@ -275,10 +286,12 @@ def is_exponential_after(a_char: str) -> bool:
     """
     return elem_w(exponentials_after)(a_char)
 
+
 def is_exponential_before(a_char: str) -> bool:
     """
     """
     return elem_w(exponentials_before)(a_char)
+
 
 def is_tie_bar(a_character: str) -> bool:
     """
@@ -287,6 +300,7 @@ def is_tie_bar(a_character: str) -> bool:
     usually used to indicate an affricate, or double-articulation.
     """
     return a_character in ['͜', '͡']
+
 
 def elem_w(string_list: List[str]) -> Callable[[str], bool]:
     """
@@ -310,9 +324,10 @@ def prediacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
     if (not len(text) == 0 and is_exponential_before(text[0])
             and is_segmental_at(1, text)):
         if is_tie_bar_at(2, text):
-            return (text[:4], text[4:]) # include tie bar and character after it.
-        return (text[:2], text[2:])
+            return text[:4], text[4:]  # include tie bar and character after it.
+        return text[:2], text[2:]
     return None
+
 
 def prepostdiacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
     preresult: Optional[Tuple[str, str]] = prediacritic_parser_function(text)
@@ -327,19 +342,21 @@ def prepostdiacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
         if postresult is None:
             return None
         (postpart, rest) = postresult
-        return (prepart + postpart[1:], rest)
+        return prepart + postpart[1:], rest
     return None
+
 
 def postdiacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
     if is_segmental_at(0, text) and is_exponential_after_at(1, text):
         number_of_postdiacritics: int = count_post_diacritics_in_a_row(text, 1)
         chunk_length: int = number_of_postdiacritics + 1
-        return (text[:chunk_length], text[chunk_length:])
+        return text[:chunk_length], text[chunk_length:]
     if is_segmental_at(0, text) and is_tie_bar_at(1, text) and is_exponential_after_at(2, text):
         number_of_postdiacritics: int = count_post_diacritics_in_a_row(text, 3)
-        chunk_length: int = number_of_postdiacritics  + 3
-        return (text[:chunk_length], text[chunk_length:])
+        chunk_length: int = number_of_postdiacritics + 3
+        return text[:chunk_length], text[chunk_length:]
     return None
+
 
 def count_post_diacritics_in_a_row(some_text: str, start_index: int) -> int:
     """
@@ -351,8 +368,7 @@ def count_post_diacritics_in_a_row(some_text: str, start_index: int) -> int:
     return 0
 
 
-
-def voiced_phonet(phone: Phonet) -> Phonet:
+def voiced_phonet(phone: Phonet) -> Optional[Phonet]:
     """
     A function that given an IPA symbol will convert it to the voiced
     equivalent.
@@ -373,7 +389,8 @@ def voiced_phonet(phone: Phonet) -> Phonet:
         backness = phone.backness
         rounding = phone.rounding
         return Vowel(height, backness, rounding, VocalFolds.VOICED)
-    return 'Unrecognized kind of Phonet could not be handled!'
+    return None
+
 
 def devoiced_phonet(phone: Phonet) -> Phonet:
     """
@@ -401,6 +418,7 @@ def devoiced_phonet(phone: Phonet) -> Phonet:
         return Vowel(height, backness, rounding, VocalFolds.VOICELESS)
     return phone
 
+
 def spirantized_phonet(phone: Phonet) -> Phonet:
     """
     The following is inelegant, but there is no other way in the system,
@@ -418,6 +436,7 @@ def spirantized_phonet(phone: Phonet) -> Phonet:
         place = phone.place
         return Consonant(vocal_folds, place, Manner.FRICATIVE, airstream)
     return phone
+
 
 """ #TODO: Implement later
 def unmarkDifferences(phone₁: Phonet, phone₂: Phonet) -> UnmarkablePhonet:
@@ -549,7 +568,6 @@ similarInRounding rounding₁ =
 """
 
 
-
 def impossible(phone: Phonet) -> bool:
     """
     The following function returns whether an articulation is
@@ -570,7 +588,7 @@ def impossible(phone: Phonet) -> bool:
             and phone.place == Place.GLOTTAL
             and phone.manner == Manner.PLOSIVE
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
-        return False # [ʔ] is not impossible.
+        return False  # [ʔ] is not impossible.
     if (isinstance(phone, Consonant)
             and phone.place == Place.GLOTTAL
             and phone.manner == Manner.FRICATIVE
@@ -579,7 +597,7 @@ def impossible(phone: Phonet) -> bool:
     if (isinstance(phone, Consonant)
             and phone.place == Place.GLOTTAL
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
-        return True   # all other pulmonary egressive consonants are impossible..
+        return True  # all other pulmonary egressive consonants are impossible..
     if (isinstance(phone, Consonant)
             and phone.place == Place.PHARYNGEAL
             and phone.manner == Manner.NASAL
@@ -625,7 +643,7 @@ def impossible(phone: Phonet) -> bool:
             and phone.manner == Manner.LATERAL_APPROXIMANT
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
-    return False # Everything else is assumed to be possible.
+    return False  # Everything else is assumed to be possible.
 
 
 def english_phonet_inventory() -> PhonetInventory:
@@ -693,85 +711,80 @@ def english_phonet_inventory() -> PhonetInventory:
             Consonant(VocalFolds.VOICED, Place.LABIAL_VELAR, Manner.APPROXIMANT,
                       Airstream.PULMONIC_EGRESSIVE),
 
-
-
-            Vowel(Height.CLOSE, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED), # "i"
-            Vowel(Height.CLOSE, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED), # "u"
+            Vowel(Height.CLOSE, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED),  # "i"
+            Vowel(Height.CLOSE, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED),  # "u"
 
             # Near-close Vowels:
-            Vowel(Height.NEAR_CLOSE, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED), # "ɪ"
-            Vowel(Height.NEAR_CLOSE, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED), #  "ʊ"
+            Vowel(Height.NEAR_CLOSE, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED),  # "ɪ"
+            Vowel(Height.NEAR_CLOSE, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED),  # "ʊ"
 
             # Close-mid Vowels:
-            Vowel(Height.CLOSE_MID, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED), # "e"
-            Vowel(Height.CLOSE_MID, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED), # "o"
+            Vowel(Height.CLOSE_MID, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED),  # "e"
+            Vowel(Height.CLOSE_MID, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED),  # "o"
 
             # Mid Vowels:
-            Vowel(Height.MID, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED), # "ə"
-
+            Vowel(Height.MID, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED),  # "ə"
 
             # Open-mid Vowels:
-            Vowel(Height.OPEN_MID, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED), # "ɛ"
-            Vowel(Height.OPEN_MID, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED), # "ɜ"
-            Vowel(Height.OPEN_MID, Backness.BACK, Rounding.UNROUNDED, VocalFolds.VOICED), #  "ʌ"
-            Vowel(Height.OPEN_MID, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED), # "ɔ"
+            Vowel(Height.OPEN_MID, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED),  # "ɛ"
+            Vowel(Height.OPEN_MID, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED),  # "ɜ"
+            Vowel(Height.OPEN_MID, Backness.BACK, Rounding.UNROUNDED, VocalFolds.VOICED),  # "ʌ"
+            Vowel(Height.OPEN_MID, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED),  # "ɔ"
 
             # Near-open
-            Vowel(Height.NEAR_OPEN, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED), # "æ"
-            Vowel(Height.NEAR_OPEN, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED), # "ɐ"
+            Vowel(Height.NEAR_OPEN, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED),  # "æ"
+            Vowel(Height.NEAR_OPEN, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED),  # "ɐ"
 
             # Open Vowels:
-            Vowel(Height.OPEN, Backness.BACK, Rounding.UNROUNDED, VocalFolds.VOICED), # "ɑ"
-            Vowel(Height.OPEN, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED) # "ɒ"
+            Vowel(Height.OPEN, Backness.BACK, Rounding.UNROUNDED, VocalFolds.VOICED),  # "ɑ"
+            Vowel(Height.OPEN, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED)  # "ɒ"
         ]
     )
 
 
 exponentials_before: List[str] = ["ⁿ"]
 
+diacritics_and_suprasegmentals: List[str] = \
+    ["̥",
+     "̊",
+     "̤",
 
-diacritics_and_suprasegmentals: List[str] =   \
-  ["̥"   \
-  , "̊"   \
-  , "̤"   \
-          \
-  , "̬"   \
-  , "̰"   \
-  , "̺"   \
-          \
-  , "ʰ"   \
-  , "̼"   \
-  , "̻"   \
-          \
-  , "̹"   \
-  , "ʷ"   \
-  , "̃"   \
-          \
-  , "̜"   \
-  , "ʲ"  \
-  , "ⁿ"  \
-  , "̟"  \
-  , "ˠ"  \
-  , "ˡ"  \
-  , "̠"  \
-  , "ˤ"  \
-  , "̚"  \
-  , "̈"  \
-  , "̽"  \
-  , "̝"  \
-  , "̩"  \
-  , "̞"  \
-  , "̯"  \
-  , "̘"  \
-  , "˞"  \
-  , "̙"  \
-  , "ʼ"  \
-  , "̍"  \
-  , "̪"  \
-  , "̣"  \
-  , "̇"  \
-  ]
+     "̬",
+     "̰",
+     "̺",
 
+     "ʰ",
+     "̼",
+     "̻",
+
+     "̹",
+     "ʷ",
+     "̃",
+
+     "̜",
+     "ʲ",
+     "ⁿ",
+     "̟",
+     "ˠ",
+     "ˡ",
+     "̠",
+     "ˤ",
+     "̚",
+     "̈",
+     "̽",
+     "̝",
+     "̩",
+     "̞",
+     "̯",
+     "̘",
+     "˞",
+     "̙",
+     "ʼ",
+     "̍",
+     "̪",
+     "̣",
+     "̇"
+     ]
 
 exponentials_after: List[str] = diacritics_and_suprasegmentals + ["ː", "ˑ"]
 
@@ -780,7 +793,6 @@ exponentials_after: List[str] = diacritics_and_suprasegmentals + ["ː", "ˑ"]
 # look similar to mathematical notation for exponentials.
 # Really, they should be named something different.
 exponentials: List[str] = exponentials_before + exponentials_after
-
 
 
 def is_exponential(character: str) -> bool:
@@ -792,6 +804,7 @@ def is_exponential(character: str) -> bool:
     """
     return character in exponentials
 
+
 def is_diacritic_above(some_text: str) -> bool:
     """
     Whether a diacritic goes above
@@ -801,6 +814,7 @@ def is_diacritic_above(some_text: str) -> bool:
         return True
     return False
 
+
 def is_diacritic_below(some_text: str) -> bool:
     """
     Whether a diacritic goes below
@@ -809,6 +823,7 @@ def is_diacritic_below(some_text: str) -> bool:
     if some_text == "̥":
         return True
     return False
+
 
 def lower_diacritic(some_text: str) -> str:
     """
@@ -834,7 +849,6 @@ def raise_diacritic(some_diacritic: str) -> str:
     return some_diacritic
 
 
-
 # Whether a character (but not a diacritic)
 # takes up space
 # below the imaginary horizontal line
@@ -844,18 +858,20 @@ def raise_diacritic(some_diacritic: str) -> str:
 # where to put diacritics so that
 # they are readable.
 
-ascenders: List[str] =     \
-  ["b", "t", "d", "k", "ʔ", "f", "θ", "ð", "ħ", "ʕ", "h", "ɦ", "ɬ", "l", "ʎ",
-   "ʘ", "ɓ", "ǀ", "ɗ", "ǃ", "ǂ", "ɠ", "ʄ", "ǁ", "ʛ", "ɺ", "ʢ", "ʡ", "ɤ", "ʈ", "ɖ",
-   "ɸ", "β", "ʃ", "ɮ", "ɭ", "ɧ"]
+ascenders: List[str] = \
+    ["b", "t", "d", "k", "ʔ", "f", "θ", "ð", "ħ", "ʕ", "h", "ɦ", "ɬ", "l", "ʎ",
+     "ʘ", "ɓ", "ǀ", "ɗ", "ǃ", "ǂ", "ɠ", "ʄ", "ǁ", "ʛ", "ɺ", "ʢ", "ʡ", "ɤ", "ʈ", "ɖ",
+     "ɸ", "β", "ʃ", "ɮ", "ɭ", "ɧ"]
 
 
 def is_ascender(character: str) -> bool:
     return character in ascenders
 
-descenders: List[str] =      \
-  ["p", "ɟ", "g", "q", "ɱ", "ɽ", "ʒ", "ʂ", "ʐ", "ç", "ʝ", "ɣ", "χ", "ɻ", "j",
-   "ɰ", "ɥ", "y", "ɳ", "ɲ", "ʈ", "ɖ", "ɸ", "β", "ʃ", "ɮ", "ɭ", "ɧ"]
+
+descenders: List[str] = \
+    ["p", "ɟ", "g", "q", "ɱ", "ɽ", "ʒ", "ʂ", "ʐ", "ç", "ʝ", "ɣ", "χ", "ɻ", "j",
+     "ɰ", "ɥ", "y", "ɳ", "ɲ", "ʈ", "ɖ", "ɸ", "β", "ʃ", "ɮ", "ɭ", "ɧ"]
+
 
 def is_descender(character: str) -> bool:
     """
@@ -869,7 +885,6 @@ def is_descender(character: str) -> bool:
     they are readable.
     """
     return character in descenders
-
 
 
 def prevent_prohibitied_combination(some_text: str) -> str:
@@ -898,16 +913,11 @@ def prevent_prohibitied_combination(some_text: str) -> str:
     return some_text
 
 
-
-
-
-
-
-plosivePulmonic: List[str] =                                           \
-                             ["p", "b", "t", "d"    \
-                             , "ʈ", "ɖ", "c", "ɟ", "k", "g", "q", "ɢ"    \
-                             , "ʔ"                                       \
-                             ]
+plosivePulmonic: List[str] = \
+    ["p", "b", "t", "d",
+     "ʈ", "ɖ", "c", "ɟ", "k", "g", "q", "ɢ",
+     "ʔ"
+     ]
 
 nasalPulmonic: List[str] = ["m", "ɱ", "n", "ɳ", "ɲ", "ŋ", "ɴ"]
 
@@ -915,12 +925,12 @@ trillPulmonic: List[str] = ["ʙ", "r", "ʀ"]
 
 tapOrFlapPulmonic: List[str] = ["ⱱ", "ɾ", "ɽ"]
 
-fricativePulmonic: List[str]                          \
-  =                                                     \
-  ["ɸ", "β", "f", "v", "θ", "ð", "s", "z", "ʃ", "ʒ"    \
-  , "ʂ", "ʐ", "ç", "ʝ", "x", "ɣ", "χ", "ʁ", "ħ", "ʕ"    \
-  , "h", "ɦ"                                            \
-  ]
+fricativePulmonic: List[str] \
+    = \
+    ["ɸ", "β", "f", "v", "θ", "ð", "s", "z", "ʃ", "ʒ",
+     "ʂ", "ʐ", "ç", "ʝ", "x", "ɣ", "χ", "ʁ", "ħ", "ʕ",
+     "h", "ɦ"
+     ]
 
 lateral_fricative_pulmonic: List[str] = ["ɬ", "ɮ"]
 
@@ -928,96 +938,83 @@ approximant_pulmonic: List[str] = ["ʋ", "ɹ", "ɻ", "j", "ɰ"]
 
 lateral_approximant_pulmonic: List[str] = ["l", "ɭ", "ʎ", "ʟ"]
 
-
 # CONSONANTS (PULMONIC)
-consonants_pulmonic: List[str]   \
-   = plosivePulmonic             \
-   + nasalPulmonic               \
-   + trillPulmonic               \
-   + tapOrFlapPulmonic           \
-   + fricativePulmonic           \
-   + lateral_fricative_pulmonic  \
-   + approximant_pulmonic        \
-   + lateral_approximant_pulmonic
-
-
-
+consonants_pulmonic: List[str] \
+    = plosivePulmonic \
+    + nasalPulmonic \
+    + trillPulmonic \
+    + tapOrFlapPulmonic \
+    + fricativePulmonic \
+    + lateral_fricative_pulmonic \
+    + approximant_pulmonic \
+    + lateral_approximant_pulmonic
 
 consonants_nonpulmonic: List[str] = \
- ["ʘ", "ɓ"                          \
- , "ǀ"                              \
- , "ɗ"                              \
- , "ǃ"                              \
- , "ʄ"                              \
- , "ǂ", "ɠ"                         \
- , "ǁ", "ʛ"                         \
- ]
-
-
+    ["ʘ", "ɓ",
+     "ǀ",
+     "ɗ",
+     "ǃ",
+     "ʄ",
+     "ǂ", "ɠ",
+     "ǁ", "ʛ"
+     ]
 
 other_symbols: List[str] = \
-  ["ʍ", "ɕ"                \
-  , "w", "ʑ"               \
-  , "ɥ", "ɺ"               \
-  , "ʜ", "ɧ"               \
-  , "ʢ"                    \
-  , "ʡ"                    \
-  ]
+    ["ʍ", "ɕ",
+     "w", "ʑ",
+     "ɥ", "ɺ",
+     "ʜ", "ɧ",
+     "ʢ",
+     "ʡ",
+     ]
 
-
-vowels: List[str] =              \
-  ["i", "y", "ɨ", "ʉ", "ɯ", "u", \
-   "ɪ", "ʏ", "ʊ",                \
-   "e", "ø", "ɘ", "ɵ", "ɤ", "o", \
-   "ə",                          \
-   "ɛ", "œ", "ɜ", "ɞ", "ʌ", "ɔ", \
-   "æ", "ɐ",                     \
-   "a", "ɶ", "ɑ", "ɒ"            \
-  ]
+vowels: List[str] = \
+    ["i", "y", "ɨ", "ʉ", "ɯ", "u",
+     "ɪ", "ʏ", "ʊ",
+     "e", "ø", "ɘ", "ɵ", "ɤ", "o",
+     "ə",
+     "ɛ", "œ", "ɜ", "ɞ", "ʌ", "ɔ",
+     "æ", "ɐ",
+     "a", "ɶ", "ɑ", "ɒ"
+     ]
 
 suprasegmentals: List[str] = \
-  ["ˈ"  \
-  , "ˌ" \
-  , "ː" \
-  , "ˑ" \
-        \
-  , "̆"  \
-  , "|" \
-  , "‖" \
-  , "." \
-  , "‿" \
-  ]
-
+    ["ˈ",
+     "ˌ",
+     "ː",
+     "ˑ",
+     "̆",
+     "|",
+     "‖",
+     ".",
+     "‿",
+     ]
 
 tone_and_word_accents: List[str] = \
-  ["˥", "̋"  \
-  , "˦", "́"  \
-  , "˧", "̄"  \
-  , "˨", "̀"  \
-  , "˩", "̏"  \
-  , "ꜜ"  \
-  , "ꜛ"  \
-              \
-  , "̌"        \
-  , "̂"        \
-  , "᷄"        \
-  , "᷅"        \
-  , "᷈"        \
-  , "↗"        \
-  , "↘"        \
-  ]
+    ["˥", "̋",
+     "˦", "́",
+     "˧", "̄",
+     "˨", "̀",
+     "˩", "̏",
+     "ꜜ",
+     "ꜛ",
+     "̌",
+     "̂",
+     "᷄",
+     "᷅",
+     "᷈",
+     "↗",
+     "↘"
+     ]
 
-
-
-
-graphemes_of_ipa: List[str] =       \
-  consonants_pulmonic               \
-  + consonants_nonpulmonic          \
-  + other_symbols                   \
-  + vowels                          \
-  + suprasegmentals                 \
-  + tone_and_word_accents           \
-  + diacritics_and_suprasegmentals
+graphemes_of_ipa: List[str] = \
+    consonants_pulmonic \
+    + consonants_nonpulmonic \
+    + other_symbols \
+    + vowels \
+    + suprasegmentals \
+    + tone_and_word_accents \
+    + diacritics_and_suprasegmentals
 # See:
 # www.internationalphoneticassociation.org/sites/default/files/IPA_Kiel_2015.pdf
 # For the source of this information..
@@ -1028,9 +1025,6 @@ consonants: List[str] = consonants_pulmonic + consonants_nonpulmonic + other_sym
     This includes vowels, and consonants. It excludes all diacritics.
 """
 strict_segmentals: List[str] = consonants + vowels
-
-
-
 
 
 #  This function will allow us to convert an IPA symbol
@@ -1082,7 +1076,7 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
         return Consonant(VocalFolds.VOICELESS, Place.GLOTTAL, Manner.PLOSIVE,
                          Airstream.PULMONIC_EGRESSIVE)
 
-# Nasals:
+    # Nasals:
     if ipa_text == "m":
         return Consonant(VocalFolds.VOICED, Place.BILABIAL, Manner.NASAL,
                          Airstream.PULMONIC_EGRESSIVE)
@@ -1105,7 +1099,7 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
         return Consonant(VocalFolds.VOICED, Place.UVULAR, Manner.NASAL,
                          Airstream.PULMONIC_EGRESSIVE)
 
-# Trills:
+    # Trills:
     if ipa_text == "ʙ":
         return Consonant(VocalFolds.VOICED, Place.BILABIAL, Manner.TRILL,
                          Airstream.PULMONIC_EGRESSIVE)
@@ -1116,7 +1110,7 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
         return Consonant(VocalFolds.VOICED, Place.UVULAR, Manner.TRILL,
                          Airstream.PULMONIC_EGRESSIVE)
 
-# Taps or flaps:
+    # Taps or flaps:
     if ipa_text == "ⱱ":
         return Consonant(VocalFolds.VOICED, Place.LABIODENTAL, Manner.TAP_OR_FLAP,
                          Airstream.PULMONIC_EGRESSIVE)
@@ -1127,7 +1121,7 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
         return Consonant(VocalFolds.VOICED, Place.RETROFLEX, Manner.TAP_OR_FLAP,
                          Airstream.PULMONIC_EGRESSIVE)
 
-# Fricatives:
+    # Fricatives:
     if ipa_text == "ɸ":
         return Consonant(VocalFolds.VOICELESS, Place.BILABIAL, Manner.FRICATIVE,
                          Airstream.PULMONIC_EGRESSIVE)
@@ -1195,7 +1189,7 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
         return Consonant(VocalFolds.VOICED, Place.GLOTTAL, Manner.FRICATIVE,
                          Airstream.PULMONIC_EGRESSIVE)
 
-# Lateral Fricatives:
+    # Lateral Fricatives:
     if ipa_text == "ɬ":
         return Consonant(VocalFolds.VOICELESS, Place.ALVEOLAR, Manner.LATERAL_FRICATIVE,
                          Airstream.PULMONIC_EGRESSIVE)
@@ -1203,8 +1197,7 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
         return Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.LATERAL_FRICATIVE,
                          Airstream.PULMONIC_EGRESSIVE)
 
-
-# Approximants:
+    # Approximants:
     if ipa_text == "ʋ":
         return Consonant(VocalFolds.VOICED, Place.LABIODENTAL, Manner.APPROXIMANT,
                          Airstream.PULMONIC_EGRESSIVE)
@@ -1221,7 +1214,7 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
         return Consonant(VocalFolds.VOICED, Place.VELAR, Manner.APPROXIMANT,
                          Airstream.PULMONIC_EGRESSIVE)
 
-# Lateral Approximants:
+    # Lateral Approximants:
     if ipa_text == "l":
         return Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.LATERAL_APPROXIMANT,
                          Airstream.PULMONIC_EGRESSIVE)
@@ -1235,23 +1228,18 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
         return Consonant(VocalFolds.VOICED, Place.VELAR, Manner.LATERAL_APPROXIMANT,
                          Airstream.PULMONIC_EGRESSIVE)
 
-
-
-# Affricates
+    # Affricates
     if ipa_text == "t͡ʃ":
         return Consonant(VocalFolds.VOICELESS, Place.POSTALVEOLAR, Manner.AFFRICATE,
                          Airstream.PULMONIC_EGRESSIVE)
     if ipa_text == "d͡ʒ":
         return Consonant(VocalFolds.VOICED, Place.POSTALVEOLAR, Manner.AFFRICATE,
                          Airstream.PULMONIC_EGRESSIVE)
-# We should probably enforce use of the tie-bar underneath, otherwise
-# it would not be deterministic to determine whether two graphemes here
-# represent affricates or a plosive followed by a fricative.
+    # We should probably enforce use of the tie-bar underneath, otherwise
+    # it would not be deterministic to determine whether two graphemes here
+    # represent affricates or a plosive followed by a fricative.
 
-
-
-
-# Under the Other Symbols part of the IPA chart:
+    # Under the Other Symbols part of the IPA chart:
 
     if ipa_text == "w":
         return Consonant(VocalFolds.VOICED, Place.LABIAL_VELAR, Manner.APPROXIMANT,
@@ -1271,7 +1259,7 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
     if ipa_text == "ʡ":
         return Consonant(VocalFolds.VOICELESS, Place.EPIGLOTTAL, Manner.PLOSIVE,
                          Airstream.PULMONIC_EGRESSIVE)
-  # Is the epiglottal plosive voiceless? The IPA chart does not specify.
+    # Is the epiglottal plosive voiceless? The IPA chart does not specify.
     if ipa_text == "ɕ":
         return Consonant(VocalFolds.VOICELESS, Place.ALVEOLOPALATAL, Manner.FRICATIVE,
                          Airstream.PULMONIC_EGRESSIVE)
@@ -1285,14 +1273,14 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
         return Consonant(VocalFolds.VOICELESS, MultiPlace([Place.POSTALVEOLAR, Place.VELAR]),
                          Manner.FRICATIVE, Airstream.PULMONIC_EGRESSIVE)
 
-# Other Consonants:
+    # Other Consonants:
     if ipa_text == "ʘ":
         return Consonant(VocalFolds.VOICELESS, Place.BILABIAL, Manner.PLOSIVE, Airstream.CLICK)
     if ipa_text == "ǀ":
         return Consonant(VocalFolds.VOICELESS, Place.DENTAL, Manner.PLOSIVE, Airstream.CLICK)
     if ipa_text == "ǃ":
         return Consonant(VocalFolds.VOICELESS, Place.ALVEOLAR, Manner.PLOSIVE, Airstream.CLICK)
-  #  "ǃ" could also be PostAlveolar.
+    #  "ǃ" could also be PostAlveolar.
     if ipa_text == "ǂ":
         return Consonant(VocalFolds.VOICELESS, Place.PALATOALVEOLAR, Manner.PLOSIVE,
                          Airstream.CLICK)
@@ -1302,7 +1290,7 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
         return Consonant(VocalFolds.VOICED, Place.BILABIAL, Manner.PLOSIVE, Airstream.IMPLOSIVE)
     if ipa_text == "ɗ":
         return Consonant(VocalFolds.VOICED, Place.DENTAL, Manner.PLOSIVE, Airstream.IMPLOSIVE)
-  # "ɗ" could also be Alveolar
+    # "ɗ" could also be Alveolar
     if ipa_text == "ʄ":
         return Consonant(VocalFolds.VOICED, Place.PALATAL, Manner.PLOSIVE, Airstream.IMPLOSIVE)
     if ipa_text == "ɠ":
@@ -1310,7 +1298,7 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
     if ipa_text == "ʛ":
         return Consonant(VocalFolds.VOICED, Place.UVULAR, Manner.PLOSIVE, Airstream.IMPLOSIVE)
 
-# Close Vowels:
+    # Close Vowels:
     if ipa_text == "i":
         return Vowel(Height.CLOSE, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED)
     if ipa_text == "y":
@@ -1324,7 +1312,7 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
     if ipa_text == "u":
         return Vowel(Height.CLOSE, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED)
 
-# Near-close Vowels:
+    # Near-close Vowels:
     if ipa_text == "ɪ":
         return Vowel(Height.NEAR_CLOSE, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED)
     if ipa_text == "ʏ":
@@ -1332,7 +1320,7 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
     if ipa_text == "ʊ":
         return Vowel(Height.NEAR_CLOSE, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED)
 
-# Close-mid Vowels:
+    # Close-mid Vowels:
     if ipa_text == "e":
         return Vowel(Height.CLOSE_MID, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED)
     if ipa_text == "ø":
@@ -1346,12 +1334,11 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
     if ipa_text == "o":
         return Vowel(Height.CLOSE_MID, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED)
 
-# Mid Vowels:
+    # Mid Vowels:
     if ipa_text == "ə":
         return Vowel(Height.MID, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED)
 
-
-# Open-mid Vowels:
+    # Open-mid Vowels:
     if ipa_text == "ɛ":
         return Vowel(Height.OPEN_MID, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED)
     if ipa_text == "œ":
@@ -1365,13 +1352,13 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
     if ipa_text == "ɔ":
         return Vowel(Height.OPEN_MID, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED)
 
-# Near-open
+    # Near-open
     if ipa_text == "æ":
         return Vowel(Height.NEAR_OPEN, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED)
     if ipa_text == "ɐ":
         return Vowel(Height.NEAR_OPEN, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED)
 
-# Open Vowels:
+    # Open Vowels:
     if ipa_text == "a":
         return Vowel(Height.OPEN, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED)
     if ipa_text == "ɶ":
@@ -1381,11 +1368,11 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
     if ipa_text == "ɒ":
         return Vowel(Height.OPEN, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED)
 
-# Handle Diacritics:
+    # Handle Diacritics:
 
     if len(ipa_text) > 0:
         if ipa_text[-1] == "̥":
-            full_grapheme: Optional[Phonet] = (ipa_text[:-1])
+            full_grapheme: Optional[Phonet] = analyze_transcription(ipa_text[:-1])
             if full_grapheme is not None:
                 if isinstance(full_grapheme, Consonant):
                     place = full_grapheme.place
@@ -1435,16 +1422,17 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
                 voicing = full_grapheme.vocal_folds
                 return Vowel(height, backness, rounding, voicing)
             return full_grapheme
-                # (About the preceding line:) It is strange but we will just
-                # do nothing if they give us an aspirated vowel.
-                # since we have no way to represent it in the type system.
-                # to do: determine
-                # if the idea of an aspirated vowel makes sense
+            # (About the preceding line:) It is strange but we will just
+            # do nothing if they give us an aspirated vowel.
+            # since we have no way to represent it in the type system.
+            # to do: determine
+            # if the idea of an aspirated vowel makes sense
         if ipa_text[-1] == "̠":
             full_grapheme: Optional[Phonet] = analyze_transcription(ipa_text[:-1])
             return retract_phonet(full_grapheme)
-        return None # not recognized.
+        return None  # not recognized.
     return None
+
 
 def retract_phonet(phonete: Optional[Phonet]) -> Optional[Phonet]:
     if isinstance(phonete, Consonant):
@@ -1455,6 +1443,7 @@ def retract_phonet(phonete: Optional[Phonet]) -> Optional[Phonet]:
         return Consonant(voicing, retracted_place(place), manner, airstream)
     return None
 
+
 def construct_transcription(phoneme: Phonet) -> str:
     """
     Given a phone, gives back its transcription in the International Phonetic Alphabet.
@@ -1463,6 +1452,7 @@ def construct_transcription(phoneme: Phonet) -> str:
     if result is None:
         return "∅"
     return result
+
 
 # Plosives:
 def construct_transcription_recursively(recursion_limit: int,
@@ -1618,7 +1608,7 @@ def construct_transcription_recursively(recursion_limit: int,
         return "ɬ"
     if phone == Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.LATERAL_FRICATIVE,
                           Airstream.PULMONIC_EGRESSIVE):
-        return "ɮ" # Approximants (next line)::
+        return "ɮ"  # Approximants (next line)::
     if phone == Consonant(VocalFolds.VOICED, Place.LABIODENTAL, Manner.APPROXIMANT,
                           Airstream.PULMONIC_EGRESSIVE):
         return "ʋ"
@@ -1645,7 +1635,7 @@ def construct_transcription_recursively(recursion_limit: int,
         return "ʎ"
     if phone == Consonant(VocalFolds.VOICED, Place.VELAR, Manner.LATERAL_APPROXIMANT,
                           Airstream.PULMONIC_EGRESSIVE):
-        return "ʟ" # Affricates (next line):
+        return "ʟ"  # Affricates (next line):
     if phone == Consonant(VocalFolds.VOICELESS, Place.POSTALVEOLAR, Manner.AFFRICATE,
                           Airstream.PULMONIC_EGRESSIVE):
         return "t͡ʃ"
@@ -1666,7 +1656,7 @@ def construct_transcription_recursively(recursion_limit: int,
         return "k͡x"
     if phone == Consonant(VocalFolds.VOICELESS, Place.UVULAR, Manner.AFFRICATE,
                           Airstream.PULMONIC_EGRESSIVE):
-        return "q͡χ" # Under the Other Symbols part of the IPA chart:
+        return "q͡χ"  # Under the Other Symbols part of the IPA chart:
     if phone == Consonant(VocalFolds.VOICED, Place.LABIAL_VELAR, Manner.APPROXIMANT,
                           Airstream.PULMONIC_EGRESSIVE):
         return "w"
@@ -1684,8 +1674,8 @@ def construct_transcription_recursively(recursion_limit: int,
         return "ʢ"
     if phone == Consonant(VocalFolds.VOICELESS, Place.EPIGLOTTAL, Manner.PLOSIVE,
                           Airstream.PULMONIC_EGRESSIVE):
-        return "ʡ" # Is the epiglottal plosive voiceless? The IPA chart
-                   # does not specify.
+        return "ʡ"  # Is the epiglottal plosive voiceless? The IPA chart
+        # does not specify.
     if phone == Consonant(VocalFolds.VOICELESS, Place.ALVEOLOPALATAL, Manner.FRICATIVE,
                           Airstream.PULMONIC_EGRESSIVE):
         return "ɕ"
@@ -1695,15 +1685,15 @@ def construct_transcription_recursively(recursion_limit: int,
     if phone == Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.LATERAL_FLAP,
                           Airstream.PULMONIC_EGRESSIVE):
         return "ɺ"
-#    if phone == Consonant(VocalFolds.VOICELESS,  (Places (PostAlveolar :| [Velar]))
-#                                        Fricative  PulmonicEgressive):
-#        return "ɧ" # Other Consonants:
+    #    if phone == Consonant(VocalFolds.VOICELESS,  (Places (PostAlveolar :| [Velar]))
+    #                                        Fricative  PulmonicEgressive):
+    #        return "ɧ" # Other Consonants:
     if phone == Consonant(VocalFolds.VOICELESS, Place.BILABIAL, Manner.PLOSIVE, Airstream.CLICK):
         return "ʘ"
     if phone == Consonant(VocalFolds.VOICELESS, Place.DENTAL, Manner.PLOSIVE, Airstream.CLICK):
         return "ǀ"
     if phone == Consonant(VocalFolds.VOICELESS, Place.ALVEOLAR, Manner.PLOSIVE, Airstream.CLICK):
-        return "ǃ" # Or it could be PostAlveolar.
+        return "ǃ"  # Or it could be PostAlveolar.
     if phone == Consonant(VocalFolds.VOICELESS, Place.PALATOALVEOLAR, Manner.PLOSIVE,
                           Airstream.CLICK):
         return "ǂ"
@@ -1718,7 +1708,7 @@ def construct_transcription_recursively(recursion_limit: int,
     if phone == Consonant(VocalFolds.VOICED, Place.VELAR, Manner.PLOSIVE, Airstream.IMPLOSIVE):
         return "ɠ"
     if phone == Consonant(VocalFolds.VOICED, Place.UVULAR, Manner.PLOSIVE, Airstream.IMPLOSIVE):
-        return "ʛ" # Close Vowels (next line)::
+        return "ʛ"  # Close Vowels (next line)::
     if phone == Vowel(Height.CLOSE, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED):
         return "i"
     if phone == Vowel(Height.CLOSE, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED):
@@ -1730,13 +1720,13 @@ def construct_transcription_recursively(recursion_limit: int,
     if phone == Vowel(Height.CLOSE, Backness.BACK, Rounding.UNROUNDED, VocalFolds.VOICED):
         return "ɯ"
     if phone == Vowel(Height.CLOSE, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED):
-        return "u" # Near-close Vowels (next line)::
+        return "u"  # Near-close Vowels (next line)::
     if phone == Vowel(Height.NEAR_CLOSE, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED):
         return "ɪ"
     if phone == Vowel(Height.NEAR_CLOSE, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED):
         return "ʏ"
     if phone == Vowel(Height.NEAR_CLOSE, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED):
-        return "ʊ" # Close-mid Vowels (next line)::
+        return "ʊ"  # Close-mid Vowels (next line)::
     if phone == Vowel(Height.CLOSE_MID, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED):
         return "e"
     if phone == Vowel(Height.CLOSE_MID, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED):
@@ -1748,9 +1738,9 @@ def construct_transcription_recursively(recursion_limit: int,
     if phone == Vowel(Height.CLOSE_MID, Backness.BACK, Rounding.UNROUNDED, VocalFolds.VOICED):
         return "ɤ"
     if phone == Vowel(Height.CLOSE_MID, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED):
-        return "o" # Mid Vowels (next line)::
+        return "o"  # Mid Vowels (next line)::
     if phone == Vowel(Height.MID, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED):
-        return "ə" # Open-mid Vowels (next line)::
+        return "ə"  # Open-mid Vowels (next line)::
     if phone == Vowel(Height.OPEN_MID, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED):
         return "ɛ"
     if phone == Vowel(Height.OPEN_MID, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED):
@@ -1762,11 +1752,11 @@ def construct_transcription_recursively(recursion_limit: int,
     if phone == Vowel(Height.OPEN_MID, Backness.BACK, Rounding.UNROUNDED, VocalFolds.VOICED):
         return "ʌ"
     if phone == Vowel(Height.OPEN_MID, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED):
-        return "ɔ" # Near-open (next line):
+        return "ɔ"  # Near-open (next line):
     if phone == Vowel(Height.NEAR_OPEN, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED):
         return "æ"
     if phone == Vowel(Height.NEAR_OPEN, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED):
-        return "ɐ" # Open Vowels (next line)::
+        return "ɐ"  # Open Vowels (next line)::
     if phone == Vowel(Height.OPEN, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED):
         return "a"
     if phone == Vowel(Height.OPEN, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED):
@@ -1784,7 +1774,6 @@ def construct_transcription_recursively(recursion_limit: int,
     # if phone == Consonant(VocalFolds.VOICELESS, Place.PALATAL # (or PLACE.ALVEOLOPALATAL)
     #                     Manner.AFFRICATE, Airstream.PULMONIC_EGRESSIVE):
     #     return  "c͡ɕ"
-
 
     # If it can represent it as a single character it will
     # return the single character result (i.e. without diacritics),
@@ -1806,8 +1795,6 @@ def construct_transcription_recursively(recursion_limit: int,
             return None
         return result + "̠"  # Add the diacritic for "retracted"
 
-
-
     # If there isn't a symbol, and the consonant we want is voiceless,
     # Just take the symbol for a voiced consonant,
     # and then put that diacritic that means voiceless after.
@@ -1827,7 +1814,7 @@ def construct_transcription_recursively(recursion_limit: int,
                                                                airstream))
         if result is None:
             return None
-        return result +  "̥" # add diacritic for voiceless
+        return result + "̥"  # add diacritic for voiceless
 
     # Add the small circle diacritic to vowels to make them voiceless.
     if isinstance(phone, Vowel) and phone.vocal_folds == VocalFolds.VOICELESS \
@@ -1905,8 +1892,6 @@ def construct_transcription_recursively(recursion_limit: int,
     return None
 
 
-
-
 def deaspirate(phone: Phonet) -> Phonet:
     """
     Given an aspirated phone, it will return its non-aspirated counterpart.
@@ -1926,7 +1911,6 @@ def deaspirate(phone: Phonet) -> Phonet:
     return phone
 
 
-
 def decreak(phone: Phonet) -> Phonet:
     """
     Given a creaky phone, it will return its non-creaky counterpart.
@@ -1938,11 +1922,13 @@ def decreak(phone: Phonet) -> Phonet:
         return Consonant(VocalFolds.VOICED, place, manner, airstream)
     return phone
 
+
 def construct_deconstruct(func: Callable[[Phonet], Phonet], some_text: str) -> str:
     phonet: Optional[Phonet] = analyze_transcription(some_text)
     if phonet is None:
-        return  "∅"
+        return "∅"
     return construct_transcription(func(phonet))
+
 
 def voiced_transcription(some_text: str) -> str:
     """
@@ -1953,6 +1939,7 @@ def voiced_transcription(some_text: str) -> str:
     """
     return construct_deconstruct(voiced_phonet, some_text)
 
+
 def devoiced_transcription(some_text: str) -> str:
     """
     Given some text in the International Phonetic Alphabet,
@@ -1962,6 +1949,7 @@ def devoiced_transcription(some_text: str) -> str:
     """
     return construct_deconstruct(devoiced_phonet, some_text)
 
+
 def spirantized_transcription(some_text: str) -> str:
     """
     Given some text in the International Phonetic Alphabet,
@@ -1970,6 +1958,7 @@ def spirantized_transcription(some_text: str) -> str:
     e.g. "t" will become "θ"
     """
     return construct_deconstruct(spirantized_phonet, some_text)
+
 
 def describe_transcription(some_text: str) -> str:
     """
@@ -2012,16 +2001,16 @@ def binary_difference(feature: Callable[[Polarity], PhonemeFeature],
     relevant_list_1 = list(filter(partial(relevant_binary, feature), list1))
     relevant_list_2 = list(filter(partial(relevant_binary, feature), list2))
     if relevant_list_1 == relevant_list_2:
-        return (None, None)
+        return None, None
 
     first_part = relevant_list_1[0] if len(relevant_list_1) > 0 else None
     second_part = relevant_list_2[0] if len(relevant_list_2) > 0 else None
-    return (first_part, second_part)
+    return first_part, second_part
 
 
 def unary_difference(feature: PhonemeFeature,
                      list1: List[PhonemeFeature],
-                     list2: PhonemeFeature) \
+                     list2: List[PhonemeFeature]) \
         -> Tuple[Optional[PhonemeFeature], Optional[PhonemeFeature]]:
     """
     Finds the difference between two lists of phoneme features with respect
@@ -2030,10 +2019,10 @@ def unary_difference(feature: PhonemeFeature,
     It is either present or is not present.
     """
     if (feature in list1) == (feature in list2):
-        return (None, None)
+        return None, None
     if feature in list1 and (feature not in list2):
-        return (feature, None)
-    return (None, feature)
+        return feature, None
+    return None, feature
 
 
 def difference(list1: List[PhonemeFeature],
@@ -2048,29 +2037,29 @@ def difference(list1: List[PhonemeFeature],
     in the other will be represented.
     """
     return \
-        [binary_difference(SyllabicFeature, list1, list2)
-         , binary_difference(ConsonantalFeature, list1, list2)
-         , binary_difference(SonorantFeature, list1, list2)
-         , binary_difference(ContinuantFeature, list1, list2)
-         , binary_difference(VoiceFeature, list1, list2)
-         , binary_difference(AdvancedTongueRootFeature, list1, list2)
-         , unary_difference(NasalFeature, list1, list2)
-         , unary_difference(LateralFeature, list1, list2)
-         , unary_difference(DelayedReleaseFeature, list1, list2)
-         , unary_difference(SpreadGlottisFeature, list1, list2)
-         , unary_difference(ConstrictedGlottisFeature, list1, list2)
-         , unary_difference(LabialFeature, list1, list2)
-         , unary_difference(CoronalFeature, list1, list2)
-         , unary_difference(DorsalFeature, list1, list2)
-         , unary_difference(PharyngealFeature, list1, list2)
-         , unary_difference(LaryngealFeature, list1, list2)
-         , binary_difference(RoundFeature, list1, list2)
-         , binary_difference(AnteriorFeature, list1, list2)
-         , binary_difference(DistributedFeature, list1, list2)
-         , binary_difference(StridentFeature, list1, list2)
-         , binary_difference(HighFeature, list1, list2)
-         , binary_difference(LowFeature, list1, list2)
-         , binary_difference(BackFeature, list1, list2)
+        [binary_difference(SyllabicFeature, list1, list2),
+         binary_difference(ConsonantalFeature, list1, list2),
+         binary_difference(SonorantFeature, list1, list2),
+         binary_difference(ContinuantFeature, list1, list2),
+         binary_difference(VoiceFeature, list1, list2),
+         binary_difference(AdvancedTongueRootFeature, list1, list2),
+         unary_difference(NasalFeature(), list1, list2),
+         unary_difference(LateralFeature(), list1, list2),
+         unary_difference(DelayedReleaseFeature(), list1, list2),
+         unary_difference(SpreadGlottisFeature(), list1, list2),
+         unary_difference(ConstrictedGlottisFeature(), list1, list2),
+         unary_difference(LabialFeature(), list1, list2),
+         unary_difference(CoronalFeature(), list1, list2),
+         unary_difference(DorsalFeature(), list1, list2),
+         unary_difference(PharyngealFeature(), list1, list2),
+         unary_difference(LaryngealFeature(), list1, list2),
+         binary_difference(RoundFeature, list1, list2),
+         binary_difference(AnteriorFeature, list1, list2),
+         binary_difference(DistributedFeature, list1, list2),
+         binary_difference(StridentFeature, list1, list2),
+         binary_difference(HighFeature, list1, list2),
+         binary_difference(LowFeature, list1, list2),
+         binary_difference(BackFeature, list1, list2)
          ]
 
 
@@ -2100,6 +2089,7 @@ def is_glide(phone: Phonet) -> bool:
                                Place.VELAR]
     return False
 
+
 def consonantal(phone: Phonet) -> Optional[PhonemeFeature]:
     """
     Vowels are [-consonantal].
@@ -2115,6 +2105,7 @@ def consonantal(phone: Phonet) -> Optional[PhonemeFeature]:
             return ConsonantalFeature(Polarity.MINUS)
         return ConsonantalFeature(Polarity.PLUS)
     return None
+
 
 def sonorant(phone: Phonet) -> Optional[PhonemeFeature]:
     """
@@ -2140,6 +2131,7 @@ def sonorant(phone: Phonet) -> Optional[PhonemeFeature]:
     if isinstance(phone, Vowel):
         return SonorantFeature(Polarity.PLUS)
     return None
+
 
 def continuant(phone: Phonet) -> Optional[PhonemeFeature]:
     """
@@ -2172,6 +2164,7 @@ def continuant(phone: Phonet) -> Optional[PhonemeFeature]:
         return ContinuantFeature(Polarity.PLUS)
     return None
 
+
 def nasal(phone: Phonet) -> Optional[PhonemeFeature]:
     """
     Nasal consonants are [nasal].
@@ -2199,6 +2192,7 @@ def lateral(phone: Phonet) -> Optional[PhonemeFeature]:
             return LateralFeature()
     return None
 
+
 def delayed_release(phone: Phonet) -> Optional[PhonemeFeature]:
     """
     Affricates are [+delayed release].
@@ -2207,7 +2201,7 @@ def delayed_release(phone: Phonet) -> Optional[PhonemeFeature]:
     (Source: page 260)
     """
     if isinstance(phone, Consonant) and phone.manner == Manner.AFFRICATE:
-        return DelayedReleaseFeature
+        return DelayedReleaseFeature()
     return None
 
 
@@ -2223,7 +2217,6 @@ def labial(phone: Phonet) -> Optional[PhonemeFeature]:
         if phone.place == Place.BILABIAL or phone.place == Place.LABIODENTAL:
             return LabialFeature()
     return None
-
 
 
 def coronal(phone: Phonet) -> Optional[PhonemeFeature]:
@@ -2284,6 +2277,7 @@ def pharyngeal(phone: Phonet) -> Optional[PhonemeFeature]:
         return PharyngealFeature()
     return None
 
+
 def laryngeal(phone: Phonet) -> Optional[PhonemeFeature]:
     """
     Glottal consonants are [laryngeal].
@@ -2308,7 +2302,7 @@ def voice(phone: Phonet) -> Optional[PhonemeFeature]:
                 and phone.place == Place.GLOTTAL \
                 and phone.manner == Manner.PLOSIVE \
                 and phone.airstream == Airstream.PULMONIC_EGRESSIVE:
-            return VoiceFeature(Polarity.MINUS) # The voiceless glottal plosive is [-voice]
+            return VoiceFeature(Polarity.MINUS)  # The voiceless glottal plosive is [-voice]
         if phone.vocal_folds == VocalFolds.VOICED_ASPIRATED:
             return VoiceFeature(Polarity.PLUS)
         if phone.vocal_folds == VocalFolds.VOICED:
@@ -2317,6 +2311,7 @@ def voice(phone: Phonet) -> Optional[PhonemeFeature]:
     if isinstance(phone, Vowel) and phone.vocal_folds == VocalFolds.VOICED:
         return VoiceFeature(Polarity.PLUS)
     return VoiceFeature(Polarity.MINUS)
+
 
 def spread_glottis(phone: Phonet) -> Optional[PhonemeFeature]:
     """
@@ -2400,6 +2395,7 @@ def distributed(phone: Phonet) -> Optional[PhonemeFeature]:
     if isinstance(phone, Consonant) and phone.place == Place.ALVEOLOPALATAL:
         return DistributedFeature(Polarity.PLUS)
     return None
+
 
 def strident(phone: Phonet) -> Optional[PhonemeFeature]:
     """
@@ -2515,7 +2511,6 @@ def back(phone: Phonet) -> Optional[PhonemeFeature]:
     return None
 
 
-
 def lip_round(phone: Phonet) -> Optional[PhonemeFeature]:
     """
     Rounded vowels are [+round].
@@ -2620,7 +2615,6 @@ def atr(phone: Phonet) -> Optional[PhonemeFeature]:
     return None
 
 
-
 def feature_matrix(phonete: Phonet) -> List[Optional[PhonemeFeature]]:
     """
     Given a phoneme (representation)
@@ -2634,30 +2628,30 @@ def feature_matrix(phonete: Phonet) -> List[Optional[PhonemeFeature]]:
     /phone/
     """
     return \
-    [consonantal(phonete)
-     , syllabic(phonete)
-     , continuant(phonete)
-     , sonorant(phonete)
-     , delayed_release(phonete)
-     , anterior(phonete)
-     , distributed(phonete)
-     , strident(phonete)
-     , high(phonete)
-     , low(phonete)
-     , nasal(phonete)
-     , lateral(phonete)
-     , labial(phonete)
-     , coronal(phonete)
-     , dorsal(phonete)
-     , pharyngeal(phonete)
-     , laryngeal(phonete)
-     , back(phonete)
-     , lip_round(phonete)
-     , voice(phonete)
-     , atr(phonete)
-     , spread_glottis(phonete)
-     , constricted_glottis(phonete)
-     ]
+        [consonantal(phonete),
+         syllabic(phonete),
+         continuant(phonete),
+         sonorant(phonete),
+         delayed_release(phonete),
+         anterior(phonete),
+         distributed(phonete),
+         strident(phonete),
+         high(phonete),
+         low(phonete),
+         nasal(phonete),
+         lateral(phonete),
+         labial(phonete),
+         coronal(phonete),
+         dorsal(phonete),
+         pharyngeal(phonete),
+         laryngeal(phonete),
+         back(phonete),
+         lip_round(phonete),
+         voice(phonete),
+         atr(phonete),
+         spread_glottis(phonete),
+         constricted_glottis(phonete)
+         ]
 
 
 def analyze_features(phonete: Phonet) -> List[PhonemeFeature]:
@@ -2668,14 +2662,16 @@ def analyze_features(phonete: Phonet) -> List[PhonemeFeature]:
     """
     return list(filter(lambda x: x is not None, feature_matrix(phonete)))
 
+
 def show_features(features: List[PhonemeFeature]) -> str:
     """
     Given a list of Sound Patterns of English phoneme features,
     print the phoneme features in their usual representation.
     e.g. [+ someFeature, - someOtherFeature, ...]
     """
-    features_strings: List[str] = map(show_phoneme_feature, features)
+    features_strings: Iterator[str] = map(show_phoneme_feature, features)
     return "[" + "; ".join(features_strings) + "]"
+
 
 def to_text_features(phonete: Phonet) -> str:
     """
@@ -2712,7 +2708,6 @@ def show_phonet(phonet: Phonet) -> str:
     return "[Unrecognized kind of phonete!]"
 
 
-
 def show_backness(backness: Backness) -> str:
     """
     Provide user-readable text for the backness of
@@ -2727,8 +2722,6 @@ def show_backness(backness: Backness) -> str:
     if backness == Backness.BACK:
         return BACK_BACKNESS_TEXT
     return "[Unrecognized vowel backness!]"
-
-
 
 
 def show_height(height: Height) -> str:
@@ -2754,6 +2747,7 @@ def show_height(height: Height) -> str:
         return OPEN_HEIGHT_TEXT
     return "[Unrecognized vowel height!]"
 
+
 def show_rounding(rounding: Rounding) -> str:
     """
     Provide user readable text for representing
@@ -2765,7 +2759,6 @@ def show_rounding(rounding: Rounding) -> str:
     if rounding == Rounding.UNROUNDED:
         return UNROUNDED_ROUNDING_TEXT
     return "[Unrecognized rounding!]"
-
 
 
 def show_place(place: Place) -> str:
@@ -2874,6 +2867,7 @@ def show_vocal_folds(vocal_folds_1: VocalFolds) -> str:
         return CREAKY_VOICED_VOCAL_FOLDS_TEXT
     return "[Unrecognized vocal folds!]"
 
+
 def show_phonet_inventory(inventory: PhonetInventory) -> str:
     return ''.join(map(show_phonet, inventory.contents))
 
@@ -2945,6 +2939,7 @@ def show_phoneme_feature(feature: PhonemeFeature) -> str:
     if isinstance(feature, BackFeature):
         return show_polarity(feature.polarity) + BACK_PHONEME_FEATURE_TEXT
     return "[Unrecognized phoneme feature!]"
+
 
 # I added some English vowels. I did not choose any specific dialect.
 # I got all my information from the Wikipedia page titled
