@@ -29,14 +29,14 @@ USER_INPUT_OPEN_WINDOW: Final[str] = "7"
 PROMPT: Final[str] = "(PROMPT:) "
 
 SORRY_UNABLE_TO_CALCULATE: Final[str] = \
-    "Sorry: Final[str] unable to calculate answer with that input."
+    "Sorry: unable to calculate answer with that input."
 
 TYPE_A_PHONEME: Final[str] = \
-    """Type a phoneme using IPA symbols: Final[str] and then press the enter key:
+    """Type a phoneme using IPA symbols: and then press the enter key:
      and the computer will display"""
 
 PHONEME_TO_DEVOICE_MESSAGE: Final[str] = \
-    """Type a phoneme using IPA symbols: Final[str] and then press the enter key:
+    """Type a phoneme using IPA symbols: and then press the enter key:
      and the computer will display
      the devoiced counterpart (on the subsequent line):"""
 
