@@ -27,7 +27,7 @@ from english_us_text import PHONEME_TO_DEVOICE_MESSAGE, PHONEME_TO_VOICE_MESSAGE
     USER_INPUT_OPEN_WINDOW, \
     UNRECOGNIZED_SELECTION_MESSAGE, \
     NO_ANALYSIS_FOUND_MESSAGE, \
-    MENU
+    MENU, DIALOG_WINDOW_TITLE
 
 from lib_functions import (analyze_transcription, construct_transcription,
                            describe_transcription, devoiced_transcription,
@@ -225,7 +225,7 @@ class Application(Frame):
         and show the closest phoneme to it that is voiced.
         :return: None
         """
-        answer = simpledialog.askstring("title", PHONEME_TO_VOICE_MESSAGE)
+        answer = simpledialog.askstring(DIALOG_WINDOW_TITLE, PHONEME_TO_VOICE_MESSAGE)
         if answer is not None:
             voiced_phoneme = voiced_transcription(answer)
             self.output_to_user.set(voiced_phoneme)
@@ -236,7 +236,7 @@ class Application(Frame):
         and show the closest phoneme to it that is unvoiced.
         :return: None
         """
-        answer = simpledialog.askstring("title", PHONEME_TO_DEVOICE_MESSAGE)
+        answer = simpledialog.askstring(DIALOG_WINDOW_TITLE, PHONEME_TO_DEVOICE_MESSAGE)
         if answer is not None:
             devoiced_phoneme = devoiced_transcription(answer)
             self.output_to_user.set(devoiced_phoneme)
@@ -247,7 +247,7 @@ class Application(Frame):
         and show the description of the phoneme.
         :return: None
         """
-        answer = simpledialog.askstring("title", PHONEME_TO_DESCRIBE_MESSAGE)
+        answer = simpledialog.askstring(DIALOG_WINDOW_TITLE, PHONEME_TO_DESCRIBE_MESSAGE)
         if answer is not None:
             description = describe_transcription(answer)
             self.output_to_user.set(description)
@@ -258,7 +258,7 @@ class Application(Frame):
         and show its features according to Sound Patterns of English.
         :return: None
         """
-        answer = simpledialog.askstring("title", PHONEME_TO_CALCULATE_SPE_MESSAGE)
+        answer = simpledialog.askstring(DIALOG_WINDOW_TITLE, PHONEME_TO_CALCULATE_SPE_MESSAGE)
         if answer is not None:
             features = analyze_transcription_to_sound_patterns_of_english(answer)
             self.output_to_user.set(features)
@@ -270,7 +270,7 @@ class Application(Frame):
         With each phoneme on separate lines.
         :return: None
         """
-        answer = simpledialog.askstring("title", ipaTextToDivideMessage)
+        answer = simpledialog.askstring(DIALOG_WINDOW_TITLE, ipaTextToDivideMessage)
         if answer is not None:
             report = ipa_text_to_phonet_list_report(answer)
             self.output_to_user.set(report)
