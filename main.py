@@ -151,7 +151,7 @@ def prompt_for_transcription_text_to_split() -> None:
 makeAPhonemeUnvoicedText: str = "make a phoneme unvoiced"
 
 
-class Application(Frame):
+class Application():
     """
     A window where the user can select an action to do,
     and results are shown at the bottom of the window.
@@ -162,20 +162,19 @@ class Application(Frame):
         Initialize the main window
         :param master: the root of Tkinter
         """
-        super().__init__(master)
-        self.voice_phoneme_button = Button(self)
-        self.devoice_phoneme_button = Button(self)
-        self.describe_phoneme_button = Button(self)
-        self.featurize_phoneme_button = Button(self)
-        self.split_transcription_button = Button(self)
-        self.output_to_user = StringVar()
-        self.output_to_user_label = Label(self, textvariable=self.output_to_user, relief=RAISED,
-                                          width=100, wraplength=1000, justify=LEFT)
-        self.quit = Button(self, text=QUIT_TEXT, fg="red",
-                           command=self.master.destroy)
-        self.show_inventory_button = Button(self)
+        super().__init__()
         self.master = master
-        self.pack()
+        self.voice_phoneme_button = Button(self.master)
+        self.devoice_phoneme_button = Button(self.master)
+        self.describe_phoneme_button = Button(self.master)
+        self.featurize_phoneme_button = Button(self.master)
+        self.split_transcription_button = Button(self.master)
+        self.output_to_user = StringVar()
+        self.output_to_user_label = Label(self.master, textvariable=self.output_to_user, relief=RAISED,
+                                          width=100, wraplength=1000, justify=LEFT)
+        self.quit = Button(self.master, text=QUIT_TEXT, fg="red",
+                           command=self.master.destroy)
+        self.show_inventory_button = Button(self.master)
         self.create_widgets()
 
     def create_widgets(self) -> None:
@@ -184,33 +183,33 @@ class Application(Frame):
         """
         self.show_inventory_button["text"] = SHOW_PHONEME_INVENTORY_TEXT
         self.show_inventory_button["command"] = self.show_english_phoneme_inventory
-        self.show_inventory_button.pack(side="top")
+        self.show_inventory_button.grid(row=0, column=0)
 
         self.voice_phoneme_button["text"] = MAKE_A_PHONEME_VOICED_TEXT
         self.voice_phoneme_button["command"] = self.prompt_for_phoneme_to_voice
-        self.voice_phoneme_button.pack(side="top")
+        self.voice_phoneme_button.grid(row=1, column=0)
 
         self.devoice_phoneme_button["text"] = makeAPhonemeUnvoicedText
         self.devoice_phoneme_button["command"] = self.prompt_for_phoneme_to_unvoice
-        self.devoice_phoneme_button.pack(side="top")
+        self.devoice_phoneme_button.grid(row=2, column=0)
 
         self.describe_phoneme_button["text"] = DESCRIBE_PHONEME_TEXT
         self.describe_phoneme_button["command"] = self.prompt_for_phoneme_to_describe
-        self.describe_phoneme_button.pack(side="top")
+        self.describe_phoneme_button.grid(row=3, column=0)
 
         self.featurize_phoneme_button["text"] = GET_FEATURES_OF_PHONEME_TEXT
         self.featurize_phoneme_button["command"] = \
             self.prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from
-        self.featurize_phoneme_button.pack(side="top")
+        self.featurize_phoneme_button.grid(row=4, column=0)
 
         self.split_transcription_button["text"] = SPLIT_TRANSCRIPTION_TEXT
         self.split_transcription_button["command"] = self.prompt_for_transcription_text_to_split
-        self.split_transcription_button.pack(side="top")
+        self.split_transcription_button.grid(row=5, column=0)
 
         self.output_to_user.set("")
-        self.output_to_user_label.pack(side="top")
+        self.output_to_user_label.grid(row=6, column=0)
 
-        self.quit.pack(side="right", padx=30)
+        self.quit.grid(row=7, column=0)
 
     def show_english_phoneme_inventory(self) -> None:
         """
@@ -312,7 +311,7 @@ def open_window() -> None:
     root = Tk()
     root.wm_title(APPLICATION_TITLE)
     app = Application(master=root)
-    app.mainloop()
+    root.mainloop()
 
 
 def respond_to_selection(selection: str) -> None:
