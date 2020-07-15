@@ -10,7 +10,7 @@ instead of via text.
 """
 
 from typing import Callable
-from tkinter import Button, simpledialog, Tk, Frame, StringVar, Label, RAISED, LEFT
+from tkinter import Button, simpledialog, Tk, Frame, StringVar, Label, RAISED, LEFT, N, W, E
 
 from english_us_text import PHONEME_TO_DEVOICE_MESSAGE, PHONEME_TO_VOICE_MESSAGE, \
     PHONEME_TO_DESCRIBE_MESSAGE, PHONEME_TO_CALCULATE_SPE_MESSAGE, \
@@ -183,33 +183,40 @@ class Application():
         """
         self.show_inventory_button["text"] = SHOW_PHONEME_INVENTORY_TEXT
         self.show_inventory_button["command"] = self.show_english_phoneme_inventory
-        self.show_inventory_button.grid(row=0, column=0)
+        self.show_inventory_button.grid(row=0, column=0, sticky=W, pady=20, padx=20,
+                                        ipadx=5, ipady=10)
 
         self.voice_phoneme_button["text"] = MAKE_A_PHONEME_VOICED_TEXT
         self.voice_phoneme_button["command"] = self.prompt_for_phoneme_to_voice
-        self.voice_phoneme_button.grid(row=1, column=0)
+        self.voice_phoneme_button.grid(row=1, column=0, sticky=W, pady=20, padx=20,
+                                       ipadx=5, ipady=10)
 
         self.devoice_phoneme_button["text"] = makeAPhonemeUnvoicedText
         self.devoice_phoneme_button["command"] = self.prompt_for_phoneme_to_unvoice
-        self.devoice_phoneme_button.grid(row=2, column=0)
+        self.devoice_phoneme_button.grid(row=2, column=0, sticky=W, pady=20, padx=20,
+                                         ipadx=5, ipady=10)
 
         self.describe_phoneme_button["text"] = DESCRIBE_PHONEME_TEXT
         self.describe_phoneme_button["command"] = self.prompt_for_phoneme_to_describe
-        self.describe_phoneme_button.grid(row=3, column=0)
+        self.describe_phoneme_button.grid(row=3, column=0, sticky=W, pady=20, padx=20,
+                                          ipadx=5, ipady=10)
 
         self.featurize_phoneme_button["text"] = GET_FEATURES_OF_PHONEME_TEXT
         self.featurize_phoneme_button["command"] = \
             self.prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from
-        self.featurize_phoneme_button.grid(row=4, column=0)
+        self.featurize_phoneme_button.grid(row=4, column=0, sticky=W, pady=20, padx=20,
+                                           ipadx=5, ipady=10)
 
         self.split_transcription_button["text"] = SPLIT_TRANSCRIPTION_TEXT
         self.split_transcription_button["command"] = self.prompt_for_transcription_text_to_split
-        self.split_transcription_button.grid(row=5, column=0)
+        self.split_transcription_button.grid(row=5, column=0, sticky=W, pady=20, padx=20,
+                                             ipadx=5, ipady=10)
 
         self.output_to_user.set("")
-        self.output_to_user_label.grid(row=6, column=0)
+        self.output_to_user_label.grid(row=0, column=1, rowspan=6, sticky=N, pady=20, padx=20,
+                                       ipadx=5, ipady=10)
 
-        self.quit.grid(row=7, column=0)
+        self.quit.grid(row=7, column=1, sticky=E, pady=20, padx=20, ipadx=10, ipady=10)
 
     def show_english_phoneme_inventory(self) -> None:
         """
