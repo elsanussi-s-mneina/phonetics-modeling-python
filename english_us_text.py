@@ -32,37 +32,33 @@ PROMPT: Final[str] = "(PROMPT:) "
 SORRY_UNABLE_TO_CALCULATE: Final[str] = \
     "Sorry: unable to calculate answer with that input."
 
-TYPE_A_PHONEME: Final[str] = \
-    """Type a phoneme using IPA symbols: and then press the enter key:
-     and the computer will display"""
-
 PHONEME_TO_DEVOICE_MESSAGE: Final[str] = \
     """Type a phoneme using IPA symbols: and then press the enter key:
      and the computer will display
-     the devoiced counterpart (on the subsequent line):"""
+     the devoiced counterpart:"""
 
 PHONEME_TO_VOICE_MESSAGE: Final[str] = \
     """Type a phoneme using IPA symbols: and then press the enter key:
      and the computer will display
-     the voiced counterpart (on the subsequent line):"""
+     the voiced counterpart:"""
 
 PHONEME_TO_DESCRIBE_MESSAGE: Final[str] = \
     """
     Type a phoneme using IPA symbols: and then press the enter key:
-     and the computer will display
-     its English description (on the subsequent line):"""
+    and the computer will display
+    its English description:"""
 
 PHONEME_TO_CALCULATE_SPE_MESSAGE: Final[str] = \
     """
     Type a phoneme using IPA symbols: and then press the enter key:
-     and the computer will display
-     its SPE features (on the subsequent line):"""
+    and the computer will display
+    its SPE features:"""
 
 ipaTextToDivideMessage: Final[str] = \
     """
     Type text using IPA symbols: and then press the enter key:
-     and the computer will display
-     the text you entered with separate phonemes on separate lines:"""
+    and the computer will display
+    the text you entered with separate phonemes on separate lines:"""
 
 PLEASE_READ_README_MESSAGE: Final[str] = \
     "Please read README.md file for instructions on how to use."
