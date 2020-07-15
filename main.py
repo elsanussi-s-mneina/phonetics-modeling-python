@@ -226,8 +226,9 @@ class Application(Frame):
         :return: None
         """
         answer = simpledialog.askstring("title", PHONEME_TO_VOICE_MESSAGE)
-        voiced_phoneme = voiced_transcription(answer)
-        self.output_to_user.set(voiced_phoneme)
+        if answer is not None:
+            voiced_phoneme = voiced_transcription(answer)
+            self.output_to_user.set(voiced_phoneme)
 
     def prompt_for_phoneme_to_unvoice(self):
         """
@@ -236,8 +237,9 @@ class Application(Frame):
         :return: None
         """
         answer = simpledialog.askstring("title", PHONEME_TO_DEVOICE_MESSAGE)
-        devoiced_phoneme = devoiced_transcription(answer)
-        self.output_to_user.set(devoiced_phoneme)
+        if answer is not None:
+            devoiced_phoneme = devoiced_transcription(answer)
+            self.output_to_user.set(devoiced_phoneme)
 
     def prompt_for_phoneme_to_describe(self) -> None:
         """
@@ -246,8 +248,9 @@ class Application(Frame):
         :return: None
         """
         answer = simpledialog.askstring("title", PHONEME_TO_DESCRIBE_MESSAGE)
-        description = describe_transcription(answer)
-        self.output_to_user.set(description)
+        if answer is not None:
+            description = describe_transcription(answer)
+            self.output_to_user.set(description)
 
     def prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from(self) -> None:
         """
@@ -256,8 +259,9 @@ class Application(Frame):
         :return: None
         """
         answer = simpledialog.askstring("title", PHONEME_TO_CALCULATE_SPE_MESSAGE)
-        features = analyze_transcription_to_sound_patterns_of_english(answer)
-        self.output_to_user.set(features)
+        if answer is not None:
+            features = analyze_transcription_to_sound_patterns_of_english(answer)
+            self.output_to_user.set(features)
 
     def prompt_for_transcription_text_to_split(self) -> None:
         """
@@ -267,8 +271,9 @@ class Application(Frame):
         :return: None
         """
         answer = simpledialog.askstring("title", ipaTextToDivideMessage)
-        report = ipa_text_to_phonet_list_report(answer)
-        self.output_to_user.set(report)
+        if answer is not None:
+            report = ipa_text_to_phonet_list_report(answer)
+            self.output_to_user.set(report)
 
 
 def main() -> None:
