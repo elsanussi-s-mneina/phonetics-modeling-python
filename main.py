@@ -10,7 +10,7 @@ instead of via text.
 """
 
 from typing import Callable
-from tkinter import Button, simpledialog, Tk, Frame, StringVar, Label, RAISED, LEFT, N, W, E, S
+from tkinter import Button, simpledialog, Tk, StringVar, Label, RAISED, LEFT, N, W, E, S
 
 from english_us_text import PHONEME_TO_DEVOICE_MESSAGE, PHONEME_TO_VOICE_MESSAGE, \
     PHONEME_TO_DESCRIBE_MESSAGE, PHONEME_TO_CALCULATE_SPE_MESSAGE, \
@@ -149,7 +149,7 @@ def prompt_for_transcription_text_to_split() -> None:
     prompt_for_text_and_apply(ipa_text_to_phonet_list_report, ipaTextToDivideMessage)
 
 
-class Application():
+class Application:
     """
     A window where the user can select an action to do,
     and results are shown at the bottom of the window.
@@ -169,9 +169,10 @@ class Application():
         self.split_transcription_button = Button(self.master)
         self.output_description = StringVar()
         self.output_description_label = Label(self.master, textvariable=self.output_description,
-                                              width = 100, justify=LEFT)
+                                              width=100, justify=LEFT)
         self.output_to_user = StringVar()
-        self.output_to_user_label = Label(self.master, textvariable=self.output_to_user, relief=RAISED,
+        self.output_to_user_label = Label(self.master, textvariable=self.output_to_user,
+                                          relief=RAISED,
                                           width=100, wraplength=1000, justify=LEFT)
         self.quit = Button(self.master, text=QUIT_TEXT, fg="red",
                            command=self.master.destroy)
@@ -216,7 +217,7 @@ class Application():
         self.output_description.set("Result:")
         self.output_description_label.grid(row=0, column=1)
         self.output_to_user.set("")
-        self.output_to_user_label.grid(row=1, column=1, rowspan=5, sticky= N + S, pady=20, padx=20,
+        self.output_to_user_label.grid(row=1, column=1, rowspan=5, sticky=N + S, pady=20, padx=20,
                                        ipadx=5, ipady=10)
 
         self.quit.grid(row=7, column=1, sticky=E, pady=20, padx=20, ipadx=10, ipady=10)
@@ -229,7 +230,6 @@ class Application():
         self.output_to_user.set(english_phonet_inventory_report)
         self.output_description.set("English Phoneme Inventory")
 
-
     def prompt_for_phoneme_to_voice(self) -> None:
         """
         Ask the user for a phoneme,
@@ -241,7 +241,6 @@ class Application():
             voiced_phoneme = voiced_transcription(answer)
             self.output_to_user.set(voiced_phoneme)
             self.output_description.set(VOICED_PHONEME_HEADER)
-
 
     def prompt_for_phoneme_to_unvoice(self):
         """
@@ -328,7 +327,7 @@ def open_window() -> None:
     """
     root = Tk()
     root.wm_title(APPLICATION_TITLE)
-    app = Application(master=root)
+    Application(master=root)
     root.mainloop()
 
 
