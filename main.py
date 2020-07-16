@@ -27,7 +27,8 @@ from english_us_text import PHONEME_TO_DEVOICE_MESSAGE, PHONEME_TO_VOICE_MESSAGE
     USER_INPUT_OPEN_WINDOW, \
     UNRECOGNIZED_SELECTION_MESSAGE, \
     NO_ANALYSIS_FOUND_MESSAGE, \
-    MENU, DIALOG_WINDOW_TITLE
+    MENU, DIALOG_WINDOW_TITLE, MAKE_A_PHONEME_UNVOICED_TEXT
+
 
 from lib_functions import (analyze_transcription, construct_transcription,
                            describe_transcription, devoiced_transcription,
@@ -148,9 +149,6 @@ def prompt_for_transcription_text_to_split() -> None:
     prompt_for_text_and_apply(ipa_text_to_phonet_list_report, ipaTextToDivideMessage)
 
 
-makeAPhonemeUnvoicedText: str = "make a phoneme unvoiced"
-
-
 class Application():
     """
     A window where the user can select an action to do,
@@ -191,7 +189,7 @@ class Application():
         self.voice_phoneme_button.grid(row=1, column=0, sticky=W, pady=20, padx=20,
                                        ipadx=5, ipady=10)
 
-        self.devoice_phoneme_button["text"] = makeAPhonemeUnvoicedText
+        self.devoice_phoneme_button["text"] = MAKE_A_PHONEME_UNVOICED_TEXT
         self.devoice_phoneme_button["command"] = self.prompt_for_phoneme_to_unvoice
         self.devoice_phoneme_button.grid(row=2, column=0, sticky=W, pady=20, padx=20,
                                          ipadx=5, ipady=10)
