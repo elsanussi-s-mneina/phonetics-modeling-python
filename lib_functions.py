@@ -124,7 +124,7 @@ def equivalent_in_place(place_1: Place, place_2: Place) -> bool:
         return place_1 in place_2.places
 
     if isinstance(place_1, MultiPlace):
-        return equivalent_in_place(place_2, place_1)
+        return place_2 in place_1.places
 
     return False
 
