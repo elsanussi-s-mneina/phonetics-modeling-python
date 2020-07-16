@@ -10,7 +10,7 @@ instead of via text.
 """
 
 from typing import Callable
-from tkinter import Button, simpledialog, Tk, Frame, StringVar, Label, RAISED, LEFT, N, W, E
+from tkinter import Button, simpledialog, Tk, Frame, StringVar, Label, RAISED, LEFT, N, W, E, S
 
 from english_us_text import PHONEME_TO_DEVOICE_MESSAGE, PHONEME_TO_VOICE_MESSAGE, \
     PHONEME_TO_DESCRIBE_MESSAGE, PHONEME_TO_CALCULATE_SPE_MESSAGE, \
@@ -27,8 +27,8 @@ from english_us_text import PHONEME_TO_DEVOICE_MESSAGE, PHONEME_TO_VOICE_MESSAGE
     USER_INPUT_OPEN_WINDOW, \
     UNRECOGNIZED_SELECTION_MESSAGE, \
     NO_ANALYSIS_FOUND_MESSAGE, \
-    MENU, DIALOG_WINDOW_TITLE, MAKE_A_PHONEME_UNVOICED_TEXT
-
+    MENU, DIALOG_WINDOW_TITLE, MAKE_A_PHONEME_UNVOICED_TEXT, VOICED_PHONEME_HEADER, \
+    UNVOICED_PHONEME_HEADER, PHONEME_DESCRIPTION_HEADER, PHONEMES_SPLIT_HEADER, FEATURES_HEADER
 
 from lib_functions import (analyze_transcription, construct_transcription,
                            describe_transcription, devoiced_transcription,
@@ -167,6 +167,9 @@ class Application():
         self.describe_phoneme_button = Button(self.master)
         self.featurize_phoneme_button = Button(self.master)
         self.split_transcription_button = Button(self.master)
+        self.output_description = StringVar()
+        self.output_description_label = Label(self.master, textvariable=self.output_description,
+                                              width = 100, justify=LEFT)
         self.output_to_user = StringVar()
         self.output_to_user_label = Label(self.master, textvariable=self.output_to_user, relief=RAISED,
                                           width=100, wraplength=1000, justify=LEFT)
@@ -210,8 +213,10 @@ class Application():
         self.split_transcription_button.grid(row=5, column=0, sticky=W, pady=20, padx=20,
                                              ipadx=5, ipady=10)
 
+        self.output_description.set("Result:")
+        self.output_description_label.grid(row=0, column=1)
         self.output_to_user.set("")
-        self.output_to_user_label.grid(row=0, column=1, rowspan=6, sticky=N, pady=20, padx=20,
+        self.output_to_user_label.grid(row=1, column=1, rowspan=5, sticky= N + S, pady=20, padx=20,
                                        ipadx=5, ipady=10)
 
         self.quit.grid(row=7, column=1, sticky=E, pady=20, padx=20, ipadx=10, ipady=10)
@@ -222,6 +227,8 @@ class Application():
         :return: None
         """
         self.output_to_user.set(english_phonet_inventory_report)
+        self.output_description.set("English Phoneme Inventory")
+
 
     def prompt_for_phoneme_to_voice(self) -> None:
         """
@@ -233,6 +240,8 @@ class Application():
         if answer is not None:
             voiced_phoneme = voiced_transcription(answer)
             self.output_to_user.set(voiced_phoneme)
+            self.output_description.set(VOICED_PHONEME_HEADER)
+
 
     def prompt_for_phoneme_to_unvoice(self):
         """
@@ -244,6 +253,7 @@ class Application():
         if answer is not None:
             devoiced_phoneme = devoiced_transcription(answer)
             self.output_to_user.set(devoiced_phoneme)
+            self.output_description.set(UNVOICED_PHONEME_HEADER)
 
     def prompt_for_phoneme_to_describe(self) -> None:
         """
@@ -255,6 +265,7 @@ class Application():
         if answer is not None:
             description = describe_transcription(answer)
             self.output_to_user.set(description)
+            self.output_description.set(PHONEME_DESCRIPTION_HEADER)
 
     def prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from(self) -> None:
         """
@@ -266,6 +277,7 @@ class Application():
         if answer is not None:
             features = analyze_transcription_to_sound_patterns_of_english(answer)
             self.output_to_user.set(features)
+            self.output_description.set(FEATURES_HEADER)
 
     def prompt_for_transcription_text_to_split(self) -> None:
         """
@@ -278,6 +290,7 @@ class Application():
         if answer is not None:
             report = ipa_text_to_phonet_list_report(answer)
             self.output_to_user.set(report)
+            self.output_description.set(PHONEMES_SPLIT_HEADER)
 
 
 def main() -> None:

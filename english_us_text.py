@@ -158,3 +158,10 @@ DESCRIBE_PHONEME_TEXT: Final[str] = "Describe a phoneme…"
 GET_FEATURES_OF_PHONEME_TEXT: Final[str] = \
     "Get sound patterns of English features of IPA transcription…"
 SPLIT_TRANSCRIPTION_TEXT: Final[str] = "Split IPA transcription text…"
+
+# Headers:
+VOICED_PHONEME_HEADER : Final[str] = "Voiced Phoneme"
+UNVOICED_PHONEME_HEADER : Final[str] = "Unvoiced Phoneme"
+PHONEME_DESCRIPTION_HEADER : Final[str] = "Description of Phoneme"
+FEATURES_HEADER : Final[str] = "SPE Features of Phoneme"
+PHONEMES_SPLIT_HEADER : Final[str] = "Phonemes After Being Split"
