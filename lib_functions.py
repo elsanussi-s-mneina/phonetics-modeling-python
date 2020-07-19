@@ -871,7 +871,11 @@ def is_ascender(character: str) -> bool:
 
 descenders: List[str] = \
     ["p", "ɟ", "g", "q", "ɱ", "ɽ", "ʒ", "ʂ", "ʐ", "ç", "ʝ", "ɣ", "χ", "ɻ", "j",
-     "ɰ", "ɥ", "y", "ɳ", "ɲ", "ʈ", "ɖ", "ɸ", "β", "ʃ", "ɮ", "ɭ", "ɧ"]
+     "ɰ", "ɥ", "y", "ɳ", "ɲ", "ŋ", "ʈ", "ɖ", "ɸ", "β", "ʃ", "ɮ", "ɧ"]
+
+# We don't include the retroflex l i.e <ɭ> a a descender
+# because, even though it is a descender,
+# There is more free space under it than above
 
 
 def is_descender(character: str) -> bool:
@@ -942,13 +946,13 @@ lateral_approximant_pulmonic: List[str] = ["l", "ɭ", "ʎ", "ʟ"]
 # CONSONANTS (PULMONIC)
 consonants_pulmonic: List[str] \
     = plosivePulmonic \
-    + nasalPulmonic \
-    + trillPulmonic \
-    + tapOrFlapPulmonic \
-    + fricativePulmonic \
-    + lateral_fricative_pulmonic \
-    + approximant_pulmonic \
-    + lateral_approximant_pulmonic
+      + nasalPulmonic \
+      + trillPulmonic \
+      + tapOrFlapPulmonic \
+      + fricativePulmonic \
+      + lateral_fricative_pulmonic \
+      + approximant_pulmonic \
+      + lateral_approximant_pulmonic
 
 consonants_nonpulmonic: List[str] = \
     ["ʘ", "ɓ",
@@ -1372,7 +1376,7 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
     # Handle Diacritics:
 
     if len(ipa_text) > 0:
-        if ipa_text[-1] == "̥":
+        if ipa_text[-1] == "̥" or ipa_text[-1] == "̊":
             full_grapheme: Optional[Phonet] = analyze_transcription(ipa_text[:-1])
             if full_grapheme is not None:
                 if isinstance(full_grapheme, Consonant):
@@ -1815,7 +1819,10 @@ def construct_transcription_recursively(recursion_limit: int,
                                                                airstream))
         if result is None:
             return None
-        return result + "̥"  # add diacritic for voiceless
+        if is_descender(result):
+            return result + "̊"  # add diacritic for voiceless that goes above
+        else:
+            return result + "̥"  # add diacritic for voiceless that goes below
 
     # Add the small circle diacritic to vowels to make them voiceless.
     if isinstance(phone, Vowel) and phone.vocal_folds == VocalFolds.VOICELESS \
@@ -1831,7 +1838,10 @@ def construct_transcription_recursively(recursion_limit: int,
                                                            VocalFolds.VOICED))
         if result is None:
             return None
-        return result + "̥"
+        if is_descender(result):
+            return result + "̊"  # add diacritic for voiceless that goes above
+        else:
+            return result + "̥"  # add diacritic for voiceless that goes below
 
     # If there is no way to express a voiced consonant in a single
     # grapheme add a diacritic to the grapheme that represents

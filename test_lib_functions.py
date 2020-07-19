@@ -80,10 +80,10 @@ class TestLibFunctions(unittest.TestCase):
         result = devoiced_transcription(voiced_phoneme)
         expected = unvoiced_phoneme
         self.assertEqual(result, expected,
-                         msg= ("should be that: [" + voiced_phoneme
+                         msg=("should be that: [" + voiced_phoneme
                                + "] devoiced is [" + unvoiced_phoneme + "]"))
 
-    def test_voicing(self) -> None:
+    def test_voicing_no_diacritics(self) -> None:
         self.is_voiceless_counterpart_of("t", "d")
         self.is_voiceless_counterpart_of("p", "b")
         self.is_voiceless_counterpart_of("ʈ", "ɖ")
@@ -106,6 +106,87 @@ class TestLibFunctions(unittest.TestCase):
         self.is_voiceless_counterpart_of("ħ", "ʕ")
         self.is_voiceless_counterpart_of("h", "ɦ")
         self.is_voiceless_counterpart_of("ɬ", "ɮ")
+
+    def test_voicing_with_voiceless_diacritic_usual(self) -> None:
+        """
+        Test that phonemes that in IPA require the diacritic symbol
+        to express voicelessness are handled correctly
+        :return: None
+        """
+        # Nasal consonants:
+        self.is_voiceless_counterpart_of("m̥", "m")
+        self.is_voiceless_counterpart_of("ɱ̊", "ɱ")
+        self.is_voiceless_counterpart_of("n̥", "n")
+        self.is_voiceless_counterpart_of("ɲ̊", "ɲ")
+        self.is_voiceless_counterpart_of("ɳ̊", "ɳ")
+        self.is_voiceless_counterpart_of("ŋ̊", "ŋ")
+        self.is_voiceless_counterpart_of("ɴ̥", "ɴ")
+
+        # Trill consonants:
+        self.is_voiceless_counterpart_of("ʙ̥", "ʙ")
+        self.is_voiceless_counterpart_of("r̥", "r")
+        self.is_voiceless_counterpart_of("ʀ̥", "ʀ")
+
+        # Tap or flap consonants:
+        self.is_voiceless_counterpart_of("ⱱ̥", "ⱱ")
+        self.is_voiceless_counterpart_of("ɾ̥", "ɾ")
+        self.is_voiceless_counterpart_of("ɽ̊", "ɽ")
+
+        # Approximant consonants:
+        self.is_voiceless_counterpart_of("ʋ̥", "ʋ")
+        self.is_voiceless_counterpart_of("ɹ̥", "ɹ")
+        self.is_voiceless_counterpart_of("ɻ̊", "ɻ")
+        self.is_voiceless_counterpart_of("j̊", "j")
+        self.is_voiceless_counterpart_of("ɰ̊", "ɰ")
+
+        # Lateral approximants:
+        self.is_voiceless_counterpart_of("l̥", "l")
+        self.is_voiceless_counterpart_of("ɭ̥", "ɭ")
+        self.is_voiceless_counterpart_of("ʎ̥", "ʎ")
+        self.is_voiceless_counterpart_of("ʟ̥", "ʟ")
+
+        # Vowels
+        self.is_voiceless_counterpart_of("i̥", "i")
+        self.is_voiceless_counterpart_of("ẙ", "y")
+        self.is_voiceless_counterpart_of("ɨ̥", "ɨ")
+        self.is_voiceless_counterpart_of("ʉ̥", "ʉ")
+        self.is_voiceless_counterpart_of("ɯ̥", "ɯ")
+        self.is_voiceless_counterpart_of("u̥", "u")
+        self.is_voiceless_counterpart_of("ɪ̥", "ɪ")
+        self.is_voiceless_counterpart_of("ʏ̥", "ʏ")
+        self.is_voiceless_counterpart_of("ʊ̥", "ʊ")
+        self.is_voiceless_counterpart_of("e̥", "e")
+        self.is_voiceless_counterpart_of("ø̥", "ø")
+        self.is_voiceless_counterpart_of("ɘ̥", "ɘ")
+        self.is_voiceless_counterpart_of("ɵ̥", "ɵ")
+        self.is_voiceless_counterpart_of("ɤ̥", "ɤ")
+        self.is_voiceless_counterpart_of("o̥", "o")
+        self.is_voiceless_counterpart_of("ə̥", "ə")
+        self.is_voiceless_counterpart_of("ɛ̥", "ɛ")
+        self.is_voiceless_counterpart_of("œ̥", "œ")
+        self.is_voiceless_counterpart_of("ɜ̥", "ɜ")
+        self.is_voiceless_counterpart_of("ɜ̥", "ɜ")
+        self.is_voiceless_counterpart_of("ɞ̥", "ɞ")
+        self.is_voiceless_counterpart_of("ʌ̥", "ʌ")
+        self.is_voiceless_counterpart_of("ɔ̥", "ɔ")
+        self.is_voiceless_counterpart_of("æ̥", "æ")
+        self.is_voiceless_counterpart_of("ɐ̥", "ɐ")
+        self.is_voiceless_counterpart_of("ḁ", "a")
+        self.is_voiceless_counterpart_of("ɶ̥", "ɶ")
+        self.is_voiceless_counterpart_of("ɑ̥", "ɑ")
+        self.is_voiceless_counterpart_of("ɒ̥", "ɒ")
+        self.is_voiceless_counterpart_of("w̥", "w")
+        self.is_voiceless_counterpart_of("ɥ̊", "ɥ")
+        self.is_voiceless_counterpart_of("ɕ", "ʑ")
+        self.is_voiceless_counterpart_of("ɺ̥", "ɺ")
+
+
+
+    def test_voicing_with_voiced_diacritic(self) -> None:
+        self.is_voiceless_counterpart_of("ʔ","ʔ̬")
+        self.is_voiceless_counterpart_of("ʡ","ʡ̬")
+        self.is_voiceless_counterpart_of("ʍ", "ʍ̬")
+
 
 
     def test_voicing_when_no_change(self) -> None:
