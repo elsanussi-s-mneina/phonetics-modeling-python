@@ -27,6 +27,19 @@ class TestLibFunctions(unittest.TestCase):
         self.assertEqual(result,
                          expected)
 
+    def test_ipa_text_to_phonet_list_report__given_one_affricate(self) -> None:
+        result = ipa_text_to_phonet_list_report("t͡ʃ")
+        expected = "/t͡ʃ/ voiceless post-alveolar affricate pulmonic egressive consonant"
+        self.assertEqual(result, expected,
+                         msg="should be that [t͡ʃ] ..")
+
+    def test_ipa_text_to_phonet_list_report__given_one_affricate_accept_other_tie_bar(self) -> None:
+        result = ipa_text_to_phonet_list_report("t͜ʃ")
+        expected = "/t͜ʃ/ voiceless post-alveolar affricate pulmonic egressive consonant"
+        self.assertEqual(result, expected,
+                         msg="should accept opposite tie-bar")
+
+
     def test_ipa_text_to_phonet_list_report__given_two_phonemes(self) -> None:
         result = ipa_text_to_phonet_list_report("kc")
         expected = "/k/ voiceless velar plosive pulmonic egressive consonant\n" + \
@@ -74,14 +87,16 @@ class TestLibFunctions(unittest.TestCase):
         """
         result = voiced_transcription(unvoiced_phoneme)
         expected = voiced_phoneme
-        self.assertEqual(result, expected,
-                         msg="should be that: [" + unvoiced_phoneme + "] voiced is [" + voiced_phoneme + "]")
+        self.assertEqual(
+            result,
+            expected,
+            msg="should be that: [" + unvoiced_phoneme + "] voiced is [" + voiced_phoneme + "]")
 
         result = devoiced_transcription(voiced_phoneme)
         expected = unvoiced_phoneme
         self.assertEqual(result, expected,
                          msg=("should be that: [" + voiced_phoneme
-                               + "] devoiced is [" + unvoiced_phoneme + "]"))
+                              + "] devoiced is [" + unvoiced_phoneme + "]"))
 
     def test_voicing_no_diacritics(self) -> None:
         self.is_voiceless_counterpart_of("t", "d")
@@ -183,8 +198,8 @@ class TestLibFunctions(unittest.TestCase):
 
 
     def test_voicing_with_voiced_diacritic(self) -> None:
-        self.is_voiceless_counterpart_of("ʔ","ʔ̬")
-        self.is_voiceless_counterpart_of("ʡ","ʡ̬")
+        self.is_voiceless_counterpart_of("ʔ", "ʔ̬")
+        self.is_voiceless_counterpart_of("ʡ", "ʡ̬")
         self.is_voiceless_counterpart_of("ʍ", "ʍ̬")
 
 

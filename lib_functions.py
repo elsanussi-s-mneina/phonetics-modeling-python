@@ -1234,10 +1234,10 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
                          Airstream.PULMONIC_EGRESSIVE)
 
     # Affricates
-    if ipa_text == "t͡ʃ":
+    if ipa_text in ["t͡ʃ", "t͜ʃ"]:
         return Consonant(VocalFolds.VOICELESS, Place.POSTALVEOLAR, Manner.AFFRICATE,
                          Airstream.PULMONIC_EGRESSIVE)
-    if ipa_text == "d͡ʒ":
+    if ipa_text in ["d͡ʒ", "d͜ʒ"]:
         return Consonant(VocalFolds.VOICED, Place.POSTALVEOLAR, Manner.AFFRICATE,
                          Airstream.PULMONIC_EGRESSIVE)
     # We should probably enforce use of the tie-bar underneath, otherwise
