@@ -30,7 +30,7 @@ class Phonet:
     def __init__(self):
         pass
 
-
+@unique
 class VocalFolds(Enum):
     """
     Represents the state of vocal cords.
@@ -42,7 +42,7 @@ class VocalFolds(Enum):
     VOICELESS_ASPIRATED = auto()
     CREAKY_VOICED = auto()
 
-
+@unique
 class Place(Enum):
     """
     Represents the place where the sound is made.
@@ -73,7 +73,7 @@ class MultiPlace:
     def __init__(self, places: List[Place]):
         self.places = places
 
-
+@unique
 class Manner(Enum):
     """
     The manner is how the articulation is made. Specifically,
