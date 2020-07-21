@@ -14,7 +14,7 @@ from tkinter import Button, simpledialog, Tk, StringVar, Label, RAISED, LEFT, N,
 
 from english_us_text import PHONEME_TO_DEVOICE_MESSAGE, PHONEME_TO_VOICE_MESSAGE, \
     PHONEME_TO_DESCRIBE_MESSAGE, PHONEME_TO_CALCULATE_SPE_MESSAGE, \
-    ipaTextToDivideMessage, SHOW_PHONEME_INVENTORY_TEXT, \
+    IPA_TEXT_TO_DIVIDE_MESSAGE, SHOW_PHONEME_INVENTORY_TEXT, \
     MAKE_A_PHONEME_VOICED_TEXT, DESCRIBE_PHONEME_TEXT, GET_FEATURES_OF_PHONEME_TEXT, \
     SPLIT_TRANSCRIPTION_TEXT, QUIT_TEXT, PROMPT, PLEASE_READ_README_MESSAGE, \
     PROGRAM_TERMINATED_NORMALLY_MESSAGE, USER_SELECTED_MESSAGE, APPLICATION_TITLE, \
@@ -146,7 +146,7 @@ def prompt_for_transcription_text_to_split() -> None:
     separate lines.
     :return: None
     """
-    prompt_for_text_and_apply(ipa_text_to_phonet_list_report, ipaTextToDivideMessage)
+    prompt_for_text_and_apply(ipa_text_to_phonet_list_report, IPA_TEXT_TO_DIVIDE_MESSAGE)
 
 
 class Application:
@@ -285,7 +285,7 @@ class Application:
         With each phoneme on separate lines.
         :return: None
         """
-        answer = simpledialog.askstring(DIALOG_WINDOW_TITLE, ipaTextToDivideMessage)
+        answer = simpledialog.askstring(DIALOG_WINDOW_TITLE, IPA_TEXT_TO_DIVIDE_MESSAGE)
         if answer is not None:
             report = ipa_text_to_phonet_list_report(answer)
             self.output_to_user.set(report)

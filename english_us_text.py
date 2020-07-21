@@ -54,7 +54,7 @@ PHONEME_TO_CALCULATE_SPE_MESSAGE: Final[str] = \
     and the computer will display
     its SPE features:"""
 
-ipaTextToDivideMessage: Final[str] = \
+IPA_TEXT_TO_DIVIDE_MESSAGE: Final[str] = \
     """
     Type text using IPA symbols: and then press the enter key:
     and the computer will display
