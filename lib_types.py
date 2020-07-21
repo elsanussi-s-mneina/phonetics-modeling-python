@@ -10,7 +10,7 @@ It should not contain any functions other than those
  debugging purposes on the screen.
 """
 from enum import Enum, auto, unique
-from typing import List, Union
+from typing import Final, List, Union
 
 
 class Phonet:
@@ -42,6 +42,13 @@ class VocalFolds(Enum):
     VOICELESS_ASPIRATED = auto()
     CREAKY_VOICED = auto()
 
+vocal_fold_states: Final[List[VocalFolds]] = \
+    [VocalFolds.VOICED,
+     VocalFolds.VOICELESS,
+     VocalFolds.VOICED_ASPIRATED,
+     VocalFolds.VOICELESS_ASPIRATED,
+     VocalFolds.CREAKY_VOICED]
+
 @unique
 class Place(Enum):
     """
@@ -69,6 +76,25 @@ class Place(Enum):
     # is between alveolopalatal, and palatoalveolar
 
 
+place_states: Final[List[Place]] = \
+    [Place.BILABIAL,
+     Place.LABIODENTAL,
+     Place.DENTAL,
+     Place.ALVEOLAR,
+     Place.POSTALVEOLAR,
+     Place.RETROFLEX,
+     Place.PALATAL,
+     Place.VELAR,
+     Place.UVULAR,
+     Place.PHARYNGEAL,
+     Place.GLOTTAL,
+     Place.EPIGLOTTAL,
+     Place.LABIAL_VELAR,
+     Place.LABIAL_PALATAL,
+     Place.ALVEOLOPALATAL,
+     Place.PALATOALVEOLAR]
+
+
 class MultiPlace:
     def __init__(self, places: List[Place]):
         self.places = places
@@ -94,6 +120,20 @@ class Manner(Enum):
     LATERAL = auto()  # we need this one for the lateral click.
 
 
+manner_states: Final[List[Manner]] = \
+    [Manner.PLOSIVE,
+     Manner.NASAL,
+     Manner.TRILL,
+     Manner.TAP_OR_FLAP,
+     Manner.APPROXIMANT,
+     Manner.FRICATIVE,
+     Manner.AFFRICATE,
+     Manner.LATERAL_FRICATIVE,
+     Manner.LATERAL_APPROXIMANT,
+     Manner.LATERAL_FLAP,
+     Manner.LATERAL]
+
+
 @unique
 class Airstream(Enum):
     """
@@ -103,6 +143,12 @@ class Airstream(Enum):
     PULMONIC_EGRESSIVE = auto()
     CLICK = auto()
     IMPLOSIVE = auto()
+
+
+airstream_states: Final[List[Airstream]] = \
+    [Airstream.PULMONIC_EGRESSIVE,
+     Airstream.CLICK,
+     Airstream.IMPLOSIVE]
 
 
 class Consonant(Phonet):
@@ -147,6 +193,11 @@ class Backness(Enum):
     BACK = auto()
 
 
+backness_states: Final[List[Backness]] = \
+    [Backness.FRONT,
+     Backness.CENTRAL,
+     Backness.BACK]
+
 @unique
 class Height(Enum):
     """
@@ -162,6 +213,14 @@ class Height(Enum):
     OPEN = auto()
 
 
+height_states: List[Height] = [Height.CLOSE,
+                               Height.NEAR_CLOSE,
+                               Height.CLOSE_MID,
+                               Height.MID,
+                               Height.OPEN_MID,
+                               Height.NEAR_OPEN,
+                               Height.OPEN]
+
 @unique
 class Rounding(Enum):
     """
@@ -170,6 +229,7 @@ class Rounding(Enum):
     ROUNDED = auto()
     UNROUNDED = auto()
 
+rounding_states: List[Rounding] = [Rounding.ROUNDED, Rounding.UNROUNDED]
 
 class Vowel(Phonet):
     """

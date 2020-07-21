@@ -15,8 +15,14 @@ from lib_types import (Phonet, Height, Backness, Rounding, VocalFolds, AdvancedT
                        LaryngealFeature,
                        RoundFeature, AnteriorFeature, DistributedFeature, StridentFeature,
                        HighFeature,
-                       LowFeature, BackFeature, PhonetInventory
-                       )
+                       LowFeature, BackFeature, PhonetInventory,
+                       UnmarkableConsonant, UnmarkableVowel,
+                       UnmarkablePlace, UnmarkableVocalFolds, MarkedVocalFolds, UnmarkedVocalFolds,
+                       UnmarkedHeight, UnmarkedBackness, MarkedManner, MarkedPlace, UnmarkedPlace,
+                       UnmarkedManner, UnmarkableManner, MarkedBackness, MarkedHeight,
+                       UnmarkableHeight, UnmarkableBackness, UnmarkableAirstream, MarkedAirstream,
+                       UnmarkedAirstream, UnmarkedRounding, MarkedRounding, UnmarkablePhonet,
+                       UnmarkableRounding)
 
 from english_us_text import (BACK_PHONEME_FEATURE_TEXT,
                              LOW_PHONEME_FEATURE_TEXT, HIGH_PHONEME_FEATURE_TEXT,
@@ -532,134 +538,147 @@ def spirantized_phonet(phone: Phonet) -> Phonet:
     return phone
 
 
-""" #TODO: Implement later
-def unmarkDifferences(phone₁: Phonet, phone₂: Phonet) -> UnmarkablePhonet:
- = case (phone₁, phone₂) of
-  ( Consonant voice₁ place₁ manner₁ airstream₁
-    , Consonant voice₂ place₂ manner₂ airstream₂) ->
-    let voice'     = unmarkVoice voice₁ voice₂
-        place'     = unmarkPlace place₁ place₂
-        manner'    = unmarkManner manner₁ manner₂
-        airstream' = unmarkAirstream airstream₁ airstream₂
-    in UnmarkableConsonant voice' place' manner' airstream'
-
-  ( Vowel height₁ backness₁ rounding₁ voice₁
-    , Vowel height₂ backness₂ rounding₂ voice₂) ->
-    let voice'    = unmarkVoice voice₁ voice₂
-        height'   = unmarkHeight height₁ height₂
-        backness' = unmarkBackness backness₁ backness₂
-        rounding' = unmarkRounding rounding₁ rounding₂
-    in UnmarkableVowel height' backness' rounding' voice'
-
-  ( Vowel _ _ _ voice₁
-    , Consonant voice₂ _ _ _) ->
-    let voice' = unmarkVoice voice₁ voice₂
-    in UnmarkableVowel UnmarkedHeight UnmarkedBackness UnmarkedRounding voice'
-
-  ( Consonant {}
-    , Vowel {}) ->
-    unmarkDifferences phone₂ phone₁ # Change the order of arguments
-  where
-    unmarkVoice voice₁ voice₂ =
-      if voice₁ == voice₂
-        then MarkedVocalFolds voice₁
-        else UnmarkedVocalFolds
-
-    unmarkPlace place₁ place₂ =
-      if place₁ `equivalent_in_place` place₂
-        then MarkedPlace place₁
-        else UnmarkedPlace
-
-    unmarkManner manner₁ manner₂ =
-      if manner₁ == manner₂
-        then MarkedManner manner₁
-        else UnmarkedManner
-
-    unmarkAirstream airstream₁ airstream₂ =
-      if airstream₁ == airstream₂
-        then MarkedAirstream  airstream₁
-        else UnmarkedAirstream
-
-    unmarkHeight height₁ height₂ =
-      if height₁   == height₂
-        then MarkedHeight     height₁
-        else UnmarkedHeight
-
-    unmarkBackness backness₁ backness₂ =
-      if backness₁ == backness₂
-        then MarkedBackness   backness₁
-        else UnmarkedBackness
-
-    unmarkRounding rounding₁ rounding₂ =
-      if rounding₁ == rounding₂
-        then MarkedRounding   rounding₁
-        else UnmarkedRounding
+def unmark_voice(voice_1: VocalFolds, voice_2: VocalFolds) -> UnmarkableVocalFolds:
+    if voice_1 == voice_2:
+        return MarkedVocalFolds(voice_1)
+    return UnmarkedVocalFolds()
 
 
-# This function
-# takes any unmarked attributes in the phoneme definition,
-# and returns a list with all possible phonemes that have that attribute.
-similarPhonemesTo :: UnmarkablePhonet -> [Phonet]
-similarPhonemesTo (UnmarkableConsonant voice₁ place₁ manner₁ airstream₁) =
-  let voice'     = toList (similarInVoice     voice₁    )
-      place'     = toList (similarInPlace     place₁    )
-      manner'    = toList (similarInManner    manner₁   )
-      airstream' = toList (similarInAirstream airstream₁)
-  in [Consonant v phone m a | phone<- place', v<- voice',  m<- manner', a<- airstream']
-
-similarPhonemesTo (UnmarkableVowel height₁ backness₁ rounding₁ voice₁) =
-  let voice'    = toList (similarInVoice    voice₁   )
-      height'   = toList (similarInHeight   height₁  )
-      backness' = toList (similarInBackness backness₁)
-      rounding' = toList (similarInRounding rounding₁)
-  in [Vowel h b r v | h<- height', b<- backness', r<- rounding', v<- voice']
+def unmark_place(place_1: Place, place_2: Place) -> UnmarkablePlace:
+    if equivalent_in_place(place_1, place_2):
+        return MarkedPlace(place_1)
+    return UnmarkedPlace()
 
 
-similarInVoice :: UnmarkableVocalFolds -> NonEmpty VocalFolds
-similarInVoice voice₁ =
-  case voice₁ of
-       MarkedVocalFolds x -> one x
-       UnmarkedVocalFolds -> vocalFoldStates
-
-similarInPlace :: UnmarkablePlace -> NonEmpty Place
-similarInPlace place₁ =
-  case place₁ of
-       MarkedPlace x -> one x
-       UnmarkedPlace -> placeStates
+def unmark_manner(manner_1: Manner, manner_2: Manner) -> UnmarkableManner:
+    if manner_1 == manner_2:
+        return MarkedManner(manner_1)
+    return UnmarkedManner()
 
 
-similarInManner :: UnmarkableManner -> NonEmpty Manner
-similarInManner manner₁ =
-  case manner₁ of
-       MarkedManner x -> one x
-       UnmarkedManner -> mannerStates
-
-similarInAirstream :: UnmarkableAirstream -> NonEmpty Airstream
-similarInAirstream airstream₁ =
-  case airstream₁ of
-       MarkedAirstream x -> one x
-       UnmarkedAirstream -> airstreamStates
+def unmark_airstream(airstream_1: Airstream, airstream_2: Airstream) -> UnmarkableAirstream:
+    if airstream_1 == airstream_2:
+        return MarkedAirstream(airstream_1)
+    return UnmarkedAirstream()
 
 
-similarInHeight :: UnmarkableHeight -> NonEmpty Height
-similarInHeight height₁ =
-  case height₁ of
-       MarkedHeight x -> one x
-       UnmarkedHeight -> heightStates
+def unmark_height(height_1: Height, height_2: Height) -> UnmarkableHeight:
+    if height_1 == height_2:
+        return MarkedHeight(height_1)
+    return UnmarkedHeight()
 
-similarInBackness :: UnmarkableBackness -> NonEmpty Backness
-similarInBackness backness₁ =
-  case backness₁ of
-       MarkedBackness x -> one x
-       UnmarkedBackness -> backnessStates
 
-similarInRounding :: UnmarkableRounding -> NonEmpty Rounding
-similarInRounding rounding₁ =
-  case rounding₁ of
-       MarkedRounding x -> one x
-       UnmarkedRounding -> roundingStates
+def unmark_backness(backness_1: Backness, backness_2: Backness) -> UnmarkableBackness:
+    if backness_1 == backness_2:
+        return MarkedBackness(backness_1)
+    return UnmarkedBackness()
 
-"""
+
+def unmark_rounding(rounding_1: Rounding, rounding_2: Rounding) -> UnmarkableRounding:
+    if rounding_1 == rounding_2:
+        return MarkedRounding(rounding_1)
+    return UnmarkedRounding()
+
+
+def unmark_differences(phone_1: Phonet, phone_2: Phonet) -> UnmarkablePhonet:
+    if isinstance(phone_1, Consonant) and isinstance(phone_2, Consonant):
+        vocal_folds: UnmarkableVocalFolds = unmark_voice(phone_1.vocal_folds, phone_2.vocal_folds)
+        place: UnmarkablePlace = unmark_place(phone_1.place, phone_2.place)
+        manner: UnmarkableManner = unmark_manner(phone_1.manner, phone_2.manner)
+        airstream: UnmarkableAirstream = unmark_airstream(phone_1.airstream, phone_2.airstream)
+        return UnmarkableConsonant(vocal_folds, place, manner, airstream)
+    if isinstance(phone_1, Vowel) and isinstance(phone_2, Consonant):
+        vocal_folds: UnmarkableVocalFolds = unmark_voice(phone_1.vocal_folds, phone_2.vocal_folds)
+        return UnmarkableVowel(UnmarkedHeight(), UnmarkedBackness(), UnmarkedRounding(),
+                               vocal_folds)
+    if isinstance(phone_1, Consonant) and isinstance(phone_2, Vowel):
+        return unmark_differences(phone_2, phone_1)
+
+    # Both are vowels:
+    vocal_folds: UnmarkableVocalFolds = unmark_voice(phone_1.vocal_folds, phone_2.vocal_folds)
+    height: UnmarkableHeight = unmark_height(phone_1.height, phone_2.height)
+    backness: UnmarkableBackness = unmark_backness(phone_1.backness, phone_2.backness)
+    rounding: UnmarkableRounding = unmark_rounding(phone_1.rounding, phone_2.rounding)
+    return UnmarkableVowel(height, backness, rounding, vocal_folds)
+
+
+def similar_in_voice(voice_1: UnmarkableVocalFolds) -> List[VocalFolds]:
+    if isinstance(voice_1, MarkedVocalFolds):
+        return voice_1.vocal_fold
+    return vocal_fold_states
+
+
+def similar_in_place(place_1: UnmarkablePlace) -> List[Place]:
+    if isinstance(place_1, MarkedPlace):
+        return place_1.place
+    return place_states
+
+
+def similar_in_manner(manner_1: UnmarkableManner) -> List[Manner]:
+    if isinstance(manner_1, MarkedManner):
+        return manner_1.manner
+    return manner_states
+
+
+def similar_in_airstream(airstream_1: UnmarkableAirstream) -> List[Airstream]:
+    if isinstance(airstream_1, MarkedAirstream):
+        return airstream_1.airstream
+    return airstream_states
+
+
+def similar_in_height(height_1: UnmarkableHeight) -> List[Height]:
+    if isinstance(height_1, MarkedHeight):
+        return height_1.height
+    return height_states
+
+
+def similar_in_backness(backness_1: UnmarkableBackness) -> List[Backness]:
+    if isinstance(backness_1, MarkedBackness):
+        return backness_1.backness
+    return backness_states
+
+
+def similar_in_rounding(rounding_1: UnmarkableRounding) -> List[Rounding]:
+    if isinstance(rounding_1, MarkedRounding):
+        return rounding_1.rounding
+    return rounding_states
+
+
+def similar_consonants_to(phonet_1: UnmarkableConsonant) -> List[Phonet]:
+    vocal_folds: List[VocalFolds] = similar_in_voice(phonet_1.vocal_folds)
+    place: List[Place] = similar_in_place(phonet_1.place)
+    manner: List[Manner] = similar_in_manner(phonet_1.manner)
+    airstream: List[Airstream] = similar_in_airstream(phonet_1.airstream)
+    return [Consonant(v, p, m, a)
+            for p in place
+            for v in vocal_folds
+            for m in manner
+            for a in airstream
+            ]
+
+
+def similar_vowels_to(phonet_1: UnmarkableVowel) -> List[Phonet]:
+    vocal_folds: List[VocalFolds] = similar_in_voice(phonet_1.vocal_folds)
+    height: List[Height] = similar_in_height(phonet_1.height)
+    backness: List[Backness] = similar_in_backness(phonet_1.backness)
+    rounding: List[Rounding] = similar_in_rounding(phonet_1.rounding)
+    return [Vowel(h, b, r, v)
+            for h in height
+            for b in backness
+            for r in rounding
+            for v in vocal_folds
+            ]
+
+
+def similar_phonemes_to(phonet_1: UnmarkablePhonet) -> List[Phonet]:
+    """
+    This function
+    takes any unmarked attributes in the phoneme definition,
+    and returns a list with all possible phonemes that have that attribute.
+    """
+    if isinstance(phonet_1, UnmarkableConsonant):
+        return similar_consonants_to(phonet_1)
+    return similar_vowels_to(phonet_1)
 
 
 def impossible(phone: Phonet) -> bool:
@@ -877,7 +896,7 @@ diacritics_and_suprasegmentals: List[str] = \
      "̍",  # Syllabic (diacritic placed above)
      "̪",  # Dental
      "̣",  # Closer variety/Fricative
-     "̇"   # Palatalization/Centralization
+     "̇"  # Palatalization/Centralization
      ]
 
 exponentials_after: List[str] = diacritics_and_suprasegmentals + ["ː", "ˑ"]
@@ -966,6 +985,7 @@ descenders: List[str] = \
     ["p", "ɟ", "g", "q", "ɱ", "ɽ", "ʒ", "ʂ", "ʐ", "ç", "ʝ", "ɣ", "χ", "ɻ", "j",
      "ɰ", "ɥ", "y", "ɳ", "ɲ", "ŋ", "ʈ", "ɖ", "ɸ", "β", "ʃ", "ɮ", "ɧ"]
 
+
 # We don't include the retroflex l i.e <ɭ> a a descender
 # because, even though it is a descender,
 # There is more free space under it than above
@@ -1007,15 +1027,13 @@ def prevent_prohibited_combination(some_text: str) -> str:
         return first_character + lower_diacritic(second_character) + rest
     if is_descender(first_character) and is_diacritic_below(second_character):
         return first_character + raise_diacritic(second_character) + rest
-
     return some_text
 
 
 plosivePulmonic: List[str] = \
     ["p", "b", "t", "d",
      "ʈ", "ɖ", "c", "ɟ", "k", "g", "q", "ɢ",
-     "ʔ"
-     ]
+     "ʔ"]
 
 nasalPulmonic: List[str] = ["m", "ɱ", "n", "ɳ", "ɲ", "ŋ", "ɴ"]
 
@@ -1054,7 +1072,7 @@ consonants_nonpulmonic: List[str] = \
      "ɗ",  # Dental/alveolar
      "ǃ",  # (Post)alveolar
      "ʄ",
-     "ǂ", 
+     "ǂ",
      "ɠ",
      "ǁ",
      "ʛ"
@@ -1071,12 +1089,12 @@ other_symbols: List[str] = \
 
 vowels: List[str] = \
     ["i", "y", "ɨ", "ʉ", "ɯ", "u",  # Close
-     "ɪ", "ʏ", "ʊ",                 # Close-mid
+     "ɪ", "ʏ", "ʊ",  # Close-mid
      "e", "ø", "ɘ", "ɵ", "ɤ", "o",  # Open-mid
      "ə",
      "ɛ", "œ", "ɜ", "ɞ", "ʌ", "ɔ",  # Open-mid
      "æ", "ɐ",
-     "a", "ɶ", "ɑ", "ɒ"             # Open
+     "a", "ɶ", "ɑ", "ɒ"  # Open
      ]
 
 suprasegmentals: List[str] = \
@@ -1092,24 +1110,24 @@ suprasegmentals: List[str] = \
      ]
 
 tone_and_word_accents: List[str] = \
-    [          # Level:
-     "˥", "̋",  # Extra high level accent
-     "˦", "́",  # High level accent
-     "˧", "̄",  # Mid level accent
-     "˨", "̀",  # Low level accent
-     "˩", "̏",  # Extra low accent
-     "ꜜ",      # Downstep
-     "ꜛ",      # Upstep
+    [  # Level:
+        "˥", "̋",  # Extra high level accent
+        "˦", "́",  # High level accent
+        "˧", "̄",  # Mid level accent
+        "˨", "̀",  # Low level accent
+        "˩", "̏",  # Extra low accent
+        "ꜜ",  # Downstep
+        "ꜛ",  # Upstep
 
-               # Contour:
-     "̌",       # Rising contour accent
-     "̂",       # Falling contour accent
-     "᷄",       # High rising contour accent
-     "᷅",       # Low rising contour accent
-     "᷈",       # Rising-falling contour accent
-     "↗",      # Global rise
-     "↘"       # Global fall
-     ]
+        # Contour:
+        "̌",  # Rising contour accent
+        "̂",  # Falling contour accent
+        "᷄",  # High rising contour accent
+        "᷅",  # Low rising contour accent
+        "᷈",  # Rising-falling contour accent
+        "↗",  # Global rise
+        "↘"  # Global fall
+    ]
 
 graphemes_of_ipa: List[str] = \
     consonants_pulmonic \
