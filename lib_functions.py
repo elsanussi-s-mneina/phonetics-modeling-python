@@ -839,45 +839,45 @@ def english_phonet_inventory() -> PhonetInventory:
 exponentials_before: List[str] = ["ⁿ"]
 
 diacritics_and_suprasegmentals: List[str] = \
-    ["̥",
-     "̊",
-     "̤",
-
-     "̬",
-     "̰",
-     "̺",
-
-     "ʰ",
-     "̼",
-     "̻",
-
-     "̹",
-     "ʷ",
-     "̃",
-
-     "̜",
-     "ʲ",
-     "ⁿ",
-     "̟",
-     "ˠ",
-     "ˡ",
-     "̠",
-     "ˤ",
-     "̚",
-     "̈",
-     "̽",
-     "̝",
-     "̩",
-     "̞",
-     "̯",
-     "̘",
-     "˞",
-     "̙",
-     "ʼ",
-     "̍",
-     "̪",
-     "̣",
-     "̇"
+    ["̥",  # Voiceless
+     "̊",  # Voiceless (diacritic placed above symbol with descender)
+     "̤",  # Breathy voiced
+     # End of first row.
+     "̬",  # Voiced
+     "̰",  # Creaky voiced
+     "̺",  # Apical
+     # End of second row.
+     "ʰ",  # Aspirated
+     "̼",  # Linguolabial
+     "̻",  # Laminal
+     # End of third row.
+     "̹",  # More rounded
+     "ʷ",  # Labialised
+     "̃",  # Nasalised
+     # End of fourth row.
+     "̜",  # Less rounded
+     "ʲ",  # Palatalised
+     "ⁿ",  # Pre/post nasalised
+     "̟",  # Advanced
+     "ˠ",  # Velarised
+     "ˡ",  # Lateral release
+     "̠",  # Retracted
+     "ˤ",  # Pharyngealised
+     "̚",  # No audible release
+     "̈",  # Centralised
+     "̽",  # Mid centralised
+     "̝",  # Raised
+     "̩",  # Syllabic
+     "̞",  # Lowered
+     "̯",  # Non-syllabic
+     "̘",  # Advanced tongue root
+     "˞",  # Rhoticity
+     "̙",  # Retracted tongue root
+     "ʼ",  # Ejective
+     "̍",  # Syllabic (diacritic placed above)
+     "̪",  # Dental
+     "̣",  # Closer variety/Fricative
+     "̇"   # Palatalization/Centralization
      ]
 
 exponentials_after: List[str] = diacritics_and_suprasegmentals + ["ː", "ˑ"]
@@ -985,7 +985,7 @@ def is_descender(character: str) -> bool:
     return character in descenders
 
 
-def prevent_prohibitied_combination(some_text: str) -> str:
+def prevent_prohibited_combination(some_text: str) -> str:
     """
     Prevent placement of diacritics below a full-width
     character,
@@ -1048,13 +1048,16 @@ consonants_pulmonic: List[str] \
       + lateral_approximant_pulmonic
 
 consonants_nonpulmonic: List[str] = \
-    ["ʘ", "ɓ",
-     "ǀ",
-     "ɗ",
-     "ǃ",
+    ["ʘ",
+     "ɓ",  # Bilabial
+     "ǀ",  # Dental
+     "ɗ",  # Dental/alveolar
+     "ǃ",  # (Post)alveolar
      "ʄ",
-     "ǂ", "ɠ",
-     "ǁ", "ʛ"
+     "ǂ", 
+     "ɠ",
+     "ǁ",
+     "ʛ"
      ]
 
 other_symbols: List[str] = \
@@ -1067,42 +1070,45 @@ other_symbols: List[str] = \
      ]
 
 vowels: List[str] = \
-    ["i", "y", "ɨ", "ʉ", "ɯ", "u",
-     "ɪ", "ʏ", "ʊ",
-     "e", "ø", "ɘ", "ɵ", "ɤ", "o",
+    ["i", "y", "ɨ", "ʉ", "ɯ", "u",  # Close
+     "ɪ", "ʏ", "ʊ",                 # Close-mid
+     "e", "ø", "ɘ", "ɵ", "ɤ", "o",  # Open-mid
      "ə",
-     "ɛ", "œ", "ɜ", "ɞ", "ʌ", "ɔ",
+     "ɛ", "œ", "ɜ", "ɞ", "ʌ", "ɔ",  # Open-mid
      "æ", "ɐ",
-     "a", "ɶ", "ɑ", "ɒ"
+     "a", "ɶ", "ɑ", "ɒ"             # Open
      ]
 
 suprasegmentals: List[str] = \
-    ["ˈ",
-     "ˌ",
-     "ː",
-     "ˑ",
-     "̆",
-     "|",
-     "‖",
-     ".",
-     "‿",
+    ["ˈ",  # Primary stress
+     "ˌ",  # Secondary stress
+     "ː",  # Long
+     "ˑ",  # Half long
+     "̆",  # Extra short
+     "|",  # Minor (foot) group
+     "‖",  # Major (intonation) group
+     ".",  # Syllable break
+     "‿",  # Linking (absence of a break)
      ]
 
 tone_and_word_accents: List[str] = \
-    ["˥", "̋",
-     "˦", "́",
-     "˧", "̄",
-     "˨", "̀",
-     "˩", "̏",
-     "ꜜ",
-     "ꜛ",
-     "̌",
-     "̂",
-     "᷄",
-     "᷅",
-     "᷈",
-     "↗",
-     "↘"
+    [          # Level:
+     "˥", "̋",  # Extra high level accent
+     "˦", "́",  # High level accent
+     "˧", "̄",  # Mid level accent
+     "˨", "̀",  # Low level accent
+     "˩", "̏",  # Extra low accent
+     "ꜜ",      # Downstep
+     "ꜛ",      # Upstep
+
+               # Contour:
+     "̌",       # Rising contour accent
+     "̂",       # Falling contour accent
+     "᷄",       # High rising contour accent
+     "᷅",       # Low rising contour accent
+     "᷈",       # Rising-falling contour accent
+     "↗",      # Global rise
+     "↘"       # Global fall
      ]
 
 graphemes_of_ipa: List[str] = \
