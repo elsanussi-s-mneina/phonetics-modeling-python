@@ -69,6 +69,16 @@ def ipa_text_to_phonet_list_report(text: str) -> str:
 
 def ipa_and_phonet_format(
         transcription_and_phonet: Tuple[str, Optional[Phonet]]) -> str:
+    """
+    Given a string containing IPA, and its phonetic attributes (place, manner, etc.)
+    construct a line of text with the IPA phoneme,
+    and its name.
+    :param transcription_and_phonet: a tuple, of an IPA phoneme (e.g. "p"), and
+    the Phonet instance that represents it.
+    :return: a line of text with the IPA text surrounded by "/" slashes. This represents
+    a phoneme in IPA notation. Then its description or name in a natural language such
+    as English.
+    """
     ipa_text, phonet = transcription_and_phonet
     phonet_summary = show_phonet(phonet)
     if phonet_summary is None:
@@ -78,6 +88,11 @@ def ipa_and_phonet_format(
 
 def ipa_text_to_phonet_list(
         text: str) -> List[Tuple[str, Optional[Phonet]]]:
+    """
+    Split IPA text into parts.
+    :param text: text to split
+    :return: a list of tuples of IPA text, and possible Phonet instances
+    """
     ipa_chunks = list(filter(lambda x: len(x) > 0, split_by_phonetes(text)))
     phonetes = map(analyze_transcription, ipa_chunks)
     return list(zip(ipa_chunks, phonetes))
@@ -179,10 +194,25 @@ def split_by_phonetes(some_text: str) -> List[str]:
 
 
 def parse_start(some_text: str) -> List[str]:
+    """
+    Start parsing some IPA text, in order to
+    chunk it into phonemes.
+    :param some_text: some text in IPA
+    :return: the same text but split into a list
+    """
     return split_by_phonetes_prepostdiacrtic(some_text)
 
 
 def split_by_phonetes_prediacritic(text: str) -> List[str]:
+    """
+    Handle situations where the diacritic character occurs
+    before the main character.
+    Handle strings like "ⁿd".
+    If it doesn't find a main character with a diacritic before
+    it, it will look for a diacritic after the main character.
+    :param text: text that may contain text with prediacrtic
+    :return: a list of IPA characters split
+    """
     result: Optional[Tuple[str, str]] = prediacritic_parser_function(text)
     if result is None:
         return split_by_phonetes_postdiacrtic(text)
@@ -205,6 +235,13 @@ def split_by_phonetes_prepostdiacrtic(text: str) -> List[str]:
 
 
 def split_by_phonetes_postdiacrtic(text: str) -> List[str]:
+    """
+    Try to split IPA text into a list of IPA text, each element
+     representing phonemes. Handle "dʰ", etc.
+
+    :param text: a string of IPA text not yet split into phonemes
+    :return: a list of phonemes represented by IPA text
+    """
     result: Optional[Tuple[str, str]] = postdiacritic_parser_function(text)
 
     if result is None:
@@ -215,6 +252,12 @@ def split_by_phonetes_postdiacrtic(text: str) -> List[str]:
 
 
 def split_by_phonetes_nondiacrtic(text: str) -> List[str]:
+    """
+    Handle "d", "t", etc. and situations where there is no diacritic.
+
+    :param text: text containing IPA text
+    :return: a list of phonemes
+    """
     result: Optional[Tuple[str, str]] = nondiacritic_parser_function(text)
     if result is None:
         return [text]  # stop parsing!
@@ -224,6 +267,12 @@ def split_by_phonetes_nondiacrtic(text: str) -> List[str]:
 
 
 def nondiacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
+    """
+    Parse the part cont containing diacritic (except the tie-bar).
+    :param text: text containing IPA
+    :return: a tuple with the part parsed in the frist part, and the
+    part not yet parsed after.
+    """
     if len(text) > 0 and is_segmental(text[0]):
         if is_tie_bar_at(1, text):
             return text[:3], text[3:]
@@ -232,6 +281,13 @@ def nondiacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
 
 
 def is_consonant_at(index: int, some_text: str) -> bool:
+    """
+    Whether the character in the string at a certain place,
+    represents a consonant.
+    :param index: an index within the range of 0, and the length of the string argument
+    :param some_text: a text string
+    :return: true if it is a consonant
+    """
     return is_such_at(is_consonant, index, some_text)
 
 
@@ -264,14 +320,35 @@ def is_segmental(a_char: str) -> bool:
 
 
 def is_exponential_after_at(index: int, some_text: str) -> bool:
+    """
+    Whether a character is a diacritic that can go after
+    the main character.
+    :param index: a number indicating where the character is in the text
+    :param some_text: the text that contains the character
+    :return: true if the character can be a diacritic after the main character
+    """
     return is_such_at(is_exponential_after, index, some_text)
 
 
 def is_tie_bar_at(index: int, some_text: str) -> bool:
+    """
+    Whether a character at a certain place in a string,
+    is the tie-bar diacritic.
+    :param index: a number telling which character in the string
+    :param some_text: the string (some text)
+    :return: true if it is a tie-bar
+    """
     return is_such_at(is_tie_bar, index, some_text)
 
 
 def is_such_at(func: Callable[[str], bool], index: int, text: str) -> bool:
+    """
+    Whether a character at a string is of a certain class.
+    :param func: a function
+    :param index: a number indicating which character in the text
+    :param text: a string
+    :return: whether it is true
+    """
     return index < len(text) and func(text[index])
 
 
@@ -290,6 +367,8 @@ def is_exponential_after(a_char: str) -> bool:
 
 def is_exponential_before(a_char: str) -> bool:
     """
+    ًWhether a character is a diacritic that can go
+    before a main character.
     """
     return elem_w(exponentials_before)(a_char)
 
@@ -331,6 +410,13 @@ def prediacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
 
 
 def prepostdiacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
+    """
+    Parse text that contains IPA text, can parse the next phoneme
+    even if it contains diacritics before and after the main character.
+    :param text: text to parse
+    :return: a tuple or nothing. The first part of the tuple is a parsed
+    phoneme, the second part is the part of the text not parsed yet
+    """
     preresult: Optional[Tuple[str, str]] = prediacritic_parser_function(text)
 
     if preresult is None:
@@ -348,6 +434,13 @@ def prepostdiacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
 
 
 def postdiacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
+    """
+    Parse IPA text that can contain a diacritic after.
+    :param text: text to attempt to parse
+    :return: nothing if it was not parsable, otherwise a tuple with what
+    was parsed first (IPA text representing a phoneme), and the part not
+    parsed yet after.
+    """
     if is_segmental_at(0, text) and is_exponential_after_at(1, text):
         number_of_postdiacritics: int = count_post_diacritics_in_a_row(text, 1)
         chunk_length: int = number_of_postdiacritics + 1
@@ -1440,6 +1533,12 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
 
 
 def retract_phonet(phonete: Optional[Phonet]) -> Optional[Phonet]:
+    """
+    Return the sound produced in the next further back place in
+    the mouth.
+    :param phonete: a phoneme
+    :return: a phoneme pronounced further back
+    """
     if isinstance(phonete, Consonant):
         voicing = phonete.vocal_folds
         place = phonete.place
@@ -1459,11 +1558,19 @@ def construct_transcription(phoneme: Phonet) -> str:
     return result
 
 
-# Plosives:
 def construct_transcription_recursively(recursion_limit: int,
                                         recursion_level: int, phone: Phonet) -> Optional[str]:
+    """
+    Given a Phonet intance, construct the IPA transcription representing it.
+    :param recursion_limit: a number to ensure the program always halts
+    :param recursion_level: the current number of times this function has called itself,
+    since it was called by another function.
+    :param phone: a Phonet instance
+    :return: an IPA text
+    """
     if recursion_level == recursion_limit:
         return None
+    # Plosives:
     if phone == Consonant(VocalFolds.VOICELESS, Place.BILABIAL, Manner.PLOSIVE,
                           Airstream.PULMONIC_EGRESSIVE):
         return "p"
@@ -1821,8 +1928,7 @@ def construct_transcription_recursively(recursion_limit: int,
             return None
         if is_descender(result):
             return result + "̊"  # add diacritic for voiceless that goes above
-        else:
-            return result + "̥"  # add diacritic for voiceless that goes below
+        return result + "̥"  # add diacritic for voiceless that goes below
 
     # Add the small circle diacritic to vowels to make them voiceless.
     if isinstance(phone, Vowel) and phone.vocal_folds == VocalFolds.VOICELESS \
@@ -1840,8 +1946,7 @@ def construct_transcription_recursively(recursion_limit: int,
             return None
         if is_descender(result):
             return result + "̊"  # add diacritic for voiceless that goes above
-        else:
-            return result + "̥"  # add diacritic for voiceless that goes below
+        return result + "̥"  # add diacritic for voiceless that goes below
 
     # If there is no way to express a voiced consonant in a single
     # grapheme add a diacritic to the grapheme that represents
@@ -1935,6 +2040,15 @@ def decreak(phone: Phonet) -> Phonet:
 
 
 def construct_deconstruct(func: Callable[[Phonet], Phonet], some_text: str) -> str:
+    """
+    Given IPA text, converts it to a Phonet, applies a function,
+    and then converts it to IPA text.
+
+    This function wraps other functions so that they work for IPA text.
+    :param func: a function from Phonet to Phonet
+    :param some_text: IPA text
+    :return: IPA text result
+    """
     phonet: Optional[Phonet] = analyze_transcription(some_text)
     if phonet is None:
         return "∅"
@@ -2880,6 +2994,14 @@ def show_vocal_folds(vocal_folds_1: VocalFolds) -> str:
 
 
 def show_phonet_inventory(inventory: PhonetInventory) -> str:
+    """
+    Prints all the phonemes from a list of phonemes without
+    any spaces between it.
+    :param inventory: an inventory of sounds (really just a list
+    of sounds)
+    :return: text containing the IPA representation of each
+    phoneme in the phoneme inventory
+    """
     return ''.join(map(show_phonet, inventory.contents))
 
 
@@ -2978,6 +3100,12 @@ english_phonet_inventory_report: str = ipa_text_to_phonet_list_report(
 
 
 def analyze_transcription_to_sound_patterns_of_english(transcription: str) -> str:
+    """
+    Given an IPA transcription of a phoneme,
+    return text containing the Sound Patterns of English (SPE) features.
+    :param transcription: IPA text
+    :return: Sound Patterns of English text (between "[", "]")
+    """
     result = show_features(analyze_features(analyze_transcription(transcription)))
     if result is None:
         return SORRY_UNABLE_TO_CALCULATE
