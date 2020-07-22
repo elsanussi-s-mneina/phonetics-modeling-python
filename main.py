@@ -28,7 +28,8 @@ from english_us_text import PHONEME_TO_DEVOICE_MESSAGE, PHONEME_TO_VOICE_MESSAGE
     UNRECOGNIZED_SELECTION_MESSAGE, \
     NO_ANALYSIS_FOUND_MESSAGE, \
     MENU, DIALOG_WINDOW_TITLE, MAKE_A_PHONEME_UNVOICED_TEXT, VOICED_PHONEME_HEADER, \
-    UNVOICED_PHONEME_HEADER, PHONEME_DESCRIPTION_HEADER, PHONEMES_SPLIT_HEADER, FEATURES_HEADER
+    UNVOICED_PHONEME_HEADER, PHONEME_DESCRIPTION_HEADER, PHONEMES_SPLIT_HEADER, FEATURES_HEADER, \
+    RESULT_HEADER, ENGLISH_PHONEME_INVENTORY_HEADER
 
 from lib_functions import (analyze_transcription, construct_transcription,
                            describe_transcription, devoiced_transcription,
@@ -214,7 +215,7 @@ class Application:
         self.split_transcription_button.grid(row=5, column=0, sticky=W, pady=20, padx=20,
                                              ipadx=5, ipady=10)
 
-        self.output_description.set("Result:")
+        self.output_description.set(RESULT_HEADER)
         self.output_description_label.grid(row=0, column=1)
         self.output_to_user.set("")
         self.output_to_user_label.grid(row=1, column=1, rowspan=5, sticky=N + S, pady=20, padx=20,
@@ -228,7 +229,7 @@ class Application:
         :return: None
         """
         self.output_to_user.set(english_phonet_inventory_report)
-        self.output_description.set("English Phoneme Inventory")
+        self.output_description.set(ENGLISH_PHONEME_INVENTORY_HEADER)
 
     def prompt_for_phoneme_to_voice(self) -> None:
         """

@@ -1,7 +1,4 @@
-"""
-A module for containing any user facing text in the
-English language.
-"""
+""" A module for containing any user facing text in the English language."""
 from typing import Final
 
 APPLICATION_TITLE: Final[str] = "Phonetics Modeling Program"
@@ -160,8 +157,10 @@ GET_FEATURES_OF_PHONEME_TEXT: Final[str] = \
 SPLIT_TRANSCRIPTION_TEXT: Final[str] = "Split IPA transcription text…"
 
 # Headers:
+RESULT_HEADER: Final[str] = "Result:"
 VOICED_PHONEME_HEADER: Final[str] = "Voiced Phoneme"
 UNVOICED_PHONEME_HEADER: Final[str] = "Unvoiced Phoneme"
 PHONEME_DESCRIPTION_HEADER: Final[str] = "Description of Phoneme"
 FEATURES_HEADER: Final[str] = "SPE Features of Phoneme"
 PHONEMES_SPLIT_HEADER: Final[str] = "Phonemes After Being Split"
+ENGLISH_PHONEME_INVENTORY_HEADER: Final[str] = "English Phoneme Inventory"
