@@ -1,15 +1,13 @@
 """
 The graphical user interface is defined in this module.
 """
-from tkinter import Button, simpledialog, Tk, StringVar, Label, RAISED, LEFT, N, W, E, S
-from english_us_text import PHONEME_TO_DEVOICE_MESSAGE, PHONEME_TO_VOICE_MESSAGE, \
-    PHONEME_TO_DESCRIBE_MESSAGE, PHONEME_TO_CALCULATE_SPE_MESSAGE, \
-    IPA_TEXT_TO_DIVIDE_MESSAGE, SHOW_PHONEME_INVENTORY_TEXT, \
+from tkinter import Button, Tk, StringVar, Label, RAISED, LEFT, N, W, E, S, Entry
+from english_us_text import SHOW_PHONEME_INVENTORY_TEXT, \
     MAKE_A_PHONEME_VOICED_TEXT, DESCRIBE_PHONEME_TEXT, GET_FEATURES_OF_PHONEME_TEXT, \
-    SPLIT_TRANSCRIPTION_TEXT, QUIT_TEXT, DIALOG_WINDOW_TITLE, MAKE_A_PHONEME_UNVOICED_TEXT, \
+    SPLIT_TRANSCRIPTION_TEXT, QUIT_TEXT, MAKE_A_PHONEME_UNVOICED_TEXT, \
     VOICED_PHONEME_HEADER, \
     UNVOICED_PHONEME_HEADER, PHONEME_DESCRIPTION_HEADER, PHONEMES_SPLIT_HEADER, FEATURES_HEADER, \
-    RESULT_HEADER, ENGLISH_PHONEME_INVENTORY_HEADER, APPLICATION_TITLE
+    RESULT_HEADER, ENGLISH_PHONEME_INVENTORY_HEADER, APPLICATION_TITLE, INPUT_HEADER
 
 from lib_functions import (describe_transcription, devoiced_transcription,
                            english_phonet_inventory_report, ipa_text_to_phonet_list_report,
@@ -58,12 +56,19 @@ class Application:
 
         self.output_description.set(RESULT_HEADER)
 
-        self.create_buttons()
+        input_box_label = Label(master,
+                                text=INPUT_HEADER)
+        input_box_label.grid(row=1,
+                             column=0,
+                             sticky=W)
 
-    def create_buttons(self) -> None:
-        """
-        Create buttons that go on the window
-        """
+        self.input_box = Entry(master)
+        self.input_box.grid(row=2,
+                            column=0,
+                            sticky=W,
+                            pady=20,
+                            padx=10)
+
         show_inventory_button = Button(self.master,
                                        text=SHOW_PHONEME_INVENTORY_TEXT)
         show_inventory_button.grid(row=0,
@@ -76,7 +81,7 @@ class Application:
 
         voice_phoneme_button = Button(self.master,
                                       text=MAKE_A_PHONEME_VOICED_TEXT)
-        voice_phoneme_button.grid(row=1,
+        voice_phoneme_button.grid(row=3,
                                   column=0,
                                   sticky=W,
                                   pady=20,
@@ -86,7 +91,7 @@ class Application:
 
         devoice_phoneme_button = Button(self.master,
                                         text=MAKE_A_PHONEME_UNVOICED_TEXT)
-        devoice_phoneme_button.grid(row=2,
+        devoice_phoneme_button.grid(row=4,
                                     column=0,
                                     sticky=W,
                                     pady=20,
@@ -97,7 +102,7 @@ class Application:
 
         describe_phoneme_button = Button(self.master,
                                          text=DESCRIBE_PHONEME_TEXT)
-        describe_phoneme_button.grid(row=3,
+        describe_phoneme_button.grid(row=5,
                                      column=0,
                                      sticky=W,
                                      pady=20,
@@ -107,7 +112,7 @@ class Application:
 
         featurize_phoneme_button = Button(self.master,
                                           text=GET_FEATURES_OF_PHONEME_TEXT)
-        featurize_phoneme_button.grid(row=4,
+        featurize_phoneme_button.grid(row=6,
                                       column=0,
                                       sticky=W,
                                       pady=20,
@@ -117,7 +122,7 @@ class Application:
 
         split_transcription_button = Button(self.master,
                                             text=SPLIT_TRANSCRIPTION_TEXT)
-        split_transcription_button.grid(row=5,
+        split_transcription_button.grid(row=7,
                                         column=0,
                                         sticky=W,
                                         pady=20,
@@ -155,7 +160,7 @@ class Application:
         and show the closest phoneme to it that is voiced.
         :return: None
         """
-        answer = simpledialog.askstring(DIALOG_WINDOW_TITLE, PHONEME_TO_VOICE_MESSAGE)
+        answer = self.input_box.get()
         if answer is not None:
             voiced_phoneme = voiced_transcription(answer)
             self.output_to_user.set(voiced_phoneme)
@@ -167,7 +172,7 @@ class Application:
         and show the closest phoneme to it that is unvoiced.
         :return: None
         """
-        answer = simpledialog.askstring(DIALOG_WINDOW_TITLE, PHONEME_TO_DEVOICE_MESSAGE)
+        answer = self.input_box.get()
         if answer is not None:
             devoiced_phoneme = devoiced_transcription(answer)
             self.output_to_user.set(devoiced_phoneme)
@@ -179,7 +184,7 @@ class Application:
         and show the description of the phoneme.
         :return: None
         """
-        answer = simpledialog.askstring(DIALOG_WINDOW_TITLE, PHONEME_TO_DESCRIBE_MESSAGE)
+        answer = self.input_box.get()
         if answer is not None:
             description = describe_transcription(answer)
             self.output_to_user.set(description)
@@ -191,7 +196,7 @@ class Application:
         and show its features according to Sound Patterns of English.
         :return: None
         """
-        answer = simpledialog.askstring(DIALOG_WINDOW_TITLE, PHONEME_TO_CALCULATE_SPE_MESSAGE)
+        answer = self.input_box.get()
         if answer is not None:
             features = analyze_transcription_to_sound_patterns_of_english(answer)
             self.output_to_user.set(features)
@@ -204,7 +209,7 @@ class Application:
         With each phoneme on separate lines.
         :return: None
         """
-        answer = simpledialog.askstring(DIALOG_WINDOW_TITLE, IPA_TEXT_TO_DIVIDE_MESSAGE)
+        answer = self.input_box.get()
         if answer is not None:
             report = ipa_text_to_phonet_list_report(answer)
             self.output_to_user.set(report)
