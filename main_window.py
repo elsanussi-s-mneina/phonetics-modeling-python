@@ -31,11 +31,6 @@ class Application:
         """
         super().__init__()
         self.master = master
-        self.voice_phoneme_button = Button(self.master)
-        self.devoice_phoneme_button = Button(self.master)
-        self.describe_phoneme_button = Button(self.master)
-        self.featurize_phoneme_button = Button(self.master)
-        self.split_transcription_button = Button(self.master)
         self.output_description = StringVar()
         self.output_description_label = Label(self.master, textvariable=self.output_description,
                                               width=100, justify=LEFT)
@@ -43,45 +38,52 @@ class Application:
         self.output_to_user_label = Label(self.master, textvariable=self.output_to_user,
                                           relief=RAISED,
                                           width=100, wraplength=1000, justify=LEFT)
-        self.quit = Button(self.master, text=QUIT_TEXT, fg="red",
-                           command=self.master.destroy)
-        self.show_inventory_button = Button(self.master)
+
         self.create_widgets()
 
     def create_widgets(self) -> None:
         """
         Create widgets that go on the window
         """
-        self.show_inventory_button["text"] = SHOW_PHONEME_INVENTORY_TEXT
-        self.show_inventory_button["command"] = self.show_english_phoneme_inventory
-        self.show_inventory_button.grid(row=0, column=0, sticky=W, pady=20, padx=20,
-                                        ipadx=5, ipady=10)
+        voice_phoneme_button = Button(self.master)
+        devoice_phoneme_button = Button(self.master)
+        describe_phoneme_button = Button(self.master)
+        featurize_phoneme_button = Button(self.master)
+        split_transcription_button = Button(self.master)
+        quit_button = Button(self.master, text=QUIT_TEXT, fg="red",
+                             command=self.master.destroy)
+        show_inventory_button = Button(self.master)
 
-        self.voice_phoneme_button["text"] = MAKE_A_PHONEME_VOICED_TEXT
-        self.voice_phoneme_button["command"] = self.prompt_for_phoneme_to_voice
-        self.voice_phoneme_button.grid(row=1, column=0, sticky=W, pady=20, padx=20,
-                                       ipadx=5, ipady=10)
+        show_inventory_button["text"] = SHOW_PHONEME_INVENTORY_TEXT
+        show_inventory_button["command"] = self.show_english_phoneme_inventory
+        show_inventory_button.grid(row=0, column=0, sticky=W, pady=20, padx=20,
+                                   ipadx=5, ipady=10)
 
-        self.devoice_phoneme_button["text"] = MAKE_A_PHONEME_UNVOICED_TEXT
-        self.devoice_phoneme_button["command"] = self.prompt_for_phoneme_to_unvoice
-        self.devoice_phoneme_button.grid(row=2, column=0, sticky=W, pady=20, padx=20,
-                                         ipadx=5, ipady=10)
+        voice_phoneme_button["text"] = MAKE_A_PHONEME_VOICED_TEXT
+        voice_phoneme_button["command"] = self.prompt_for_phoneme_to_voice
+        voice_phoneme_button.grid(row=1, column=0, sticky=W, pady=20, padx=20,
+                                  ipadx=5, ipady=10)
 
-        self.describe_phoneme_button["text"] = DESCRIBE_PHONEME_TEXT
-        self.describe_phoneme_button["command"] = self.prompt_for_phoneme_to_describe
-        self.describe_phoneme_button.grid(row=3, column=0, sticky=W, pady=20, padx=20,
-                                          ipadx=5, ipady=10)
+        devoice_phoneme_button["text"] = MAKE_A_PHONEME_UNVOICED_TEXT
+        devoice_phoneme_button["command"] = self.prompt_for_phoneme_to_unvoice
+        devoice_phoneme_button.grid(row=2, column=0, sticky=W, pady=20, padx=20,
+                                    ipadx=5, ipady=10)
 
-        self.featurize_phoneme_button["text"] = GET_FEATURES_OF_PHONEME_TEXT
-        self.featurize_phoneme_button["command"] = \
+        describe_phoneme_button["text"] = DESCRIBE_PHONEME_TEXT
+        describe_phoneme_button["command"] = self.prompt_for_phoneme_to_describe
+        describe_phoneme_button.grid(row=3, column=0, sticky=W, pady=20, padx=20,
+                                     ipadx=5, ipady=10)
+
+        featurize_phoneme_button["text"] = GET_FEATURES_OF_PHONEME_TEXT
+        featurize_phoneme_button["command"] = \
             self.prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from
-        self.featurize_phoneme_button.grid(row=4, column=0, sticky=W, pady=20, padx=20,
-                                           ipadx=5, ipady=10)
+        featurize_phoneme_button.grid(row=4, column=0, sticky=W, pady=20, padx=20,
+                                      ipadx=5, ipady=10)
 
-        self.split_transcription_button["text"] = SPLIT_TRANSCRIPTION_TEXT
-        self.split_transcription_button["command"] = self.prompt_for_transcription_text_to_split
-        self.split_transcription_button.grid(row=5, column=0, sticky=W, pady=20, padx=20,
-                                             ipadx=5, ipady=10)
+        split_transcription_button["text"] = SPLIT_TRANSCRIPTION_TEXT
+        split_transcription_button["command"] = self.prompt_for_transcription_text_to_split
+        split_transcription_button.grid(row=5, column=0, sticky=W, pady=20, padx=20,
+                                        ipadx=5, ipady=10)
 
         self.output_description.set(RESULT_HEADER)
         self.output_description_label.grid(row=0, column=1)
@@ -89,7 +91,7 @@ class Application:
         self.output_to_user_label.grid(row=1, column=1, rowspan=5, sticky=N + S, pady=20, padx=20,
                                        ipadx=5, ipady=10)
 
-        self.quit.grid(row=7, column=1, sticky=E, pady=20, padx=20, ipadx=10, ipady=10)
+        quit_button.grid(row=7, column=1, sticky=E, pady=20, padx=20, ipadx=10, ipady=10)
 
     def show_english_phoneme_inventory(self) -> None:
         """
