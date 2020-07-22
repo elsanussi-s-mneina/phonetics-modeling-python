@@ -8,6 +8,9 @@ from lib_functions import analyze_transcription, ipa_text_to_phonet_list_report,
 
 
 class TestLibFunctions(unittest.TestCase):
+    """
+    Class containing unit tests for lib_functions module.
+    """
     def test_ipa_text_to_phonet_list_report__given_b(self) -> None:
         result = ipa_text_to_phonet_list_report("b")
         expected = "/b/ voiced bilabial plosive pulmonic egressive consonant"
@@ -44,7 +47,33 @@ class TestLibFunctions(unittest.TestCase):
         result = ipa_text_to_phonet_list_report("kc")
         expected = "/k/ voiceless velar plosive pulmonic egressive consonant\n" + \
                    "/c/ voiceless palatal plosive pulmonic egressive consonant"
-        self.assertEqual(result, expected)  # "should be that [kc] has two lines"
+        self.assertEqual(result, expected, msg="should be that [kc] has two lines")
+
+    def test_ipa_text_to_phonet_list_report__given_a_plosive_then_fricative(self) -> None:
+        result = ipa_text_to_phonet_list_report("tʃ")
+        expected = "/t/ voiceless alveolar plosive pulmonic egressive consonant\n" + \
+                   "/ʃ/ voiceless post-alveolar fricative pulmonic egressive consonant"
+        self.assertEqual(result, expected, msg="should be that (tʃ) with no tie bar is 2 phonemes.")
+
+    def test_ipa_text_to_phonet_list_report__given_2_affricates_and_a_plosive(self) -> None:
+        result = ipa_text_to_phonet_list_report("t͜ʃdd͜ʒ")
+        expected = "/t͜ʃ/ voiceless post-alveolar affricate pulmonic egressive consonant\n" + \
+                   "/d/ voiced alveolar plosive pulmonic egressive consonant\n" + \
+                   "/d͜ʒ/ voiced post-alveolar affricate pulmonic egressive consonant"
+        self.assertEqual(result,
+                         expected,
+                         msg="should be that (t͜ʃdd͜ʒ) is properly split into 3 phonemes")
+
+    def test_ipa_text_to_phonet_list_report__four_phonemes_two_affricates(self) -> None:
+        result = ipa_text_to_phonet_list_report("t͜ʃdd͜ʒʒ")
+        expected = "/t͜ʃ/ voiceless post-alveolar affricate pulmonic egressive consonant\n" + \
+                   "/d/ voiced alveolar plosive pulmonic egressive consonant\n" + \
+                   "/d͜ʒ/ voiced post-alveolar affricate pulmonic egressive consonant\n" + \
+                   "/ʒ/ voiced post-alveolar fricative pulmonic egressive consonant"
+        self.assertEqual(result,
+                         expected,
+                         msg="should be that (t͜ʃdd͜ʒʒ) is properly split into 4 phonemes")
+
 
     def test_is_glide_j(self) -> None:
         result = is_glide(analyze_transcription("j"))
@@ -209,11 +238,17 @@ class TestLibFunctions(unittest.TestCase):
         voicing and devoicing a phoneme (when no change (idempotency))
         :return: None
         """
-        self.assertEqual(devoiced_transcription("q"), "q",
+        self.assertEqual(devoiced_transcription("q"),
+                         "q",
                          msg="should be that: [q] devoiced is the same as itself")
-        self.assertEqual(voiced_transcription("ɢ"), "ɢ", msg="should be that: [ɢ] voiced is the same as itself")
-        self.assertEqual(voiced_transcription(voiced_transcription("k")), voiced_transcription("k"),
+        self.assertEqual(voiced_transcription("ɢ"),
+                         "ɢ",
+                         msg="should be that: [ɢ] voiced is the same as itself")
+        self.assertEqual(voiced_transcription(voiced_transcription("k")),
+                         voiced_transcription("k"),
                          msg="voicing something twice is the same as voicing it once")
-        self.assertEqual(voiced_transcription(voiced_transcription("g")), voiced_transcription("g"),
+        self.assertEqual(voiced_transcription(voiced_transcription("g")),
+                         voiced_transcription("g"),
                          msg="[g]")
-        self.assertEqual(devoiced_transcription(devoiced_transcription("k")), devoiced_transcription("k"))
+        self.assertEqual(devoiced_transcription(devoiced_transcription("k")),
+                         devoiced_transcription("k"))
