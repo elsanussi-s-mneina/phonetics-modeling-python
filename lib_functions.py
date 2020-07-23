@@ -3,27 +3,8 @@ Functions for manipulating phonemes, represented in international phonetic alpha
 as Sound Patterns of English features.
 """
 
-from typing import Callable, List, Optional, Tuple, Iterator
 from functools import partial
-
-from lib_types import (Phonet, Height, Backness, Rounding, VocalFolds, AdvancedTongueRootFeature,
-                       Polarity, Vowel, Consonant, Place, Manner, Airstream, PhonemeFeature,
-                       MultiPlace, SyllabicFeature, ConsonantalFeature, SonorantFeature,
-                       ContinuantFeature, VoiceFeature, NasalFeature, LateralFeature,
-                       DelayedReleaseFeature, SpreadGlottisFeature, ConstrictedGlottisFeature,
-                       LabialFeature, CoronalFeature, DorsalFeature, PharyngealFeature,
-                       LaryngealFeature,
-                       RoundFeature, AnteriorFeature, DistributedFeature, StridentFeature,
-                       HighFeature,
-                       LowFeature, BackFeature, PhonetInventory,
-                       UnmarkableConsonant, UnmarkableVowel,
-                       UnmarkablePlace, UnmarkableVocalFolds, MarkedVocalFolds, UnmarkedVocalFolds,
-                       UnmarkedHeight, UnmarkedBackness, MarkedManner, MarkedPlace, UnmarkedPlace,
-                       UnmarkedManner, UnmarkableManner, MarkedBackness, MarkedHeight,
-                       UnmarkableHeight, UnmarkableBackness, UnmarkableAirstream, MarkedAirstream,
-                       UnmarkedAirstream, UnmarkedRounding, MarkedRounding, UnmarkablePhonet,
-                       UnmarkableRounding, height_states, backness_states, rounding_states,
-                       airstream_states, manner_states, place_states, vocal_fold_states)
+from typing import Callable, List, Optional, Tuple, Iterator
 
 from english_us_text import (BACK_PHONEME_FEATURE_TEXT,
                              LOW_PHONEME_FEATURE_TEXT, HIGH_PHONEME_FEATURE_TEXT,
@@ -61,6 +42,24 @@ from english_us_text import (BACK_PHONEME_FEATURE_TEXT,
                              VOICED_ASPIRATED_VOCAL_FOLDS_TEXT, VOICELESS_VOCAL_FOLDS_TEXT,
                              VOICED_VOCAL_FOLDS_TEXT, NO_ENGLISH_DESCRIPTION_FOUND_MESSAGE,
                              SORRY_UNABLE_TO_CALCULATE)
+from lib_types import (Phonet, Height, Backness, Rounding, VocalFolds, AdvancedTongueRootFeature,
+                       Polarity, Vowel, Consonant, Place, Manner, Airstream, PhonemeFeature,
+                       MultiPlace, SyllabicFeature, ConsonantalFeature, SonorantFeature,
+                       ContinuantFeature, VoiceFeature, NasalFeature, LateralFeature,
+                       DelayedReleaseFeature, SpreadGlottisFeature, ConstrictedGlottisFeature,
+                       LabialFeature, CoronalFeature, DorsalFeature, PharyngealFeature,
+                       LaryngealFeature,
+                       RoundFeature, AnteriorFeature, DistributedFeature, StridentFeature,
+                       HighFeature,
+                       LowFeature, BackFeature, PhonetInventory,
+                       UnmarkableConsonant, UnmarkableVowel,
+                       UnmarkablePlace, UnmarkableVocalFolds, MarkedVocalFolds, UnmarkedVocalFolds,
+                       UnmarkedHeight, UnmarkedBackness, MarkedManner, MarkedPlace, UnmarkedPlace,
+                       UnmarkedManner, UnmarkableManner, MarkedBackness, MarkedHeight,
+                       UnmarkableHeight, UnmarkableBackness, UnmarkableAirstream, MarkedAirstream,
+                       UnmarkedAirstream, UnmarkedRounding, MarkedRounding, UnmarkablePhonet,
+                       UnmarkableRounding, height_states, backness_states, rounding_states,
+                       airstream_states, manner_states, place_states, vocal_fold_states)
 
 
 def ipa_text_to_phonet_list_report(text: str) -> str:

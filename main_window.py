@@ -2,13 +2,13 @@
 The graphical user interface is defined in this module.
 """
 from tkinter import Button, Tk, StringVar, Label, RAISED, LEFT, N, W, E, S, Entry
+
 from english_us_text import SHOW_PHONEME_INVENTORY_TEXT, \
     MAKE_A_PHONEME_VOICED_TEXT, DESCRIBE_PHONEME_TEXT, GET_FEATURES_OF_PHONEME_TEXT, \
     SPLIT_TRANSCRIPTION_TEXT, QUIT_TEXT, MAKE_A_PHONEME_UNVOICED_TEXT, \
     VOICED_PHONEME_HEADER, \
     UNVOICED_PHONEME_HEADER, PHONEME_DESCRIPTION_HEADER, PHONEMES_SPLIT_HEADER, FEATURES_HEADER, \
     RESULT_HEADER, ENGLISH_PHONEME_INVENTORY_HEADER, APPLICATION_TITLE, INPUT_HEADER
-
 from lib_functions import (describe_transcription, devoiced_transcription,
                            english_phonet_inventory_report, ipa_text_to_phonet_list_report,
                            voiced_transcription,

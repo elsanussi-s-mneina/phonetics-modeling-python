@@ -3,6 +3,7 @@ Unit tests for lib_types
 """
 
 import unittest
+
 from lib_types import Manner, Airstream
 
 
