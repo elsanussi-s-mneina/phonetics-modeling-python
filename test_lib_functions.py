@@ -4,8 +4,9 @@ Unit tests for lib_functions
 
 import unittest
 
-from lib_functions import analyze_transcription, ipa_text_to_phonet_list_report, is_glide, \
-    analyze_transcription_to_sound_patterns_of_english, voiced_transcription, devoiced_transcription
+from lib_functions import is_glide
+from ipa import ipa_text_to_phonet_list_report, analyze_transcription, voiced_transcription, \
+    devoiced_transcription, analyze_transcription_to_sound_patterns_of_english
 
 
 class TestLibFunctions(unittest.TestCase):

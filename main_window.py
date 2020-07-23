@@ -9,11 +9,9 @@ from english_us_text import SHOW_PHONEME_INVENTORY_TEXT, \
     VOICED_PHONEME_HEADER, \
     UNVOICED_PHONEME_HEADER, PHONEME_DESCRIPTION_HEADER, PHONEMES_SPLIT_HEADER, FEATURES_HEADER, \
     RESULT_HEADER, ENGLISH_PHONEME_INVENTORY_HEADER, APPLICATION_TITLE, INPUT_HEADER
-from lib_functions import (describe_transcription, devoiced_transcription,
-                           english_phonet_inventory_report, ipa_text_to_phonet_list_report,
-                           voiced_transcription,
-                           analyze_transcription_to_sound_patterns_of_english
-                           )
+from ipa import ipa_text_to_phonet_list_report, voiced_transcription, devoiced_transcription, \
+    describe_transcription, analyze_transcription_to_sound_patterns_of_english, \
+    english_phonet_inventory_report
 
 
 class Application:
