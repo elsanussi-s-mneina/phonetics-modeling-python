@@ -105,13 +105,7 @@ class TestLibFunctions(unittest.TestCase):
                    "-distributed; coronal; -round; +voice]"
         self.assertEqual(result, expected)
 
-    def is_voiceless_counterpart_of(self, unvoiced_phoneme: str, voiced_phoneme: str) -> None:
-        """
-        Tests voicing and devoicing a phoneme.
-        :param unvoiced_phoneme: the unvoiced phoneme
-        :param voiced_phoneme: the voiced counterpart phoneme
-        :return: None
-        """
+    def x_voiced_is_y(self, unvoiced_phoneme: str, voiced_phoneme: str) -> None:
         result = voiced_transcription(unvoiced_phoneme)
         expected = voiced_phoneme
         self.assertEqual(
@@ -119,11 +113,22 @@ class TestLibFunctions(unittest.TestCase):
             expected,
             msg="should be that: [" + unvoiced_phoneme + "] voiced is [" + voiced_phoneme + "]")
 
+    def x_devoiced_is_y(self, unvoiced_phoneme: str, voiced_phoneme: str) -> None:
         result = devoiced_transcription(voiced_phoneme)
         expected = unvoiced_phoneme
         self.assertEqual(result, expected,
                          msg=("should be that: [" + voiced_phoneme
                               + "] devoiced is [" + unvoiced_phoneme + "]"))
+
+    def is_voiceless_counterpart_of(self, unvoiced_phoneme: str, voiced_phoneme: str) -> None:
+        """
+        Tests voicing and devoicing a phoneme.
+        :param unvoiced_phoneme: the unvoiced phoneme
+        :param voiced_phoneme: the voiced counterpart phoneme
+        :return: None
+        """
+        self.x_voiced_is_y(unvoiced_phoneme, voiced_phoneme)
+        self.x_devoiced_is_y(unvoiced_phoneme, voiced_phoneme)
 
     def test_voicing_no_diacritics(self) -> None:
         self.is_voiceless_counterpart_of("t", "d")
