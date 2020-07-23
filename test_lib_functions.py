@@ -236,11 +236,11 @@ class TestLibFunctions(unittest.TestCase):
 
     def test_voicing_a_phoneme_voiceless_diacritic_above_or_below(self) -> None:
         # Nasal
-        self.x_voiced_is_y("m̥","m")
+        self.x_voiced_is_y("m̥", "m")
 
-        self.x_voiced_is_y("m̊","m")
+        self.x_voiced_is_y("m̊", "m")
 
-        self.x_voiced_is_y("ɱ̥","ɱ")
+        self.x_voiced_is_y("ɱ̥", "ɱ")
         self.x_voiced_is_y("ɱ̊", "ɱ")
         self.x_voiced_is_y("n̥", "n")
         self.x_voiced_is_y("n̊", "n")
