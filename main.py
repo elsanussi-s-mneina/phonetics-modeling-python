@@ -146,7 +146,6 @@ def prompt_for_transcription_text_to_split() -> None:
     prompt_for_text_and_apply(ipa_text_to_phonet_list_report, IPA_TEXT_TO_DIVIDE_MESSAGE)
 
 
-
 def main() -> None:
     """
     This function is where the program starts running.
@@ -173,8 +172,6 @@ def acknowledge_and_respond(selection: str) -> None:
     print(' '.join([USER_SELECTED_MESSAGE, selection]))
     put_blank_line()
     respond_to_selection(selection)
-
-
 
 
 def respond_to_selection(selection: str) -> None:

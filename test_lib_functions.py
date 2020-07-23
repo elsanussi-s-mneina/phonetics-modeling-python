@@ -42,7 +42,6 @@ class TestLibFunctions(unittest.TestCase):
         self.assertEqual(result, expected,
                          msg="should accept opposite tie-bar")
 
-
     def test_ipa_text_to_phonet_list_report__given_two_phonemes(self) -> None:
         result = ipa_text_to_phonet_list_report("kc")
         expected = "/k/ voiceless velar plosive pulmonic egressive consonant\n" + \
@@ -73,7 +72,6 @@ class TestLibFunctions(unittest.TestCase):
         self.assertEqual(result,
                          expected,
                          msg="should be that (t͜ʃdd͜ʒʒ) is properly split into 4 phonemes")
-
 
     def test_is_glide_j(self) -> None:
         result = is_glide(analyze_transcription("j"))
@@ -224,14 +222,10 @@ class TestLibFunctions(unittest.TestCase):
         self.is_voiceless_counterpart_of("ɕ", "ʑ")
         self.is_voiceless_counterpart_of("ɺ̥", "ɺ")
 
-
-
     def test_voicing_with_voiced_diacritic(self) -> None:
         self.is_voiceless_counterpart_of("ʔ", "ʔ̬")
         self.is_voiceless_counterpart_of("ʡ", "ʡ̬")
         self.is_voiceless_counterpart_of("ʍ", "ʍ̬")
-
-
 
     def test_voicing_when_no_change(self) -> None:
         """

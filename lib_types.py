@@ -30,6 +30,7 @@ class Phonet:
     def __init__(self):
         pass
 
+
 @unique
 class VocalFolds(Enum):
     """
@@ -42,12 +43,14 @@ class VocalFolds(Enum):
     VOICELESS_ASPIRATED = auto()
     CREAKY_VOICED = auto()
 
+
 vocal_fold_states: Final[List[VocalFolds]] = \
     [VocalFolds.VOICED,
      VocalFolds.VOICELESS,
      VocalFolds.VOICED_ASPIRATED,
      VocalFolds.VOICELESS_ASPIRATED,
      VocalFolds.CREAKY_VOICED]
+
 
 @unique
 class Place(Enum):
@@ -98,6 +101,7 @@ place_states: Final[List[Place]] = \
 class MultiPlace:
     def __init__(self, places: List[Place]):
         self.places = places
+
 
 @unique
 class Manner(Enum):
@@ -198,6 +202,7 @@ backness_states: Final[List[Backness]] = \
      Backness.CENTRAL,
      Backness.BACK]
 
+
 @unique
 class Height(Enum):
     """
@@ -221,6 +226,7 @@ height_states: List[Height] = [Height.CLOSE,
                                Height.NEAR_OPEN,
                                Height.OPEN]
 
+
 @unique
 class Rounding(Enum):
     """
@@ -229,7 +235,9 @@ class Rounding(Enum):
     ROUNDED = auto()
     UNROUNDED = auto()
 
+
 rounding_states: List[Rounding] = [Rounding.ROUNDED, Rounding.UNROUNDED]
+
 
 class Vowel(Phonet):
     """

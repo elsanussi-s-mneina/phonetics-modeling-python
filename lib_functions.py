@@ -22,7 +22,8 @@ from lib_types import (Phonet, Height, Backness, Rounding, VocalFolds, AdvancedT
                        UnmarkedManner, UnmarkableManner, MarkedBackness, MarkedHeight,
                        UnmarkableHeight, UnmarkableBackness, UnmarkableAirstream, MarkedAirstream,
                        UnmarkedAirstream, UnmarkedRounding, MarkedRounding, UnmarkablePhonet,
-                       UnmarkableRounding)
+                       UnmarkableRounding, height_states, backness_states, rounding_states,
+                       airstream_states, manner_states, place_states, vocal_fold_states)
 
 from english_us_text import (BACK_PHONEME_FEATURE_TEXT,
                              LOW_PHONEME_FEATURE_TEXT, HIGH_PHONEME_FEATURE_TEXT,
@@ -594,12 +595,13 @@ def unmark_differences(phone_1: Phonet, phone_2: Phonet) -> UnmarkablePhonet:
     if isinstance(phone_1, Consonant) and isinstance(phone_2, Vowel):
         return unmark_differences(phone_2, phone_1)
 
-    # Both are vowels:
-    vocal_folds: UnmarkableVocalFolds = unmark_voice(phone_1.vocal_folds, phone_2.vocal_folds)
-    height: UnmarkableHeight = unmark_height(phone_1.height, phone_2.height)
-    backness: UnmarkableBackness = unmark_backness(phone_1.backness, phone_2.backness)
-    rounding: UnmarkableRounding = unmark_rounding(phone_1.rounding, phone_2.rounding)
-    return UnmarkableVowel(height, backness, rounding, vocal_folds)
+    if isinstance(phone_1, Vowel) and isinstance(phone_2, Vowel):
+        # Both are vowels:
+        vocal_folds: UnmarkableVocalFolds = unmark_voice(phone_1.vocal_folds, phone_2.vocal_folds)
+        height: UnmarkableHeight = unmark_height(phone_1.height, phone_2.height)
+        backness: UnmarkableBackness = unmark_backness(phone_1.backness, phone_2.backness)
+        rounding: UnmarkableRounding = unmark_rounding(phone_1.rounding, phone_2.rounding)
+        return UnmarkableVowel(height, backness, rounding, vocal_folds)
 
 
 def similar_in_voice(voice_1: UnmarkableVocalFolds) -> List[VocalFolds]:
@@ -1055,8 +1057,8 @@ approximant_pulmonic: List[str] = ["ʋ", "ɹ", "ɻ", "j", "ɰ"]
 lateral_approximant_pulmonic: List[str] = ["l", "ɭ", "ʎ", "ʟ"]
 
 # CONSONANTS (PULMONIC)
-consonants_pulmonic: List[str] \
-    = plosivePulmonic \
+consonants_pulmonic: List[str] = \
+      plosivePulmonic \
       + nasalPulmonic \
       + trillPulmonic \
       + tapOrFlapPulmonic \

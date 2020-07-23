@@ -99,7 +99,6 @@ class Application:
                                     ipadx=5,
                                     ipady=10)
 
-
         describe_phoneme_button = Button(self.master,
                                          text=DESCRIBE_PHONEME_TEXT)
         describe_phoneme_button.grid(row=5,
@@ -134,8 +133,6 @@ class Application:
                              command=self.master.destroy)
         quit_button.grid(row=7, column=1, sticky=E, pady=20, padx=20, ipadx=10, ipady=10)
 
-
-
         voice_phoneme_button["command"] = self.prompt_for_phoneme_to_voice
         devoice_phoneme_button["command"] = self.prompt_for_phoneme_to_unvoice
         describe_phoneme_button["command"] = self.prompt_for_phoneme_to_describe
@@ -143,8 +140,6 @@ class Application:
             self.prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from
         split_transcription_button["command"] = self.prompt_for_transcription_text_to_split
         show_inventory_button["command"] = self.show_english_phoneme_inventory
-
-
 
     def show_english_phoneme_inventory(self) -> None:
         """
