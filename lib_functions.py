@@ -2828,7 +2828,7 @@ def to_text_features(phonete: Phonet) -> str:
     features for the phonete. Then it
     provides the user readable representation of the phoneme.
 
-    For example when given the phonete reprsented by /b/,
+    For example when given the phonete represented by /b/,
     it will return something like [+ someFeature, - someOtherFeature, ...]
     """
     features = analyze_features(phonete)
