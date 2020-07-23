@@ -8,7 +8,6 @@ Run the following at the command line:
 
 `python3 main.py`
 
-So far it does most of what the Haskell version does, but cannot split IPA text into phonemes yet.
 
 ## How to run the tests:
 Type the following line at the command line, and press enter.
