@@ -3,6 +3,7 @@ Unit tests for lib_functions
 """
 
 import unittest
+
 from lib_functions import analyze_transcription, ipa_text_to_phonet_list_report, is_glide, \
     analyze_transcription_to_sound_patterns_of_english, voiced_transcription, devoiced_transcription
 
@@ -11,6 +12,7 @@ class TestLibFunctions(unittest.TestCase):
     """
     Class containing unit tests for lib_functions module.
     """
+
     def test_ipa_text_to_phonet_list_report__given_b(self) -> None:
         result = ipa_text_to_phonet_list_report("b")
         expected = "/b/ voiced bilabial plosive pulmonic egressive consonant"
@@ -231,6 +233,165 @@ class TestLibFunctions(unittest.TestCase):
         self.is_voiceless_counterpart_of("ʔ", "ʔ̬")
         self.is_voiceless_counterpart_of("ʡ", "ʡ̬")
         self.is_voiceless_counterpart_of("ʍ", "ʍ̬")
+
+    def test_voicing_a_phoneme_voiceless_diacritic_above_or_below(self) -> None:
+        # Nasal
+        self.x_voiced_is_y("m̥","m")
+
+        self.x_voiced_is_y("m̊","m")
+
+        self.x_voiced_is_y("ɱ̥","ɱ")
+        self.x_voiced_is_y("ɱ̊", "ɱ")
+        self.x_voiced_is_y("n̥", "n")
+        self.x_voiced_is_y("n̊", "n")
+        self.x_voiced_is_y("ɲ̥", "ɲ")
+        self.x_voiced_is_y("ɲ̊", "ɲ")
+        self.x_voiced_is_y("ɳ̥", "ɳ")
+        self.x_voiced_is_y("ɳ̊", "ɳ")
+        self.x_voiced_is_y("ŋ̥", "ŋ")
+        self.x_voiced_is_y("ŋ̊", "ŋ")
+
+        self.x_voiced_is_y("ɴ̥", "ɴ")
+        self.x_voiced_is_y("ɴ̊", "ɴ")
+
+        # Trill consonants:
+        self.x_voiced_is_y("ʙ̊", "ʙ")
+        self.x_voiced_is_y("ʙ̥", "ʙ")
+        self.x_voiced_is_y("r̊", "r")
+        self.x_voiced_is_y("r̥", "r")
+        self.x_voiced_is_y("ʀ̊", "ʀ")
+        self.x_voiced_is_y("ʀ̥", "ʀ")
+
+        # Tap or flap consonants:
+        self.x_voiced_is_y("ⱱ̥", "ⱱ")
+        self.x_voiced_is_y("ⱱ̊", "ⱱ")
+        self.x_voiced_is_y("ɾ̥", "ɾ")
+        self.x_voiced_is_y("ɾ̊", "ɾ")
+        self.x_voiced_is_y("ɽ̥", "ɽ")
+        self.x_voiced_is_y("ɽ̊", "ɽ")
+
+        # Approximant consonants:
+        self.x_voiced_is_y("ʋ̥", "ʋ")
+        self.x_voiced_is_y("ʋ̊", "ʋ")
+        self.x_voiced_is_y("ɹ̥", "ɹ")
+        self.x_voiced_is_y("ɹ̊", "ɹ")
+        self.x_voiced_is_y("ɻ̥", "ɻ")
+        self.x_voiced_is_y("ɻ̊", "ɻ")
+        self.x_voiced_is_y("j̥", "j")
+        self.x_voiced_is_y("j̊", "j")
+        self.x_voiced_is_y("ɰ̥", "ɰ")
+        self.x_voiced_is_y("ɰ̊", "ɰ")
+
+        # Lateral approximants:
+        self.x_voiced_is_y("l̥", "l")
+        self.x_voiced_is_y("l̊", "l")
+
+        self.x_voiced_is_y("ɭ̥", "ɭ")
+        self.x_voiced_is_y("ɭ̊", "ɭ")
+
+        self.x_voiced_is_y("ʎ̥", "ʎ")
+        self.x_voiced_is_y("ʎ̊", "ʎ")
+
+        self.x_voiced_is_y("ʟ̥", "ʟ")
+        self.x_voiced_is_y("ʟ̊", "ʟ")
+
+        # Vowels
+        self.x_voiced_is_y("i̥", "i")
+        self.x_voiced_is_y("i̊", "i")
+
+        self.x_voiced_is_y("y̥", "y")
+        self.x_voiced_is_y("ẙ", "y")
+
+        self.x_voiced_is_y("ɨ̥", "ɨ")
+        self.x_voiced_is_y("ɨ̊", "ɨ")
+
+        self.x_voiced_is_y("ʉ̥", "ʉ")
+        self.x_voiced_is_y("ʉ̊", "ʉ")
+
+        self.x_voiced_is_y("ɯ̥", "ɯ")
+        self.x_voiced_is_y("ɯ̊", "ɯ")
+
+        self.x_voiced_is_y("u̥", "u")
+        self.x_voiced_is_y("ů", "u")
+
+        self.x_voiced_is_y("ɪ̥", "ɪ")
+        self.x_voiced_is_y("ɪ̊", "ɪ")
+
+        self.x_voiced_is_y("ʏ̥", "ʏ")
+        self.x_voiced_is_y("ʏ̊", "ʏ")
+
+        self.x_voiced_is_y("ʊ̥", "ʊ")
+        self.x_voiced_is_y("ʊ̊", "ʊ")
+
+        self.x_voiced_is_y("e̥", "e")
+        self.x_voiced_is_y("e̊", "e")
+
+        self.x_voiced_is_y("ø̥", "ø")
+        self.x_voiced_is_y("ø̊", "ø")
+
+        self.x_voiced_is_y("ɘ̥", "ɘ")
+        self.x_voiced_is_y("ɘ̊", "ɘ")
+
+        self.x_voiced_is_y("ɵ̥", "ɵ")
+        self.x_voiced_is_y("ɵ̊", "ɵ")
+
+        self.x_voiced_is_y("ɤ̥", "ɤ")
+        self.x_voiced_is_y("ɤ̊", "ɤ")
+
+        self.x_voiced_is_y("o̥", "o")
+        self.x_voiced_is_y("o̊", "o")
+
+        self.x_voiced_is_y("ə̥", "ə")
+        self.x_voiced_is_y("ə̊", "ə")
+
+        self.x_voiced_is_y("ɛ̥", "ɛ")
+        self.x_voiced_is_y("ɛ̊", "ɛ")
+
+        self.x_voiced_is_y("œ̥", "œ")
+        self.x_voiced_is_y("œ̊", "œ")
+
+        self.x_voiced_is_y("ɜ̥", "ɜ")
+        self.x_voiced_is_y("ɜ̊", "ɜ")
+
+        self.x_voiced_is_y("ɞ̥", "ɞ")
+        self.x_voiced_is_y("ɞ̊", "ɞ")
+
+        self.x_voiced_is_y("ʌ̥", "ʌ")
+        self.x_voiced_is_y("ʌ̊", "ʌ")
+
+        self.x_voiced_is_y("ɔ̥", "ɔ")
+        self.x_voiced_is_y("ɔ̊", "ɔ")
+
+        self.x_voiced_is_y("æ̥", "æ")
+        self.x_voiced_is_y("æ̊", "æ")
+
+        self.x_voiced_is_y("ɐ̥", "ɐ")
+        self.x_voiced_is_y("ɐ̊", "ɐ")
+
+        self.x_voiced_is_y("ḁ", "a")
+        self.x_voiced_is_y("å", "a")
+
+        self.x_voiced_is_y("ɶ̥", "ɶ")
+        self.x_voiced_is_y("ɶ̊", "ɶ")
+
+        self.x_voiced_is_y("ɑ̥", "ɑ")
+        self.x_voiced_is_y("ɑ̊", "ɑ")
+
+        self.x_voiced_is_y("ɒ̥", "ɒ")
+        self.x_voiced_is_y("ɒ̊", "ɒ")
+
+        self.x_voiced_is_y("w̥", "w")
+        self.x_voiced_is_y("ẘ", "w")
+
+        self.x_voiced_is_y("ɥ̥", "ɥ")
+        self.x_voiced_is_y("ɥ̊", "ɥ")
+
+        self.x_voiced_is_y("ɕ", "ʑ")
+        self.x_voiced_is_y("ɕ̥", "ʑ")
+        self.x_voiced_is_y("ɕ̊", "ʑ")
+
+        self.x_voiced_is_y("ɺ̥", "ɺ")
+        self.x_voiced_is_y("ɺ̊", "ɺ")
 
     def test_voicing_when_no_change(self) -> None:
         """
