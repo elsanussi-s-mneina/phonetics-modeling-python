@@ -352,6 +352,11 @@ vowels: List[str] = \
      "a", "ɶ", "ɑ", "ɒ"  # Open
      ]
 strict_segmentals: List[str] = consonants + vowels
+""" IPA text that is not a semantic modifier to what is before or after it.
+    This includes vowels, and consonants. It excludes all diacritics.
+"""
+
+
 exponentials_before: List[str] = ["ⁿ"]
 diacritics_and_suprasegmentals: List[str] = \
     ["̥",  # Voiceless

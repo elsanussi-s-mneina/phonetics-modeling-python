@@ -11,11 +11,13 @@ from english_us_text import SYLLABIC_PHONEME_FEATURE_TEXT, CONSONANTAL_PHONEME_F
     DISTRIBUTED_PHONEME_FEATURE_TEXT, STRIDENT_PHONEME_FEATURE_TEXT, HIGH_PHONEME_FEATURE_TEXT, \
     LOW_PHONEME_FEATURE_TEXT, BACK_PHONEME_FEATURE_TEXT
 from lib_functions import is_glide
-from lib_types import Phonet, Vowel, Consonant, Manner, Place, VocalFolds, Airstream, Height, Backness, Rounding
+from lib_types import Phonet, Vowel, Consonant, Manner, Place, VocalFolds, Airstream, Height, \
+    Backness, Rounding
 from phonetic_features_types import Polarity, PhonemeFeature, SyllabicFeature, ConsonantalFeature, \
     SonorantFeature, ContinuantFeature, VoiceFeature, AdvancedTongueRootFeature, NasalFeature, \
     LateralFeature, DelayedReleaseFeature, SpreadGlottisFeature, ConstrictedGlottisFeature, \
-    LabialFeature, CoronalFeature, DorsalFeature, PharyngealFeature, LaryngealFeature, RoundFeature, \
+    LabialFeature, CoronalFeature, DorsalFeature, PharyngealFeature, LaryngealFeature, \
+    RoundFeature, \
     AnteriorFeature, DistributedFeature, StridentFeature, HighFeature, LowFeature, BackFeature
 
 

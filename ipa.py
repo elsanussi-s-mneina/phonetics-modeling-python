@@ -4,7 +4,8 @@ from english_us_text import NO_ENGLISH_DESCRIPTION_FOUND_MESSAGE, SORRY_UNABLE_T
 from grapheme_grammar import split_by_phonetes, consonants_pulmonic, consonants_nonpulmonic, \
     other_symbols, vowels, diacritics_and_suprasegmentals
 from lib_functions import retract_phonet, deaspirate, decreak, \
-    voiced_phonet, devoiced_phonet, spirantized_phonet, show_phonet, english_phonet_inventory
+    voiced_phonet, devoiced_phonet, spirantized_phonet, show_phonet
+from language_specific.english_specific import english_phonet_inventory
 from phonetic_features import analyze_features, show_features
 from lib_types import Phonet, Consonant, VocalFolds, Place, Manner, Airstream, MultiPlace, Vowel, \
     Height, Backness, Rounding, PhonetInventory
@@ -138,15 +139,16 @@ def prevent_prohibited_combination(some_text: str) -> str:
         return first_character + raise_diacritic(second_character) + rest
     return some_text
 
-#  This function will allow us to convert an IPA symbol
-#  to its analyzed form (its phonetic features)
 
-# Plosives:
 def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
     """
+    This function will allow us to convert an IPA symbol
+    to its analyzed form (its phonetic features)
+
     Given 1 two or 3 characters of text in the Internaional Phonetic Alphabet,
     it returns the phone it represents (as a statically typed description of its properties).
     """
+    # Plosives:
     if ipa_text == "p":
         return Consonant(VocalFolds.VOICELESS, Place.BILABIAL, Manner.PLOSIVE,
                          Airstream.PULMONIC_EGRESSIVE)
@@ -1082,7 +1084,6 @@ def analyze_transcription_to_sound_patterns_of_english(transcription: str) -> st
 # Really, they should be named something different.
 
 
-
 ascenders: List[str] = \
     ["b", "t", "d", "k", "ʔ", "f", "θ", "ð", "ħ", "ʕ", "h", "ɦ", "ɬ", "l", "ʎ",
      "ʘ", "ɓ", "ǀ", "ɗ", "ǃ", "ǂ", "ɠ", "ʄ", "ǁ", "ʛ", "ɺ", "ʢ", "ʡ", "ɤ", "ʈ", "ɖ",
@@ -1147,9 +1148,7 @@ graphemes_of_ipa: List[str] = \
     + suprasegmentals \
     + tone_and_word_accents \
     + diacritics_and_suprasegmentals
-""" IPA text that is not a semantic modifier to what is before or after it.
-    This includes vowels, and consonants. It excludes all diacritics.
-"""
+
 
 def show_transcription(inventory: PhonetInventory) -> str:
     """
