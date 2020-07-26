@@ -34,7 +34,7 @@ def split_by_phonetes_prediacritic(text: str) -> List[str]:
     Handle strings like "ⁿd".
     If it doesn't find a main character with a diacritic before
     it, it will look for a diacritic after the main character.
-    :param text: text that may contain text with prediacrtic
+    :param text: text that may contain text with prediacrtics
     :return: a list of IPA characters split
     """
     result: Optional[Tuple[str, str]] = prediacritic_parser_function(text)
@@ -92,7 +92,7 @@ def split_by_phonetes_nondiacrtic(text: str) -> List[str]:
 
 def nondiacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
     """
-    Parse the part cont containing diacritic (except the tie-bar).
+    Parse the part containing diacritic (except the tie-bar).
     :param text: text containing IPA
     :return: a tuple with the part parsed in the frist part, and the
     part not yet parsed after.
@@ -356,8 +356,6 @@ strict_segmentals: List[str] = consonants + vowels
     This includes vowels, and consonants. It excludes all diacritics.
 """
 
-
-exponentials_before: List[str] = ["ⁿ"]
 diacritics_and_suprasegmentals: List[str] = \
     ["̥",  # Voiceless
      "̊",  # Voiceless (diacritic placed above symbol with descender)
@@ -399,5 +397,13 @@ diacritics_and_suprasegmentals: List[str] = \
      "̣",  # Closer variety/Fricative
      "̇"  # Palatalization/Centralization
      ]
+
+exponentials_before: List[str] = ["ⁿ"]
+
 exponentials_after: List[str] = diacritics_and_suprasegmentals + ["ː", "ˑ"]
 exponentials: List[str] = exponentials_before + exponentials_after
+
+# To do: find a more suitable name than exponentials.
+# They only look like exponentials if you consider how they
+# look similar to mathematical notation for exponentials.
+# Really, they should be named something different.

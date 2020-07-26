@@ -1078,12 +1078,6 @@ def analyze_transcription_to_sound_patterns_of_english(transcription: str) -> st
     return result
 
 
-# To do: find a more suitable name than exponentials.
-# They only look like exponentials if you consider how they
-# look similar to mathematical notation for exponentials.
-# Really, they should be named something different.
-
-
 ascenders: List[str] = \
     ["b", "t", "d", "k", "ʔ", "f", "θ", "ð", "ħ", "ʕ", "h", "ɦ", "ɬ", "l", "ʎ",
      "ʘ", "ɓ", "ǀ", "ɗ", "ǃ", "ǂ", "ɠ", "ʄ", "ǁ", "ʛ", "ɺ", "ʢ", "ʡ", "ɤ", "ʈ", "ɖ",
