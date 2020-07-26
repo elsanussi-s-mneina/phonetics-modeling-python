@@ -2,7 +2,6 @@
 from typing import Final
 
 APPLICATION_TITLE: Final[str] = "Phonetics Modeling Program"
-DIALOG_WINDOW_TITLE: Final[str] = "Request"
 
 MENU: Final[str] = \
     """What do you want to accomplish?
