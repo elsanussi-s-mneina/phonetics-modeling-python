@@ -24,12 +24,13 @@ from english_us_text import PHONEME_TO_DEVOICE_MESSAGE, PHONEME_TO_VOICE_MESSAGE
     USER_INPUT_OPEN_WINDOW, \
     UNRECOGNIZED_SELECTION_MESSAGE, \
     NO_ANALYSIS_FOUND_MESSAGE, \
-    MENU
+    MENU, USER_INPUT_START_SERVER
 from lib_functions import (show_phonet)
 from ipa import ipa_text_to_phonet_list_report, analyze_transcription, construct_transcription, \
     voiced_transcription, devoiced_transcription, describe_transcription, \
     analyze_transcription_to_sound_patterns_of_english, english_phonet_inventory_report
 from lib_types import (Phonet)
+from main_server import start_server
 from main_window import open_window
 
 
@@ -191,6 +192,8 @@ def respond_to_selection(selection: str) -> None:
         prompt_for_transcription_text_to_split()
     elif selection == USER_INPUT_OPEN_WINDOW:
         open_window()
+    elif selection == USER_INPUT_START_SERVER:
+        start_server()
     else:
         print(UNRECOGNIZED_SELECTION_MESSAGE)
 
