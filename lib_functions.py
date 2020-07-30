@@ -26,7 +26,8 @@ from english_us_text import (PLOSIVE_MANNER_TEXT, NASAL_MANNER_TEXT, TRILL_MANNE
                              FRONT_BACKNESS_TEXT,
                              VOICELESS_ASPIRATED_VOCAL_FOLDS_TEXT,
                              VOICED_ASPIRATED_VOCAL_FOLDS_TEXT, VOICELESS_VOCAL_FOLDS_TEXT,
-                             VOICED_VOCAL_FOLDS_TEXT, CONSONANT_TEXT, VOWEL_TEXT)
+                             VOICED_VOCAL_FOLDS_TEXT, CONSONANT_TEXT, VOWEL_TEXT, LABIALIZED_TEXT,
+                             PALATALIZED_TEXT, VELARIZED_TEXT, PHARYNGEALIZED_TEXT)
 from lib_types import (Phonet, Height, Backness, Rounding, VocalFolds, Vowel, Consonant, Place,
                        Manner, Airstream,
                        MultiPlace, PhonetInventory,
@@ -37,7 +38,8 @@ from lib_types import (Phonet, Height, Backness, Rounding, VocalFolds, Vowel, Co
                        UnmarkableHeight, UnmarkableBackness, UnmarkableAirstream, MarkedAirstream,
                        UnmarkedAirstream, UnmarkedRounding, MarkedRounding, UnmarkablePhonet,
                        UnmarkableRounding, height_states, backness_states, rounding_states,
-                       airstream_states, manner_states, place_states, vocal_fold_states)
+                       airstream_states, manner_states, place_states, vocal_fold_states,
+                       SecondaryArticulation)
 
 
 def equivalent_in_place(place_1: Place, place_2: Place) -> bool:
@@ -133,13 +135,16 @@ def voiced_phonet(phone: Phonet) -> Optional[Phonet]:
         place = phone.place
         airstream = phone.airstream
         manner = phone.manner
+        secondary_articulation = phone.secondary_articulation
         if phone.vocal_folds == VocalFolds.VOICELESS_ASPIRATED:
-            return Consonant(VocalFolds.VOICED_ASPIRATED, place, manner, airstream)
+            return Consonant(VocalFolds.VOICED_ASPIRATED, place, manner, airstream,
+                             secondary_articulation)
         if phone.vocal_folds == VocalFolds.VOICELESS or phone.vocal_folds == VocalFolds.VOICED:
-            return Consonant(VocalFolds.VOICED, place, manner, airstream)
+            return Consonant(VocalFolds.VOICED, place, manner, airstream, secondary_articulation)
         if phone.vocal_folds == VocalFolds.VOICED_ASPIRATED:
-            return Consonant(VocalFolds.VOICED_ASPIRATED, place, manner, airstream)
-        return Consonant(VocalFolds.VOICED, place, manner, airstream)
+            return Consonant(VocalFolds.VOICED_ASPIRATED, place, manner, airstream,
+                             secondary_articulation)
+        return Consonant(VocalFolds.VOICED, place, manner, airstream, secondary_articulation)
     if isinstance(phone, Vowel):
         height = phone.height
         backness = phone.backness
@@ -157,16 +162,19 @@ def devoiced_phonet(phone: Phonet) -> Phonet:
         place = phone.place
         airstream = phone.airstream
         manner = phone.manner
+        secondary_articulation = phone.secondary_articulation
         if phone.vocal_folds == VocalFolds.VOICED:
-            return Consonant(VocalFolds.VOICELESS, place, manner, airstream)
+            return Consonant(VocalFolds.VOICELESS, place, manner, airstream, secondary_articulation)
         if phone.vocal_folds == VocalFolds.CREAKY_VOICED:
-            return Consonant(VocalFolds.VOICELESS, place, manner, airstream)
+            return Consonant(VocalFolds.VOICELESS, place, manner, airstream, secondary_articulation)
         if phone.vocal_folds == VocalFolds.VOICELESS:
-            return Consonant(VocalFolds.VOICELESS, place, manner, airstream)
+            return Consonant(VocalFolds.VOICELESS, place, manner, airstream, secondary_articulation)
         if phone.vocal_folds == VocalFolds.VOICED_ASPIRATED:
-            return Consonant(VocalFolds.VOICELESS_ASPIRATED, place, manner, airstream)
+            return Consonant(VocalFolds.VOICELESS_ASPIRATED, place, manner, airstream,
+                             secondary_articulation)
         if phone.vocal_folds == VocalFolds.VOICELESS_ASPIRATED:
-            return Consonant(VocalFolds.VOICELESS_ASPIRATED, place, manner, airstream)
+            return Consonant(VocalFolds.VOICELESS_ASPIRATED, place, manner, airstream,
+                             secondary_articulation)
     if isinstance(phone, Vowel):
         backness = phone.backness
         height = phone.height
@@ -187,10 +195,13 @@ def spirantized_phonet(phone: Phonet) -> Phonet:
     if isinstance(phone, Consonant) and phone.manner == Manner.PLOSIVE:
         vocal_folds = phone.vocal_folds
         airstream = phone.airstream
+        secondary_articulation = phone.secondary_articulation
         if phone.place == Place.ALVEOLAR:
-            return Consonant(vocal_folds, Place.DENTAL, Manner.FRICATIVE, airstream)
+            return Consonant(vocal_folds, Place.DENTAL, Manner.FRICATIVE, airstream,
+                             secondary_articulation)
         place = phone.place
-        return Consonant(vocal_folds, place, Manner.FRICATIVE, airstream)
+        return Consonant(vocal_folds, place, Manner.FRICATIVE, airstream,
+                         secondary_articulation)
     return phone
 
 
@@ -441,12 +452,16 @@ def deaspirate(phone: Phonet) -> Phonet:
             place = phone.place
             manner = phone.manner
             airstream = phone.airstream
-            return Consonant(VocalFolds.VOICED, place, manner, airstream)
+            secondary_articulation = phone.secondary_articulation
+            return Consonant(VocalFolds.VOICED, place, manner, airstream,
+                             secondary_articulation)
         if phone.vocal_folds == VocalFolds.VOICELESS_ASPIRATED:
             place = phone.place
             manner = phone.manner
             airstream = phone.airstream
-            return Consonant(VocalFolds.VOICELESS, place, manner, airstream)
+            secondary_articulation = phone.secondary_articulation
+            return Consonant(VocalFolds.VOICELESS, place, manner, airstream,
+                             secondary_articulation)
         return phone
     return phone
 
@@ -640,6 +655,23 @@ def show_vocal_folds(vocal_folds_1: VocalFolds) -> str:
     return "[Unrecognized vocal folds!]"
 
 
+def show_secondary_articulation(secondary_articulation: SecondaryArticulation) -> str:
+    """
+    user-readable text representation of a secondary articulation:
+    e.g. "pharyngealized"
+    """
+    if secondary_articulation == SecondaryArticulation.LABIALIZED:
+        return LABIALIZED_TEXT
+    if secondary_articulation == SecondaryArticulation.PALATALIZED:
+        return PALATALIZED_TEXT
+    if secondary_articulation == SecondaryArticulation.VELARIZED:
+        return VELARIZED_TEXT
+    if secondary_articulation == SecondaryArticulation.PHARYNGEALIZED:
+        return PHARYNGEALIZED_TEXT
+    if secondary_articulation == SecondaryArticulation.NORMAL:
+        return ""
+
+
 def show_phonet_inventory(inventory: PhonetInventory) -> str:
     """
     Prints all the phonemes from a list of phonemes without
@@ -652,6 +684,11 @@ def show_phonet_inventory(inventory: PhonetInventory) -> str:
     return ''.join(map(show_phonet, inventory.contents))
 
 
+def remove_extra_two_spaces(text: str) -> str:
+    """Replaces two consecutive spaces with one wherever they occur in a text"""
+    return text.replace("  ", " ")
+
+
 def show_phonet(phonet: Phonet) -> str:
     """
     Provide user-readable text for a phonete.
@@ -662,8 +699,14 @@ def show_phonet(phonet: Phonet) -> str:
         place = phonet.place
         manner = phonet.manner
         airstream = phonet.airstream
-        return ' '.join([show_vocal_folds(vocal_folds), show_place(place),
-                         show_manner(manner), show_airstream(airstream), CONSONANT_TEXT])
+        secondary_articulation = phonet.secondary_articulation
+        x: str = ' '.join([show_vocal_folds(vocal_folds),
+                           show_place(place),
+                           show_manner(manner),
+                           show_airstream(airstream),
+                           show_secondary_articulation(secondary_articulation),
+                           CONSONANT_TEXT])
+        return remove_extra_two_spaces(x)
     if isinstance(phonet, Vowel):
         height = phonet.height
         backness = phonet.backness

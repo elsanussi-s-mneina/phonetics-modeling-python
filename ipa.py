@@ -3,12 +3,12 @@ from typing import Tuple, Optional, List, Callable
 from english_us_text import NO_ENGLISH_DESCRIPTION_FOUND_MESSAGE, SORRY_UNABLE_TO_CALCULATE
 from grapheme_grammar import split_by_phonetes, consonants_pulmonic, consonants_nonpulmonic, \
     other_symbols, vowels, diacritics_and_suprasegmentals
+from language_specific.english_specific import english_phonet_inventory
 from lib_functions import retract_phonet, deaspirate, decreak, \
     voiced_phonet, devoiced_phonet, spirantized_phonet, show_phonet
-from language_specific.english_specific import english_phonet_inventory
-from phonetic_features import analyze_features, show_features
 from lib_types import Phonet, Consonant, VocalFolds, Place, Manner, Airstream, MultiPlace, Vowel, \
-    Height, Backness, Rounding, PhonetInventory
+    Height, Backness, Rounding, SecondaryArticulation, PhonetInventory
+from phonetic_features import analyze_features, show_features
 
 
 def ipa_text_to_phonet_list_report(text: str) -> str:
@@ -151,203 +151,264 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
     # Plosives:
     if ipa_text == "p":
         return Consonant(VocalFolds.VOICELESS, Place.BILABIAL, Manner.PLOSIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "b":
         return Consonant(VocalFolds.VOICED, Place.BILABIAL, Manner.PLOSIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "t":
         return Consonant(VocalFolds.VOICELESS, Place.ALVEOLAR, Manner.PLOSIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "d":
         return Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.PLOSIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ʈ":
         return Consonant(VocalFolds.VOICELESS, Place.RETROFLEX, Manner.PLOSIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɖ":
         return Consonant(VocalFolds.VOICED, Place.RETROFLEX, Manner.PLOSIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "c":
         return Consonant(VocalFolds.VOICELESS, Place.PALATAL, Manner.PLOSIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɟ":
         return Consonant(VocalFolds.VOICED, Place.PALATAL, Manner.PLOSIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "k":
         return Consonant(VocalFolds.VOICELESS, Place.VELAR, Manner.PLOSIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "g":
         return Consonant(VocalFolds.VOICED, Place.VELAR, Manner.PLOSIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "q":
         return Consonant(VocalFolds.VOICELESS, Place.UVULAR, Manner.PLOSIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɢ":
         return Consonant(VocalFolds.VOICED, Place.UVULAR, Manner.PLOSIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ʔ":
         return Consonant(VocalFolds.VOICELESS, Place.GLOTTAL, Manner.PLOSIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
 
     # Nasals:
     if ipa_text == "m":
         return Consonant(VocalFolds.VOICED, Place.BILABIAL, Manner.NASAL,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɱ":
         return Consonant(VocalFolds.VOICED, Place.LABIODENTAL, Manner.NASAL,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "n":
         return Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.NASAL,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɳ":
         return Consonant(VocalFolds.VOICED, Place.RETROFLEX, Manner.NASAL,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɲ":
         return Consonant(VocalFolds.VOICED, Place.PALATAL, Manner.NASAL,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ŋ":
         return Consonant(VocalFolds.VOICED, Place.VELAR, Manner.NASAL,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɴ":
         return Consonant(VocalFolds.VOICED, Place.UVULAR, Manner.NASAL,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
 
     # Trills:
     if ipa_text == "ʙ":
         return Consonant(VocalFolds.VOICED, Place.BILABIAL, Manner.TRILL,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "r":
         return Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.TRILL,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ʀ":
         return Consonant(VocalFolds.VOICED, Place.UVULAR, Manner.TRILL,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
 
     # Taps or flaps:
     if ipa_text == "ⱱ":
         return Consonant(VocalFolds.VOICED, Place.LABIODENTAL, Manner.TAP_OR_FLAP,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɾ":
         return Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.TAP_OR_FLAP,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɽ":
         return Consonant(VocalFolds.VOICED, Place.RETROFLEX, Manner.TAP_OR_FLAP,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
 
     # Fricatives:
     if ipa_text == "ɸ":
         return Consonant(VocalFolds.VOICELESS, Place.BILABIAL, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "β":
         return Consonant(VocalFolds.VOICED, Place.BILABIAL, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "f":
         return Consonant(VocalFolds.VOICELESS, Place.LABIODENTAL, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "v":
         return Consonant(VocalFolds.VOICED, Place.LABIODENTAL, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "θ":
         return Consonant(VocalFolds.VOICELESS, Place.DENTAL, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ð":
         return Consonant(VocalFolds.VOICED, Place.DENTAL, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "s":
         return Consonant(VocalFolds.VOICELESS, Place.ALVEOLAR, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "z":
         return Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ʃ":
         return Consonant(VocalFolds.VOICELESS, Place.POSTALVEOLAR, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ʒ":
         return Consonant(VocalFolds.VOICED, Place.POSTALVEOLAR, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ʂ":
         return Consonant(VocalFolds.VOICELESS, Place.RETROFLEX, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ʐ":
         return Consonant(VocalFolds.VOICED, Place.RETROFLEX, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ç":
         return Consonant(VocalFolds.VOICELESS, Place.PALATAL, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ʝ":
         return Consonant(VocalFolds.VOICED, Place.PALATAL, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "x":
         return Consonant(VocalFolds.VOICELESS, Place.VELAR, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɣ":
         return Consonant(VocalFolds.VOICED, Place.VELAR, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "χ":
         return Consonant(VocalFolds.VOICELESS, Place.UVULAR, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ʁ":
         return Consonant(VocalFolds.VOICED, Place.UVULAR, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ħ":
         return Consonant(VocalFolds.VOICELESS, Place.PHARYNGEAL, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ʕ":
         return Consonant(VocalFolds.VOICED, Place.PHARYNGEAL, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "h":
         return Consonant(VocalFolds.VOICELESS, Place.GLOTTAL, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɦ":
         return Consonant(VocalFolds.VOICED, Place.GLOTTAL, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
 
     # Lateral Fricatives:
     if ipa_text == "ɬ":
         return Consonant(VocalFolds.VOICELESS, Place.ALVEOLAR, Manner.LATERAL_FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɮ":
         return Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.LATERAL_FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
 
     # Approximants:
     if ipa_text == "ʋ":
         return Consonant(VocalFolds.VOICED, Place.LABIODENTAL, Manner.APPROXIMANT,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɹ":
         return Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.APPROXIMANT,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɻ":
         return Consonant(VocalFolds.VOICED, Place.RETROFLEX, Manner.APPROXIMANT,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "j":
         return Consonant(VocalFolds.VOICED, Place.PALATAL, Manner.APPROXIMANT,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɰ":
         return Consonant(VocalFolds.VOICED, Place.VELAR, Manner.APPROXIMANT,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
 
     # Lateral Approximants:
     if ipa_text == "l":
         return Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.LATERAL_APPROXIMANT,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɭ":
         return Consonant(VocalFolds.VOICED, Place.RETROFLEX, Manner.LATERAL_APPROXIMANT,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ʎ":
         return Consonant(VocalFolds.VOICED, Place.PALATAL, Manner.LATERAL_APPROXIMANT,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ʟ":
         return Consonant(VocalFolds.VOICED, Place.VELAR, Manner.LATERAL_APPROXIMANT,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
 
     # Affricates
     if ipa_text in ["t͡ʃ", "t͜ʃ"]:
         return Consonant(VocalFolds.VOICELESS, Place.POSTALVEOLAR, Manner.AFFRICATE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text in ["d͡ʒ", "d͜ʒ"]:
         return Consonant(VocalFolds.VOICED, Place.POSTALVEOLAR, Manner.AFFRICATE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     # We should probably enforce use of the tie-bar underneath, otherwise
     # it would not be deterministic to determine whether two graphemes here
     # represent affricates or a plosive followed by a fricative.
@@ -356,60 +417,80 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
 
     if ipa_text == "w":
         return Consonant(VocalFolds.VOICED, Place.LABIAL_VELAR, Manner.APPROXIMANT,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ʍ":
         return Consonant(VocalFolds.VOICELESS, Place.LABIAL_VELAR, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɥ":
         return Consonant(VocalFolds.VOICED, Place.LABIAL_PALATAL, Manner.APPROXIMANT,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ʜ":
         return Consonant(VocalFolds.VOICELESS, Place.EPIGLOTTAL, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ʢ":
         return Consonant(VocalFolds.VOICED, Place.EPIGLOTTAL, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ʡ":
         return Consonant(VocalFolds.VOICELESS, Place.EPIGLOTTAL, Manner.PLOSIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     # Is the epiglottal plosive voiceless? The IPA chart does not specify.
     if ipa_text == "ɕ":
         return Consonant(VocalFolds.VOICELESS, Place.ALVEOLOPALATAL, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ʑ":
         return Consonant(VocalFolds.VOICED, Place.ALVEOLOPALATAL, Manner.FRICATIVE,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɺ":
         return Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.LATERAL_FLAP,
-                         Airstream.PULMONIC_EGRESSIVE)
+                         Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɧ":
         return Consonant(VocalFolds.VOICELESS, MultiPlace([Place.POSTALVEOLAR, Place.VELAR]),
-                         Manner.FRICATIVE, Airstream.PULMONIC_EGRESSIVE)
+                         Manner.FRICATIVE, Airstream.PULMONIC_EGRESSIVE,
+                         SecondaryArticulation.NORMAL)
 
     # Other Consonants:
     if ipa_text == "ʘ":
-        return Consonant(VocalFolds.VOICELESS, Place.BILABIAL, Manner.PLOSIVE, Airstream.CLICK)
+        return Consonant(VocalFolds.VOICELESS, Place.BILABIAL, Manner.PLOSIVE, Airstream.CLICK,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ǀ":
-        return Consonant(VocalFolds.VOICELESS, Place.DENTAL, Manner.PLOSIVE, Airstream.CLICK)
+        return Consonant(VocalFolds.VOICELESS, Place.DENTAL, Manner.PLOSIVE, Airstream.CLICK,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ǃ":
-        return Consonant(VocalFolds.VOICELESS, Place.ALVEOLAR, Manner.PLOSIVE, Airstream.CLICK)
+        return Consonant(VocalFolds.VOICELESS, Place.ALVEOLAR, Manner.PLOSIVE, Airstream.CLICK,
+                         SecondaryArticulation.NORMAL)
     #  "ǃ" could also be PostAlveolar.
     if ipa_text == "ǂ":
         return Consonant(VocalFolds.VOICELESS, Place.PALATOALVEOLAR, Manner.PLOSIVE,
-                         Airstream.CLICK)
+                         Airstream.CLICK,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ǁ":
-        return Consonant(VocalFolds.VOICELESS, Place.ALVEOLAR, Manner.LATERAL, Airstream.CLICK)
+        return Consonant(VocalFolds.VOICELESS, Place.ALVEOLAR, Manner.LATERAL, Airstream.CLICK,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɓ":
-        return Consonant(VocalFolds.VOICED, Place.BILABIAL, Manner.PLOSIVE, Airstream.IMPLOSIVE)
+        return Consonant(VocalFolds.VOICED, Place.BILABIAL, Manner.PLOSIVE, Airstream.IMPLOSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɗ":
-        return Consonant(VocalFolds.VOICED, Place.DENTAL, Manner.PLOSIVE, Airstream.IMPLOSIVE)
+        return Consonant(VocalFolds.VOICED, Place.DENTAL, Manner.PLOSIVE, Airstream.IMPLOSIVE,
+                         SecondaryArticulation.NORMAL)
     # "ɗ" could also be Alveolar
     if ipa_text == "ʄ":
-        return Consonant(VocalFolds.VOICED, Place.PALATAL, Manner.PLOSIVE, Airstream.IMPLOSIVE)
+        return Consonant(VocalFolds.VOICED, Place.PALATAL, Manner.PLOSIVE, Airstream.IMPLOSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ɠ":
-        return Consonant(VocalFolds.VOICED, Place.VELAR, Manner.PLOSIVE, Airstream.IMPLOSIVE)
+        return Consonant(VocalFolds.VOICED, Place.VELAR, Manner.PLOSIVE, Airstream.IMPLOSIVE,
+                         SecondaryArticulation.NORMAL)
     if ipa_text == "ʛ":
-        return Consonant(VocalFolds.VOICED, Place.UVULAR, Manner.PLOSIVE, Airstream.IMPLOSIVE)
+        return Consonant(VocalFolds.VOICED, Place.UVULAR, Manner.PLOSIVE, Airstream.IMPLOSIVE,
+                         SecondaryArticulation.NORMAL)
 
     # Close Vowels:
     if ipa_text == "i":
@@ -491,8 +572,9 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
                     place = full_grapheme.place
                     manner = full_grapheme.manner
                     airstream = full_grapheme.airstream
-
-                    return Consonant(VocalFolds.VOICELESS, place, manner, airstream)
+                    secondary_articulation = full_grapheme.secondary_articulation
+                    return Consonant(VocalFolds.VOICELESS, place, manner, airstream,
+                                     secondary_articulation)
                 if isinstance(full_grapheme, Vowel):
                     height = full_grapheme.height
                     backness = full_grapheme.backness
@@ -507,27 +589,96 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
                 place = full_grapheme.place
                 manner = full_grapheme.manner
                 airstream = full_grapheme.airstream
-                return Consonant(VocalFolds.VOICED, place, manner, airstream)
+                secondary_articulation = full_grapheme.secondary_articulation
+                return Consonant(VocalFolds.VOICED, place, manner, airstream,
+                                 secondary_articulation)
             if isinstance(full_grapheme, Vowel):
                 height = full_grapheme.height
                 backness = full_grapheme.backness
                 rounding = full_grapheme.rounding
                 return Vowel(height, backness, rounding, VocalFolds.VOICED)
             return full_grapheme
-        if ipa_text[-1] == "ʰ":
+
+        if ipa_text[-1] == "ʷ":
             full_grapheme: Optional[Phonet] = analyze_transcription(ipa_text[:-1])
-            if isinstance(full_grapheme, Consonant) \
-                    and full_grapheme.vocal_folds == VocalFolds.VOICED:
+            if full_grapheme is None:
+                return None
+            if (isinstance(full_grapheme, Consonant)
+                    and full_grapheme.secondary_articulation == SecondaryArticulation.NORMAL):
+                vocal_folds = full_grapheme.vocal_folds
                 place = full_grapheme.place
                 manner = full_grapheme.manner
                 airstream = full_grapheme.airstream
-                return Consonant(VocalFolds.VOICED_ASPIRATED, place, manner, airstream)
+                return Consonant(vocal_folds, place, manner, airstream,
+                                 SecondaryArticulation.LABIALIZED)
+            if isinstance(full_grapheme, Vowel):
+                return full_grapheme  # Should never happen, but let's just ignore it
+
+        if ipa_text[-1] == "ʲ":
+            full_grapheme = analyze_transcription(ipa_text[:-1])
+            if full_grapheme is None:
+                return None
+            if (isinstance(full_grapheme, Consonant)
+                    and full_grapheme.secondary_articulation == SecondaryArticulation.NORMAL):
+                vocal_folds = full_grapheme.vocal_folds
+                place = full_grapheme.place
+                manner = full_grapheme.manner
+                airstream = full_grapheme.airstream
+
+                return Consonant(vocal_folds, place, manner, airstream,
+                                 SecondaryArticulation.PALATALIZED)
+            if isinstance(full_grapheme, Vowel):
+                return full_grapheme  # Should never happen, but let's just ignore it
+
+    if ipa_text[-1] == "ˠ":
+        full_grapheme = analyze_transcription(ipa_text[:-1])
+
+        if full_grapheme is None:
+            return None
+        if (isinstance(full_grapheme, Consonant) and
+                full_grapheme.secondary_articulation == SecondaryArticulation.NORMAL):
+            vocal_folds = full_grapheme.vocal_folds
+            place = full_grapheme.place
+            manner = full_grapheme.manner
+            airstream = full_grapheme.airstream
+            return Consonant(vocal_folds, place, manner, airstream,
+                             SecondaryArticulation.VELARIZED)
+        if isinstance(full_grapheme, Vowel):
+            return full_grapheme  # Should never happen, but let's just ignore it
+
+    if ipa_text[-1] == "ˤ":
+        full_grapheme = analyze_transcription(ipa_text[:-1])
+        if full_grapheme is None:
+            return None
+        if (isinstance(full_grapheme, Consonant) and
+                full_grapheme.secondary_articulation == SecondaryArticulation.NORMAL):
+            vocal_folds = full_grapheme.vocal_folds
+            place = full_grapheme.place
+            manner = full_grapheme.manner
+            airstream = full_grapheme.airstream
+            return Consonant(vocal_folds, place, manner, airstream,
+                             SecondaryArticulation.PHARYNGEALIZED)
+        if isinstance(full_grapheme, Vowel):
+            return full_grapheme  # Should never happen, but let's just ignore it
+
+    if ipa_text[-1] == "ʰ":
+        full_grapheme: Optional[Phonet] = analyze_transcription(ipa_text[:-1])
+        if isinstance(full_grapheme, Consonant) \
+                and full_grapheme.vocal_folds == VocalFolds.VOICED:
+            place = full_grapheme.place
+            manner = full_grapheme.manner
+            airstream = full_grapheme.airstream
+            secondary_articulation = full_grapheme.secondary_articulation
+            return Consonant(VocalFolds.VOICED_ASPIRATED, place, manner, airstream,
+                             secondary_articulation)
             if isinstance(full_grapheme, Consonant) \
                     and full_grapheme.vocal_folds == VocalFolds.VOICELESS:
                 place = full_grapheme.place
                 manner = full_grapheme.manner
                 airstream = full_grapheme.airstream
-                return Consonant(VocalFolds.VOICELESS_ASPIRATED, place, manner, airstream)
+                secondary_articulation = full_grapheme.secondary_articulation
+                return Consonant(VocalFolds.VOICELESS_ASPIRATED, place, manner, airstream,
+                                 secondary_articulation)
             if isinstance(full_grapheme, Vowel):
                 height = full_grapheme.height
                 backness = full_grapheme.backness
@@ -557,6 +708,21 @@ def construct_transcription(phoneme: Phonet) -> str:
     return result
 
 
+def secondary_articulation_transcription(secondary_articulation: SecondaryArticulation):
+    """convert a secondary articulation to its IPA text representation"""
+    if secondary_articulation == secondary_articulation.NORMAL:
+        return ""
+    if secondary_articulation == SecondaryArticulation.LABIALIZED:
+        return "ʷ"
+    if secondary_articulation == SecondaryArticulation.PALATALIZED:
+        return "ʲ"
+    if secondary_articulation == SecondaryArticulation.VELARIZED:
+        return "ˠ"
+    if secondary_articulation == secondary_articulation.PHARYNGEALIZED:
+        return "ˤ"
+    return ""
+
+
 def construct_transcription_recursively(recursion_limit: int,
                                         recursion_level: int, phone: Phonet) -> Optional[str]:
     """
@@ -570,256 +736,530 @@ def construct_transcription_recursively(recursion_limit: int,
     if recursion_level == recursion_limit:
         return None
     # Plosives:
-    if phone == Consonant(VocalFolds.VOICELESS, Place.BILABIAL, Manner.PLOSIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "p"
-    if phone == Consonant(VocalFolds.VOICED, Place.BILABIAL, Manner.PLOSIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "b"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.ALVEOLAR, Manner.PLOSIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "t"
-    if phone == Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.PLOSIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "d"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.RETROFLEX, Manner.PLOSIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ʈ"
-    if phone == Consonant(VocalFolds.VOICED, Place.RETROFLEX, Manner.PLOSIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɖ"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.PALATAL, Manner.PLOSIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "c"
-    if phone == Consonant(VocalFolds.VOICED, Place.PALATAL, Manner.PLOSIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɟ"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.VELAR, Manner.PLOSIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "k"
-    if phone == Consonant(VocalFolds.VOICED, Place.VELAR, Manner.PLOSIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "g"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.UVULAR, Manner.PLOSIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "q"
-    if phone == Consonant(VocalFolds.VOICED, Place.UVULAR, Manner.PLOSIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɢ"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.GLOTTAL, Manner.PLOSIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ʔ"  # Nasals (next line)::
-    if phone == Consonant(VocalFolds.VOICED, Place.BILABIAL, Manner.NASAL,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "m"
-    if phone == Consonant(VocalFolds.VOICED, Place.LABIODENTAL, Manner.NASAL,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɱ"
-    if phone == Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.NASAL,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "n"
-    if phone == Consonant(VocalFolds.VOICED, Place.RETROFLEX, Manner.NASAL,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɳ"
-    if phone == Consonant(VocalFolds.VOICED, Place.PALATAL, Manner.NASAL,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɲ"
-    if phone == Consonant(VocalFolds.VOICED, Place.VELAR, Manner.NASAL,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ŋ"
-    if phone == Consonant(VocalFolds.VOICED, Place.UVULAR, Manner.NASAL,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɴ"  # Trills (next line)::
-    if phone == Consonant(VocalFolds.VOICED, Place.BILABIAL, Manner.TRILL,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ʙ"
-    if phone == Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.TRILL,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "r"
-    if phone == Consonant(VocalFolds.VOICED, Place.UVULAR, Manner.TRILL,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ʀ"  # Taps or flaps (next line)::
-    if phone == Consonant(VocalFolds.VOICED, Place.LABIODENTAL, Manner.TAP_OR_FLAP,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ⱱ"
-    if phone == Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.TAP_OR_FLAP,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɾ"
-    if phone == Consonant(VocalFolds.VOICED, Place.RETROFLEX, Manner.TAP_OR_FLAP,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɽ"  # Fricatives (next line)::
-    if phone == Consonant(VocalFolds.VOICELESS, Place.BILABIAL, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɸ"
-    if phone == Consonant(VocalFolds.VOICED, Place.BILABIAL, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "β"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.LABIODENTAL, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "f"
-    if phone == Consonant(VocalFolds.VOICED, Place.LABIODENTAL, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "v"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.DENTAL, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "θ"
-    if phone == Consonant(VocalFolds.VOICED, Place.DENTAL, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ð"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.ALVEOLAR, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "s"
-    if phone == Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "z"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.POSTALVEOLAR, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ʃ"
-    if phone == Consonant(VocalFolds.VOICED, Place.POSTALVEOLAR, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ʒ"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.RETROFLEX, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ʂ"
-    if phone == Consonant(VocalFolds.VOICED, Place.RETROFLEX, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ʐ"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.PALATAL, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ç"
-    if phone == Consonant(VocalFolds.VOICED, Place.PALATAL, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ʝ"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.VELAR, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "x"
-    if phone == Consonant(VocalFolds.VOICED, Place.VELAR, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɣ"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.UVULAR, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "χ"
-    if phone == Consonant(VocalFolds.VOICED, Place.UVULAR, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ʁ"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.PHARYNGEAL, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ħ"
-    if phone == Consonant(VocalFolds.VOICED, Place.PHARYNGEAL, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ʕ"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.GLOTTAL, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "h"
-    if phone == Consonant(VocalFolds.VOICED, Place.GLOTTAL, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɦ"  # Lateral Fricatives (next line)::
-    if phone == Consonant(VocalFolds.VOICELESS, Place.ALVEOLAR, Manner.LATERAL_FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɬ"
-    if phone == Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.LATERAL_FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɮ"  # Approximants (next line)::
-    if phone == Consonant(VocalFolds.VOICED, Place.LABIODENTAL, Manner.APPROXIMANT,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ʋ"
-    if phone == Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.APPROXIMANT,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɹ"
-    if phone == Consonant(VocalFolds.VOICED, Place.RETROFLEX, Manner.APPROXIMANT,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɻ"
-    if phone == Consonant(VocalFolds.VOICED, Place.PALATAL, Manner.APPROXIMANT,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "j"
-    if phone == Consonant(VocalFolds.VOICED, Place.VELAR, Manner.APPROXIMANT,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɰ"  # Lateral Approximants (next line)::
-    if phone == Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.LATERAL_APPROXIMANT,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "l"
-    if phone == Consonant(VocalFolds.VOICED, Place.RETROFLEX, Manner.LATERAL_APPROXIMANT,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɭ"
-    if phone == Consonant(VocalFolds.VOICED, Place.PALATAL, Manner.LATERAL_APPROXIMANT,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ʎ"
-    if phone == Consonant(VocalFolds.VOICED, Place.VELAR, Manner.LATERAL_APPROXIMANT,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ʟ"  # Affricates (next line):
-    if phone == Consonant(VocalFolds.VOICELESS, Place.POSTALVEOLAR, Manner.AFFRICATE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "t͡ʃ"
-    if phone == Consonant(VocalFolds.VOICED, Place.POSTALVEOLAR, Manner.AFFRICATE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "d͡ʒ"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.BILABIAL, Manner.AFFRICATE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "p͡ɸ"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.ALVEOLAR, Manner.AFFRICATE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "t͜s"
-    if phone == Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.AFFRICATE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "d͡z"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.VELAR, Manner.AFFRICATE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "k͡x"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.UVULAR, Manner.AFFRICATE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "q͡χ"  # Under the Other Symbols part of the IPA chart:
-    if phone == Consonant(VocalFolds.VOICED, Place.LABIAL_VELAR, Manner.APPROXIMANT,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "w"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.LABIAL_VELAR, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ʍ"
-    if phone == Consonant(VocalFolds.VOICED, Place.LABIAL_PALATAL, Manner.APPROXIMANT,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɥ"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.EPIGLOTTAL, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ʜ"
-    if phone == Consonant(VocalFolds.VOICED, Place.EPIGLOTTAL, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ʢ"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.EPIGLOTTAL, Manner.PLOSIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ʡ"  # Is the epiglottal plosive voiceless? The IPA chart
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.BILABIAL and \
+            phone.manner == Manner.PLOSIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "p" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.BILABIAL and \
+            phone.manner == Manner.PLOSIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "b" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.ALVEOLAR and \
+            phone.manner == Manner.PLOSIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "t" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.ALVEOLAR and \
+            phone.manner == Manner.PLOSIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "d" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.RETROFLEX and \
+            phone.manner == Manner.PLOSIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ʈ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone == Consonant(VocalFolds.VOICED, Place.RETROFLEX, Manner.PLOSIVE,
+                               Airstream.PULMONIC_EGRESSIVE,
+                               SecondaryArticulation.NORMAL):
+        return "ɖ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone == Consonant(VocalFolds.VOICELESS, Place.PALATAL, Manner.PLOSIVE,
+                               Airstream.PULMONIC_EGRESSIVE,
+                               SecondaryArticulation.NORMAL):
+        return "c" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone == Consonant(VocalFolds.VOICED, Place.PALATAL, Manner.PLOSIVE,
+                               Airstream.PULMONIC_EGRESSIVE,
+                               SecondaryArticulation.NORMAL):
+        return "ɟ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone == Consonant(VocalFolds.VOICELESS, Place.VELAR, Manner.PLOSIVE,
+                               Airstream.PULMONIC_EGRESSIVE,
+                               SecondaryArticulation.NORMAL):
+        return "k" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.VELAR and \
+            phone.manner == Manner.PLOSIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "g" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.UVULAR and \
+            phone.manner == Manner.PLOSIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "q" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.UVULAR and \
+            phone.manner == Manner.PLOSIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ɢ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.GLOTTAL and \
+            phone.manner == Manner.PLOSIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ʔ" + secondary_articulation_transcription(
+            phone.secondary_articulation)  # Nasals (next line)::
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.BILABIAL and \
+            phone.manner == Manner.NASAL and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "m" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.LABIODENTAL and \
+            phone.manner == Manner.NASAL and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ɱ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.ALVEOLAR and \
+            phone.manner == Manner.NASAL and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "n" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.RETROFLEX and \
+            phone.manner == Manner.NASAL and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ɳ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.PALATAL and \
+            phone.manner == Manner.NASAL and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ɲ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.VELAR and \
+            phone.manner == Manner.NASAL and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ŋ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.UVULAR and \
+            phone.manner == Manner.NASAL and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ɴ" + secondary_articulation_transcription(
+            phone.secondary_articulation)  # Trills (next line)::
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.BILABIAL and \
+            phone.manner == Manner.TRILL and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ʙ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.ALVEOLAR and \
+            phone.manner == Manner.TRILL and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "r" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.UVULAR and \
+            phone.manner == Manner.TRILL and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ʀ" + secondary_articulation_transcription(
+            phone.secondary_articulation)  # Taps or flaps (next line)::
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.LABIODENTAL and \
+            phone.manner == Manner.TAP_OR_FLAP and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ⱱ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.ALVEOLAR and \
+            phone.manner == Manner.TAP_OR_FLAP and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE and \
+            phone.secondary_articulation == SecondaryArticulation.NORMAL:
+        return "ɾ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.RETROFLEX and \
+            phone.manner == Manner.TAP_OR_FLAP and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ɽ" + secondary_articulation_transcription(
+            phone.secondary_articulation)  # Fricatives (next line)::
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.BILABIAL and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ɸ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.BILABIAL and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "β" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.LABIODENTAL and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "f" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.LABIODENTAL and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "v" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.DENTAL and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "θ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.DENTAL and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ð" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.ALVEOLAR and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "s" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.ALVEOLAR and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "z" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.POSTALVEOLAR and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ʃ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.POSTALVEOLAR and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ʒ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.RETROFLEX and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ʂ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.RETROFLEX and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ʐ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.PALATAL and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ç" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.PALATAL and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ʝ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.VELAR and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "x" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.VELAR and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ɣ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.UVULAR and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "χ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.UVULAR and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ʁ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.PHARYNGEAL and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ħ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.PHARYNGEAL and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ʕ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.GLOTTAL and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "h" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.GLOTTAL and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ɦ" + secondary_articulation_transcription(
+            phone.secondary_articulation)  # Lateral Fricatives (next line)::
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.ALVEOLAR and \
+            phone.manner == Manner.LATERAL_FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ɬ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.ALVEOLAR and \
+            phone.manner == Manner.LATERAL_FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ɮ" + secondary_articulation_transcription(
+            phone.secondary_articulation)  # Approximants (next line)::
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.LABIODENTAL and \
+            phone.manner == Manner.APPROXIMANT and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ʋ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.ALVEOLAR and \
+            phone.manner == Manner.APPROXIMANT and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ɹ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.RETROFLEX and \
+            phone.manner == Manner.APPROXIMANT and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ɻ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.PALATAL and \
+            phone.manner == Manner.APPROXIMANT and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "j" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.VELAR and \
+            phone.manner == Manner.APPROXIMANT and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ɰ" + secondary_articulation_transcription(
+            phone.secondary_articulation)  # Lateral Approximants (next line)::
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.ALVEOLAR and \
+            phone.manner == Manner.LATERAL_APPROXIMANT and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "l" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.RETROFLEX and \
+            phone.manner == Manner.LATERAL_APPROXIMANT and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ɭ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.PALATAL and \
+            phone.manner == Manner.LATERAL_APPROXIMANT and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ʎ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.VELAR and \
+            phone.manner == Manner.LATERAL_APPROXIMANT and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ʟ" + secondary_articulation_transcription(
+            phone.secondary_articulation)  # Affricates (next line):
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.POSTALVEOLAR and \
+            phone.manner == Manner.AFFRICATE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "t͡ʃ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.POSTALVEOLAR and \
+            phone.manner == Manner.AFFRICATE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "d͡ʒ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.BILABIAL and \
+            phone.manner == Manner.AFFRICATE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "p͡ɸ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.ALVEOLAR and \
+            phone.manner == Manner.AFFRICATE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "t͜s" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.ALVEOLAR and \
+            phone.manner == Manner.AFFRICATE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "d͡z" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.VELAR and \
+            phone.manner == Manner.AFFRICATE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "k͡x" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.UVULAR and \
+            phone.manner == Manner.AFFRICATE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "q͡χ" + secondary_articulation_transcription(
+            phone.secondary_articulation)  # Under the Other Symbols part of the IPA chart:
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.LABIAL_VELAR and \
+            phone.manner == Manner.APPROXIMANT and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "w" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.LABIAL_VELAR and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ʍ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.LABIAL_PALATAL and \
+            phone.manner == Manner.APPROXIMANT and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ɥ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.EPIGLOTTAL and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ʜ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.EPIGLOTTAL and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ʢ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.EPIGLOTTAL and \
+            phone.manner == Manner.PLOSIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ʡ" + secondary_articulation_transcription(
+            phone.secondary_articulation)  # Is the epiglottal plosive voiceless? The IPA chart
         # does not specify.
-    if phone == Consonant(VocalFolds.VOICELESS, Place.ALVEOLOPALATAL, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɕ"
-    if phone == Consonant(VocalFolds.VOICED, Place.ALVEOLOPALATAL, Manner.FRICATIVE,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ʑ"
-    if phone == Consonant(VocalFolds.VOICED, Place.ALVEOLAR, Manner.LATERAL_FLAP,
-                          Airstream.PULMONIC_EGRESSIVE):
-        return "ɺ"
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.ALVEOLOPALATAL and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ɕ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.ALVEOLOPALATAL and \
+            phone.manner == Manner.FRICATIVE and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ʑ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.ALVEOLAR and \
+            phone.manner == Manner.LATERAL_FLAP and \
+            phone.airstream == Airstream.PULMONIC_EGRESSIVE:
+        return "ɺ" + secondary_articulation_transcription(phone.secondary_articulation)
     #    if phone == Consonant(VocalFolds.VOICELESS,  (Places (PostAlveolar :| [Velar]))
     #                                        Fricative  PulmonicEgressive):
     #        return "ɧ" # Other Consonants:
-    if phone == Consonant(VocalFolds.VOICELESS, Place.BILABIAL, Manner.PLOSIVE, Airstream.CLICK):
-        return "ʘ"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.DENTAL, Manner.PLOSIVE, Airstream.CLICK):
-        return "ǀ"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.ALVEOLAR, Manner.PLOSIVE, Airstream.CLICK):
-        return "ǃ"  # Or it could be PostAlveolar.
-    if phone == Consonant(VocalFolds.VOICELESS, Place.PALATOALVEOLAR, Manner.PLOSIVE,
-                          Airstream.CLICK):
-        return "ǂ"
-    if phone == Consonant(VocalFolds.VOICELESS, Place.ALVEOLAR, Manner.LATERAL, Airstream.CLICK):
-        return "ǁ"
-    if phone == Consonant(VocalFolds.VOICED, Place.BILABIAL, Manner.PLOSIVE, Airstream.IMPLOSIVE):
-        return "ɓ"
-    if phone == Consonant(VocalFolds.VOICED, Place.DENTAL, Manner.PLOSIVE, Airstream.IMPLOSIVE):
-        return "ɗ"  # Or Alveolar
-    if phone == Consonant(VocalFolds.VOICED, Place.PALATAL, Manner.PLOSIVE, Airstream.IMPLOSIVE):
-        return "ʄ"
-    if phone == Consonant(VocalFolds.VOICED, Place.VELAR, Manner.PLOSIVE, Airstream.IMPLOSIVE):
-        return "ɠ"
-    if phone == Consonant(VocalFolds.VOICED, Place.UVULAR, Manner.PLOSIVE, Airstream.IMPLOSIVE):
-        return "ʛ"  # Close Vowels (next line)::
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.BILABIAL and \
+            phone.manner == Manner.PLOSIVE and \
+            phone.airstream == Airstream.CLICK:
+        return "ʘ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.DENTAL and \
+            phone.manner == Manner.PLOSIVE and \
+            phone.airstream == Airstream.CLICK:
+        return "ǀ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.ALVEOLAR and \
+            phone.manner == Manner.PLOSIVE and \
+            phone.airstream == Airstream.CLICK:
+        return "ǃ" + secondary_articulation_transcription(
+            phone.secondary_articulation)  # Or it could be PostAlveolar.
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.PALATOALVEOLAR and \
+            phone.manner == Manner.PLOSIVE and \
+            phone.airstream == Airstream.CLICK:
+        return "ǂ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICELESS and \
+            phone.place == Place.ALVEOLAR and \
+            phone.manner == Manner.LATERAL and \
+            phone.airstream == Airstream.CLICK:
+        return "ǁ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.BILABIAL and \
+            phone.manner == Manner.PLOSIVE and \
+            phone.airstream == Airstream.IMPLOSIVE:
+        return "ɓ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.DENTAL and \
+            phone.manner == Manner.PLOSIVE and \
+            phone.airstream == Airstream.IMPLOSIVE:
+        return "ɗ" + secondary_articulation_transcription(
+            phone.secondary_articulation)  # Or Alveolar
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.PALATAL and \
+            phone.manner == Manner.PLOSIVE and \
+            phone.airstream == Airstream.IMPLOSIVE:
+        return "ʄ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.VELAR and \
+            phone.manner == Manner.PLOSIVE and \
+            phone.airstream == Airstream.IMPLOSIVE:
+        return "ɠ" + secondary_articulation_transcription(phone.secondary_articulation)
+    if isinstance(phone, Consonant) and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.place == Place.UVULAR and \
+            phone.manner == Manner.PLOSIVE and \
+            phone.airstream == Airstream.IMPLOSIVE:
+        return "ʛ" + secondary_articulation_transcription(
+            phone.secondary_articulation)  # Close Vowels (next line)::
     if phone == Vowel(Height.CLOSE, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED):
         return "i"
     if phone == Vowel(Height.CLOSE, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED):
@@ -896,12 +1336,14 @@ def construct_transcription_recursively(recursion_limit: int,
         vocal_folds = phone.vocal_folds
         manner = phone.manner
         airstream = phone.airstream
+        secondary_articulation = phone.secondary_articulation
         result = construct_transcription_recursively(recursion_limit,
                                                      1 + recursion_level,
                                                      Consonant(vocal_folds,
                                                                Place.ALVEOLAR,
                                                                manner,
-                                                               airstream))
+                                                               airstream,
+                                                               secondary_articulation))
         if result is None:
             return None
         return result + "̠"  # Add the diacritic for "retracted"
@@ -916,13 +1358,14 @@ def construct_transcription_recursively(recursion_limit: int,
         place = phone.place
         manner = phone.manner
         airstream = phone.airstream
-
+        secondary_articulation = phone.secondary_articulation
         result = construct_transcription_recursively(recursion_limit,
                                                      1 + recursion_level,
                                                      Consonant(VocalFolds.VOICED,
                                                                place,
                                                                manner,
-                                                               airstream))
+                                                               airstream,
+                                                               secondary_articulation))
         if result is None:
             return None
         if is_descender(result):
@@ -955,13 +1398,14 @@ def construct_transcription_recursively(recursion_limit: int,
         place = phone.place
         manner = phone.manner
         airstream = phone.airstream
-
+        secondary_articulation = phone.secondary_articulation
         result = construct_transcription_recursively(recursion_limit,
                                                      1 + recursion_level,
                                                      Consonant(VocalFolds.VOICELESS,
                                                                place,
                                                                manner,
-                                                               airstream))
+                                                               airstream,
+                                                               secondary_articulation))
         if result is None:
             return None
         return result + "̬"
@@ -1134,6 +1578,7 @@ tone_and_word_accents: List[str] = \
         "↗",  # Global rise
         "↘"  # Global fall
     ]
+
 graphemes_of_ipa: List[str] = \
     consonants_pulmonic \
     + consonants_nonpulmonic \

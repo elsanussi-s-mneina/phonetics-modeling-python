@@ -149,6 +149,12 @@ HIGH_PHONEME_FEATURE_TEXT: Final[str] = "high"
 LOW_PHONEME_FEATURE_TEXT: Final[str] = "low"
 BACK_PHONEME_FEATURE_TEXT: Final[str] = "back"
 
+# Secondary Articulations:
+LABIALIZED_TEXT: str = "labialized"
+PALATALIZED_TEXT: str = "palatalized"
+VELARIZED_TEXT: str = "velarized"
+PHARYNGEALIZED_TEXT: str = "pharyngealized"
+
 SHOW_PHONEME_INVENTORY_TEXT: Final[str] = "Show English phoneme inventory"
 MAKE_A_PHONEME_VOICED_TEXT: Final[str] = "Make a phoneme voiced…"
 QUIT_TEXT: Final[str] = "Quit"

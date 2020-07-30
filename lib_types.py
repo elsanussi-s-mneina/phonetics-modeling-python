@@ -154,23 +154,40 @@ airstream_states: Final[List[Airstream]] = \
      Airstream.CLICK,
      Airstream.IMPLOSIVE]
 
+@unique
+class SecondaryArticulation(Enum):
+    NORMAL = auto()
+    LABIALIZED = auto()
+    PALATALIZED = auto()
+    VELARIZED = auto()
+    PHARYNGEALIZED = auto()
+
+secondaryArticulationStates: List[SecondaryArticulation] = \
+     [SecondaryArticulation.LABIALIZED,
+      SecondaryArticulation.PALATALIZED,
+      SecondaryArticulation.VELARIZED,
+      SecondaryArticulation.PHARYNGEALIZED
+     ]
+
 
 class Consonant(Phonet):
     """
     A consonant is a sound.
     Consonants have voicing, place, manner, and an airstream mechanism.
     """
-
     def __init__(self,
                  vocal_folds: VocalFolds,
                  place: Union[Place, MultiPlace],
                  manner: Manner,
-                 airstream: Airstream):
+                 airstream: Airstream,
+                 secondary_articulation: SecondaryArticulation):
         super().__init__()
         self.vocal_folds = vocal_folds
         self.place = place
         self.manner = manner
         self.airstream = airstream
+        self.secondary_articulation = secondary_articulation
+
 
     def __eq__(self, other):
         try:
@@ -454,18 +471,63 @@ class MarkedAirstream(UnmarkableAirstream):
         return not self.__eq__(other)
 
 
+class UnmarkableSecondaryArticulation:
+    """
+    For matching with secondary articulations.
+    """
+
+    def __init__(self):
+        pass
+
+    pass
+
+
+class UnmarkedSecondaryArticulation(UnmarkableSecondaryArticulation):
+    """
+    For matching with any secondary articulation.
+    """
+
+    def __init__(self):
+        super().__init__()
+
+    def __eq__(self, other):
+        return isinstance(other, UnmarkedSecondaryArticulation)
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+
+class MarkedSecondaryArticulation(UnmarkableSecondaryArticulation):
+    """
+    For matching with a specific secondary articulation.
+    """
+
+    def __init__(self, secondary_articulation: SecondaryArticulation):
+        super().__init__()
+        self.secondary_articulation = secondary_articulation
+
+    def __eq__(self, other):
+        return self.secondary_articulation == other.secondary_articulation
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+
+
 class UnmarkableConsonant(UnmarkablePhonet):
     """
     For matching with consonants.
     """
 
     def __init__(self, vocal_folds: UnmarkableVocalFolds, place: UnmarkablePlace,
-                 manner: UnmarkableManner, airstream: UnmarkableAirstream):
+                 manner: UnmarkableManner, airstream: UnmarkableAirstream,
+                 secondary_articulation: SecondaryArticulation):
         super().__init__()
         self.vocal_folds = vocal_folds
         self.place = place
         self.manner = manner
         self.airstream = airstream
+        self.secondary_articulation = secondary_articulation
 
 
 class UnmarkableBackness:
@@ -600,5 +662,3 @@ class UnmarkableVowel(UnmarkablePhonet):
         self.backness = backness
         self.rounding = rounding
         self.vocal_folds = vocal_folds
-
-
