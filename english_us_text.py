@@ -86,7 +86,7 @@ OPEN_HEIGHT_TEXT: Final[str] = "open"
 ROUNDED_ROUNDING_TEXT: Final[str] = "rounded"
 UNROUNDED_ROUNDING_TEXT: Final[str] = "unrounded"
 
-EXTRA_SHORT_LENGTH: Final[str] = "extra-short"
+EXTRA_SHORT_TEXT: Final[str] = "extra-short"
 HALF_LONG_TEXT: Final[str] = "half-long"
 LONG_TEXT: Final[str] = "long"
 

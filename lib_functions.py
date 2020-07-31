@@ -28,7 +28,7 @@ from english_us_text import (PLOSIVE_MANNER_TEXT, NASAL_MANNER_TEXT, TRILL_MANNE
                              VOICED_ASPIRATED_VOCAL_FOLDS_TEXT, VOICELESS_VOCAL_FOLDS_TEXT,
                              VOICED_VOCAL_FOLDS_TEXT, CONSONANT_TEXT, VOWEL_TEXT, LABIALIZED_TEXT,
                              PALATALIZED_TEXT, VELARIZED_TEXT, PHARYNGEALIZED_TEXT,
-                             EXTRA_SHORT_LENGTH, HALF_LONG_TEXT, LONG_TEXT)
+                             EXTRA_SHORT_TEXT, HALF_LONG_TEXT, LONG_TEXT)
 from lib_types import (Phonet, Height, Backness, Rounding, VocalFolds, Vowel, Consonant, Place,
                        Manner, Airstream,
                        MultiPlace, PhonetInventory,
@@ -560,7 +560,7 @@ def show_vowel_length(length: VowelLength) -> str:
     if length == VowelLength.NORMAL:
         return ""
     if length == VowelLength.EXTRA_SHORT:
-        return EXTRA_SHORT_LENGTH
+        return EXTRA_SHORT_TEXT
     if length == VowelLength.HALF_LONG:
         return HALF_LONG_TEXT
     if length == VowelLength.LONG:
