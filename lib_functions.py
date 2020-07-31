@@ -27,7 +27,8 @@ from english_us_text import (PLOSIVE_MANNER_TEXT, NASAL_MANNER_TEXT, TRILL_MANNE
                              VOICELESS_ASPIRATED_VOCAL_FOLDS_TEXT,
                              VOICED_ASPIRATED_VOCAL_FOLDS_TEXT, VOICELESS_VOCAL_FOLDS_TEXT,
                              VOICED_VOCAL_FOLDS_TEXT, CONSONANT_TEXT, VOWEL_TEXT, LABIALIZED_TEXT,
-                             PALATALIZED_TEXT, VELARIZED_TEXT, PHARYNGEALIZED_TEXT)
+                             PALATALIZED_TEXT, VELARIZED_TEXT, PHARYNGEALIZED_TEXT,
+                             EXTRA_SHORT_LENGTH, HALF_LONG_TEXT, LONG_TEXT)
 from lib_types import (Phonet, Height, Backness, Rounding, VocalFolds, Vowel, Consonant, Place,
                        Manner, Airstream,
                        MultiPlace, PhonetInventory,
@@ -39,7 +40,7 @@ from lib_types import (Phonet, Height, Backness, Rounding, VocalFolds, Vowel, Co
                        UnmarkedAirstream, UnmarkedRounding, MarkedRounding, UnmarkablePhonet,
                        UnmarkableRounding, height_states, backness_states, rounding_states,
                        airstream_states, manner_states, place_states, vocal_fold_states,
-                       SecondaryArticulation)
+                       SecondaryArticulation, VowelLength)
 
 
 def equivalent_in_place(place_1: Place, place_2: Place) -> bool:
@@ -149,7 +150,8 @@ def voiced_phonet(phone: Phonet) -> Optional[Phonet]:
         height = phone.height
         backness = phone.backness
         rounding = phone.rounding
-        return Vowel(height, backness, rounding, VocalFolds.VOICED)
+        vowel_length = phone.vowel_length
+        return Vowel(height, backness, rounding, VocalFolds.VOICED, vowel_length)
     return None
 
 
@@ -179,7 +181,8 @@ def devoiced_phonet(phone: Phonet) -> Phonet:
         backness = phone.backness
         height = phone.height
         rounding = phone.rounding
-        return Vowel(height, backness, rounding, VocalFolds.VOICELESS)
+        vowel_length = phone.vowel_length
+        return Vowel(height, backness, rounding, VocalFolds.VOICELESS, vowel_length)
     return phone
 
 
@@ -548,6 +551,23 @@ def show_rounding(rounding: Rounding) -> str:
     return "[Unrecognized rounding!]"
 
 
+def show_vowel_length(length: VowelLength) -> str:
+    """
+    Provide user readable text for representing
+    vowel length.
+    e.g. "half-long"
+    """
+    if length == VowelLength.NORMAL:
+        return ""
+    if length == VowelLength.EXTRA_SHORT:
+        return EXTRA_SHORT_LENGTH
+    if length == VowelLength.HALF_LONG:
+        return HALF_LONG_TEXT
+    if length == VowelLength.LONG:
+        return LONG_TEXT
+    return "[Unrecognized vowel length!]"
+
+
 def show_place(place: Place) -> str:
     """
     Provide user readable text for representing
@@ -711,7 +731,11 @@ def show_phonet(phonet: Phonet) -> str:
         height = phonet.height
         backness = phonet.backness
         rounding = phonet.rounding
+        vowel_length = phonet.vowel_length
         vocal_folds = phonet.vocal_folds
-        return ' '.join([show_vocal_folds(vocal_folds), show_rounding(rounding),
-                         show_height(height), show_backness(backness), VOWEL_TEXT])
+        x:str = ' '.join([show_vocal_folds(vocal_folds), show_rounding(rounding),
+                         show_height(height), show_backness(backness),
+                         show_vowel_length(vowel_length),
+                         VOWEL_TEXT])
+        return remove_extra_two_spaces(x)
     return "[Unrecognized kind of phonete!]"

@@ -86,6 +86,10 @@ OPEN_HEIGHT_TEXT: Final[str] = "open"
 ROUNDED_ROUNDING_TEXT: Final[str] = "rounded"
 UNROUNDED_ROUNDING_TEXT: Final[str] = "unrounded"
 
+EXTRA_SHORT_LENGTH: Final[str] = "extra-short"
+HALF_LONG_TEXT: Final[str] = "half-long"
+LONG_TEXT: Final[str] = "long"
+
 BILABIAL_PLACE_TEXT: Final[str] = "bilabial"
 LABIODENTAL_PLACE_TEXT: Final[str] = "labio-dental"
 DENTAL_PLACE_TEXT: Final[str] = "dental"
@@ -173,6 +177,7 @@ FEATURES_HEADER: Final[str] = "SPE Features of Phoneme"
 PHONEMES_SPLIT_HEADER: Final[str] = "Phonemes After Being Split"
 ENGLISH_PHONEME_INVENTORY_HEADER: Final[str] = "English Phoneme Inventory"
 INPUT_HEADER: Final[str] = "Input:"
+
 
 
 BEFORE_SERVER_START_MESSAGE: Final[str] =  \

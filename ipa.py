@@ -7,7 +7,7 @@ from language_specific.english_specific import english_phonet_inventory
 from lib_functions import retract_phonet, deaspirate, decreak, \
     voiced_phonet, devoiced_phonet, spirantized_phonet, show_phonet
 from lib_types import Phonet, Consonant, VocalFolds, Place, Manner, Airstream, MultiPlace, Vowel, \
-    Height, Backness, Rounding, SecondaryArticulation, PhonetInventory
+    Height, Backness, Rounding, SecondaryArticulation, PhonetInventory, VowelLength
 from phonetic_features import analyze_features, show_features
 
 
@@ -494,73 +494,101 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
 
     # Close Vowels:
     if ipa_text == "i":
-        return Vowel(Height.CLOSE, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.CLOSE, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "y":
-        return Vowel(Height.CLOSE, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.CLOSE, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "ɨ":
-        return Vowel(Height.CLOSE, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.CLOSE, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "ʉ":
-        return Vowel(Height.CLOSE, Backness.CENTRAL, Rounding.ROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.CLOSE, Backness.CENTRAL, Rounding.ROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "ɯ":
-        return Vowel(Height.CLOSE, Backness.BACK, Rounding.UNROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.CLOSE, Backness.BACK, Rounding.UNROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "u":
-        return Vowel(Height.CLOSE, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.CLOSE, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
 
     # Near-close Vowels:
     if ipa_text == "ɪ":
-        return Vowel(Height.NEAR_CLOSE, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.NEAR_CLOSE, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "ʏ":
-        return Vowel(Height.NEAR_CLOSE, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.NEAR_CLOSE, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "ʊ":
-        return Vowel(Height.NEAR_CLOSE, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.NEAR_CLOSE, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
 
     # Close-mid Vowels:
     if ipa_text == "e":
-        return Vowel(Height.CLOSE_MID, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.CLOSE_MID, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "ø":
-        return Vowel(Height.CLOSE_MID, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.CLOSE_MID, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "ɘ":
-        return Vowel(Height.CLOSE_MID, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.CLOSE_MID, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "ɵ":
-        return Vowel(Height.CLOSE_MID, Backness.CENTRAL, Rounding.ROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.CLOSE_MID, Backness.CENTRAL, Rounding.ROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "ɤ":
-        return Vowel(Height.CLOSE_MID, Backness.BACK, Rounding.UNROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.CLOSE_MID, Backness.BACK, Rounding.UNROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "o":
-        return Vowel(Height.CLOSE_MID, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.CLOSE_MID, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
 
     # Mid Vowels:
     if ipa_text == "ə":
-        return Vowel(Height.MID, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.MID, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
 
     # Open-mid Vowels:
     if ipa_text == "ɛ":
-        return Vowel(Height.OPEN_MID, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.OPEN_MID, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "œ":
-        return Vowel(Height.OPEN_MID, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.OPEN_MID, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "ɜ":
-        return Vowel(Height.OPEN_MID, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.OPEN_MID, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "ɞ":
-        return Vowel(Height.OPEN_MID, Backness.CENTRAL, Rounding.ROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.OPEN_MID, Backness.CENTRAL, Rounding.ROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "ʌ":
-        return Vowel(Height.OPEN_MID, Backness.BACK, Rounding.UNROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.OPEN_MID, Backness.BACK, Rounding.UNROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "ɔ":
-        return Vowel(Height.OPEN_MID, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.OPEN_MID, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
 
     # Near-open
     if ipa_text == "æ":
-        return Vowel(Height.NEAR_OPEN, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.NEAR_OPEN, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "ɐ":
-        return Vowel(Height.NEAR_OPEN, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.NEAR_OPEN, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
 
     # Open Vowels:
     if ipa_text == "a":
-        return Vowel(Height.OPEN, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.OPEN, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "ɶ":
-        return Vowel(Height.OPEN, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.OPEN, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "ɑ":
-        return Vowel(Height.OPEN, Backness.BACK, Rounding.UNROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.OPEN, Backness.BACK, Rounding.UNROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
     if ipa_text == "ɒ":
-        return Vowel(Height.OPEN, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED)
+        return Vowel(Height.OPEN, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED,
+                     VowelLength.NORMAL)
 
     # Handle Diacritics:
 
@@ -579,7 +607,8 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
                     height = full_grapheme.height
                     backness = full_grapheme.backness
                     rounding = full_grapheme.rounding
-                    return Vowel(height, backness, rounding, VocalFolds.VOICELESS)
+                    return Vowel(height, backness, rounding, VocalFolds.VOICELESS,
+                                 VowelLength.NORMAL)
             return None
         if ipa_text[-1] == "̬":
             full_grapheme: Optional[Phonet] = analyze_transcription(ipa_text[:-1])
@@ -596,7 +625,8 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
                 height = full_grapheme.height
                 backness = full_grapheme.backness
                 rounding = full_grapheme.rounding
-                return Vowel(height, backness, rounding, VocalFolds.VOICED)
+                vowel_length = full_grapheme.vowel_length
+                return Vowel(height, backness, rounding, VocalFolds.VOICED, vowel_length)
             return full_grapheme
 
         if ipa_text[-1] == "ʷ":
@@ -661,6 +691,61 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
         if isinstance(full_grapheme, Vowel):
             return full_grapheme  # Should never happen, but let's just ignore it
 
+    # Long
+    if ipa_text[-1] == "ː":
+        full_grapheme = analyze_transcription(ipa_text[:-1])
+        if full_grapheme is None:
+            return None
+        if isinstance(full_grapheme, Consonant):
+            return full_grapheme
+            # Ignore consonants followed by a long marker.
+            # How to handle them can't be decided right now.
+        if isinstance(full_grapheme, Vowel):
+            height = full_grapheme.height
+
+            vocal_folds = full_grapheme.vocal_folds
+            backness = full_grapheme.backness
+            rounding = full_grapheme.rounding
+
+            # Make the vowel long.
+            return Vowel(height, backness, rounding, vocal_folds,
+                         VowelLength.LONG)
+
+    if ipa_text[-1] == "ˑ":
+        full_grapheme = analyze_transcription(ipa_text[:-1])
+        if full_grapheme is None:
+            return None
+        if isinstance(full_grapheme, Consonant):
+            return full_grapheme
+            # Ignore consonants followed by a half-long marker.
+            # How to handle them can't be decided right now.
+        if isinstance(full_grapheme, Vowel):
+            height = full_grapheme.height
+            backness = full_grapheme.backness
+            rounding = full_grapheme.rounding
+            vocal_folds = full_grapheme.vocal_folds
+
+            # Make the vowel half-long.
+            return Vowel(height, backness, rounding, vocal_folds,
+                         VowelLength.HALF_LONG)
+
+    if ipa_text[-1] == "̆":
+        full_grapheme = analyze_transcription(ipa_text[:-1])
+        if full_grapheme is None:
+            return None
+        if isinstance(full_grapheme, Consonant):
+            return full_grapheme
+            # Ignore consonants followed by an extra-short marker.
+        if isinstance(full_grapheme, Vowel):
+            height = full_grapheme.height
+            backness = full_grapheme.backness
+            rounding = full_grapheme.rounding
+            vocal_folds = full_grapheme.vocal_folds
+
+            # Make the vowel extra-short.
+            return Vowel(height, backness, rounding, vocal_folds,
+                         VowelLength.EXTRA_SHORT)
+
     if ipa_text[-1] == "ʰ":
         full_grapheme: Optional[Phonet] = analyze_transcription(ipa_text[:-1])
         if isinstance(full_grapheme, Consonant) \
@@ -684,7 +769,8 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
                 backness = full_grapheme.backness
                 rounding = full_grapheme.rounding
                 voicing = full_grapheme.vocal_folds
-                return Vowel(height, backness, rounding, voicing)
+                vowel_length = full_grapheme.vowel_length
+                return Vowel(height, backness, rounding, voicing, vowel_length)
             return full_grapheme
             # (About the preceding line:) It is strange but we will just
             # do nothing if they give us an aspirated vowel.
@@ -702,7 +788,7 @@ def construct_transcription(phoneme: Phonet) -> str:
     """
     Given a phone, gives back its transcription in the International Phonetic Alphabet.
     """
-    result = construct_transcription_recursively(3, 0, phoneme)
+    result = construct_transcription_recursively(5, 0, phoneme)
     if result is None:
         return "∅"
     return result
@@ -721,6 +807,20 @@ def secondary_articulation_transcription(secondary_articulation: SecondaryArticu
     if secondary_articulation == secondary_articulation.PHARYNGEALIZED:
         return "ˤ"
     return ""
+
+
+def length_transcription(vowel_length: VowelLength) -> str:
+    """
+    Convert a vowel length into its IPA text representation.
+    """
+    if vowel_length == VowelLength.NORMAL:
+        return ""
+    if vowel_length == VowelLength.EXTRA_SHORT:
+        return "̆"
+    if vowel_length == VowelLength.HALF_LONG:
+        return "ˑ"
+    if vowel_length == VowelLength.LONG:
+        return "ː"
 
 
 def construct_transcription_recursively(recursion_limit: int,
@@ -810,7 +910,9 @@ def construct_transcription_recursively(recursion_limit: int,
             phone.manner == Manner.PLOSIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ʔ" + secondary_articulation_transcription(
-            phone.secondary_articulation)  # Nasals (next line)::
+            phone.secondary_articulation)
+
+    # Nasals (next line)::
     if isinstance(phone, Consonant) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.BILABIAL and \
@@ -853,7 +955,8 @@ def construct_transcription_recursively(recursion_limit: int,
             phone.manner == Manner.NASAL and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ɴ" + secondary_articulation_transcription(
-            phone.secondary_articulation)  # Trills (next line)::
+            phone.secondary_articulation)
+    # Trills (next line)::
     if isinstance(phone, Consonant) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.BILABIAL and \
@@ -1025,7 +1128,8 @@ def construct_transcription_recursively(recursion_limit: int,
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ɦ" + secondary_articulation_transcription(
-            phone.secondary_articulation)  # Lateral Fricatives (next line)::
+            phone.secondary_articulation)
+    # Lateral Fricatives (next line)::
     if isinstance(phone, Consonant) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.ALVEOLAR and \
@@ -1038,7 +1142,8 @@ def construct_transcription_recursively(recursion_limit: int,
             phone.manner == Manner.LATERAL_FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ɮ" + secondary_articulation_transcription(
-            phone.secondary_articulation)  # Approximants (next line)::
+            phone.secondary_articulation)
+    # Approximants (next line)::
     if isinstance(phone, Consonant) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.LABIODENTAL and \
@@ -1069,7 +1174,8 @@ def construct_transcription_recursively(recursion_limit: int,
             phone.manner == Manner.APPROXIMANT and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ɰ" + secondary_articulation_transcription(
-            phone.secondary_articulation)  # Lateral Approximants (next line)::
+            phone.secondary_articulation)
+    # Lateral Approximants (next line)::
     if isinstance(phone, Consonant) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.ALVEOLAR and \
@@ -1094,7 +1200,8 @@ def construct_transcription_recursively(recursion_limit: int,
             phone.manner == Manner.LATERAL_APPROXIMANT and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ʟ" + secondary_articulation_transcription(
-            phone.secondary_articulation)  # Affricates (next line):
+            phone.secondary_articulation)
+    # Affricates (next line):
     if isinstance(phone, Consonant) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.POSTALVEOLAR and \
@@ -1137,7 +1244,8 @@ def construct_transcription_recursively(recursion_limit: int,
             phone.manner == Manner.AFFRICATE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "q͡χ" + secondary_articulation_transcription(
-            phone.secondary_articulation)  # Under the Other Symbols part of the IPA chart:
+            phone.secondary_articulation)
+    # Under the Other Symbols part of the IPA chart:
     if isinstance(phone, Consonant) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.LABIAL_VELAR and \
@@ -1259,62 +1367,207 @@ def construct_transcription_recursively(recursion_limit: int,
             phone.manner == Manner.PLOSIVE and \
             phone.airstream == Airstream.IMPLOSIVE:
         return "ʛ" + secondary_articulation_transcription(
-            phone.secondary_articulation)  # Close Vowels (next line)::
-    if phone == Vowel(Height.CLOSE, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED):
+            phone.secondary_articulation)
+    # Close Vowels (next line)::
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.CLOSE and \
+            phone.backness == Backness.FRONT and \
+            phone.rounding == Rounding.UNROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "i"
-    if phone == Vowel(Height.CLOSE, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.CLOSE and \
+            phone.backness == Backness.FRONT and \
+            phone.rounding == Rounding.ROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "y"
-    if phone == Vowel(Height.CLOSE, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.CLOSE and \
+            phone.backness == Backness.CENTRAL and \
+            phone.rounding == Rounding.UNROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "ɨ"
-    if phone == Vowel(Height.CLOSE, Backness.CENTRAL, Rounding.ROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.CLOSE and \
+            phone.backness == Backness.CENTRAL and \
+            phone.rounding == Rounding.ROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "ʉ"
-    if phone == Vowel(Height.CLOSE, Backness.BACK, Rounding.UNROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.CLOSE and \
+            phone.backness == Backness.BACK and \
+            phone.rounding == Rounding.UNROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "ɯ"
-    if phone == Vowel(Height.CLOSE, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.CLOSE and \
+            phone.backness == Backness.BACK and \
+            phone.rounding == Rounding.ROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "u"  # Near-close Vowels (next line)::
-    if phone == Vowel(Height.NEAR_CLOSE, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.NEAR_CLOSE and \
+            phone.backness == Backness.FRONT and \
+            phone.rounding == Rounding.UNROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "ɪ"
-    if phone == Vowel(Height.NEAR_CLOSE, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.NEAR_CLOSE and \
+            phone.backness == Backness.FRONT and \
+            phone.rounding == Rounding.ROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "ʏ"
-    if phone == Vowel(Height.NEAR_CLOSE, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.NEAR_CLOSE and \
+            phone.backness == Backness.BACK and \
+            phone.rounding == Rounding.ROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "ʊ"  # Close-mid Vowels (next line)::
-    if phone == Vowel(Height.CLOSE_MID, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.CLOSE_MID and \
+            phone.backness == Backness.FRONT and \
+            phone.rounding == Rounding.UNROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "e"
-    if phone == Vowel(Height.CLOSE_MID, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.CLOSE_MID and \
+            phone.backness == Backness.FRONT and \
+            phone.rounding == Rounding.ROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "ø"
-    if phone == Vowel(Height.CLOSE_MID, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.CLOSE_MID and \
+            phone.backness == Backness.CENTRAL and \
+            phone.rounding == Rounding.UNROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "ɘ"
-    if phone == Vowel(Height.CLOSE_MID, Backness.CENTRAL, Rounding.ROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.CLOSE_MID and \
+            phone.backness == Backness.CENTRAL and \
+            phone.rounding == Rounding.ROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "ɵ"
-    if phone == Vowel(Height.CLOSE_MID, Backness.BACK, Rounding.UNROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.CLOSE_MID and \
+            phone.backness == Backness.BACK and \
+            phone.rounding == Rounding.UNROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "ɤ"
-    if phone == Vowel(Height.CLOSE_MID, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED):
-        return "o"  # Mid Vowels (next line)::
-    if phone == Vowel(Height.MID, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.CLOSE_MID and \
+            phone.backness == Backness.BACK and \
+            phone.rounding == Rounding.ROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
+        return "o"
+    # Mid Vowels (next line)::
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.MID and \
+            phone.backness == Backness.CENTRAL and \
+            phone.rounding == Rounding.UNROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "ə"  # Open-mid Vowels (next line)::
-    if phone == Vowel(Height.OPEN_MID, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.OPEN_MID and \
+            phone.backness == Backness.FRONT and \
+            phone.rounding == Rounding.UNROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "ɛ"
-    if phone == Vowel(Height.OPEN_MID, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.OPEN_MID and \
+            phone.backness == Backness.FRONT and \
+            phone.rounding == Rounding.ROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "œ"
-    if phone == Vowel(Height.OPEN_MID, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.OPEN_MID and \
+            phone.backness == Backness.CENTRAL and \
+            phone.rounding == Rounding.UNROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "ɜ"
-    if phone == Vowel(Height.OPEN_MID, Backness.CENTRAL, Rounding.ROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.OPEN_MID and \
+            phone.backness == Backness.CENTRAL and \
+            phone.rounding == Rounding.ROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "ɞ"
-    if phone == Vowel(Height.OPEN_MID, Backness.BACK, Rounding.UNROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.OPEN_MID and \
+            phone.backness == Backness.BACK and \
+            phone.rounding == Rounding.UNROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "ʌ"
-    if phone == Vowel(Height.OPEN_MID, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED):
-        return "ɔ"  # Near-open (next line):
-    if phone == Vowel(Height.NEAR_OPEN, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.OPEN_MID and \
+            phone.backness == Backness.BACK and \
+            phone.rounding == Rounding.ROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
+        return "ɔ"
+    # Near-open (next line):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.NEAR_OPEN and \
+            phone.backness == Backness.FRONT and \
+            phone.rounding == Rounding.UNROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "æ"
-    if phone == Vowel(Height.NEAR_OPEN, Backness.CENTRAL, Rounding.UNROUNDED, VocalFolds.VOICED):
-        return "ɐ"  # Open Vowels (next line)::
-    if phone == Vowel(Height.OPEN, Backness.FRONT, Rounding.UNROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.NEAR_OPEN and \
+            phone.backness == Backness.CENTRAL and \
+            phone.rounding == Rounding.UNROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
+        return "ɐ"
+    # Open Vowels (next line)::
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.OPEN and \
+            phone.backness == Backness.FRONT and \
+            phone.rounding == Rounding.UNROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "a"
-    if phone == Vowel(Height.OPEN, Backness.FRONT, Rounding.ROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.OPEN and \
+            phone.backness == Backness.FRONT and \
+            phone.rounding == Rounding.ROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "ɶ"
-    if phone == Vowel(Height.OPEN, Backness.BACK, Rounding.UNROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.OPEN and \
+            phone.backness == Backness.BACK and \
+            phone.rounding == Rounding.UNROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "ɑ"
-    if phone == Vowel(Height.OPEN, Backness.BACK, Rounding.ROUNDED, VocalFolds.VOICED):
+    if isinstance(phone, Vowel) and \
+            phone.height == Height.OPEN and \
+            phone.backness == Backness.BACK and \
+            phone.rounding == Rounding.ROUNDED and \
+            phone.vocal_folds == VocalFolds.VOICED and \
+            phone.vowel_length == VowelLength.NORMAL:
         return "ɒ"
 
     # The following two lines are commented out, because I am unsure
@@ -1346,7 +1599,21 @@ def construct_transcription_recursively(recursion_limit: int,
                                                                secondary_articulation))
         if result is None:
             return None
-        return result + "̠"  # Add the diacritic for "retracted"
+        return result + "̠" # Add the diacritic for "retracted"
+    if isinstance(phone, Vowel) and phone.vowel_length != VowelLength.NORMAL \
+            and recursion_level < recursion_limit:
+        height = phone.height
+        backness = phone.backness
+        rounding = phone.rounding
+        vocal_folds = phone.vocal_folds
+        result = construct_transcription_recursively(recursion_limit,
+                                                     1 + recursion_level,
+                                                     Vowel(height, backness, rounding,
+                                                           vocal_folds,
+                                                           VowelLength.NORMAL))
+        if result is None:
+            return None
+        return result + length_transcription(phone.vowel_length)
 
     # If there isn't a symbol, and the consonant we want is voiceless,
     # Just take the symbol for a voiced consonant,
@@ -1378,12 +1645,14 @@ def construct_transcription_recursively(recursion_limit: int,
         height = phone.height
         backness = phone.backness
         rounding = phone.rounding
+        vowel_length = phone.vowel_length
         result = construct_transcription_recursively(recursion_limit,
                                                      1 + recursion_level,
                                                      Vowel(height,
                                                            backness,
                                                            rounding,
-                                                           VocalFolds.VOICED))
+                                                           VocalFolds.VOICED,
+                                                           vowel_length))
         if result is None:
             return None
         if is_descender(result):
@@ -1414,10 +1683,12 @@ def construct_transcription_recursively(recursion_limit: int,
         height = phone.height
         backness = phone.backness
         rounding = phone.rounding
+        vowel_length = phone.vowel_length
         result = construct_transcription_recursively(recursion_limit,
                                                      1 + recursion_level,
                                                      Vowel(height, backness, rounding,
-                                                           VocalFolds.VOICELESS))
+                                                           VocalFolds.VOICELESS,
+                                                           vowel_length))
         if result is None:
             return None
         return result + "̬"

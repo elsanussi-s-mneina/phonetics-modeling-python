@@ -477,3 +477,60 @@ class TestLibFunctions(unittest.TestCase):
         result = describe_transcription("rˤ")
         expected = "voiced alveolar trill pulmonic egressive pharyngealized consonant"
         self.assertEqual(result, expected)
+
+    def test_normal_a_vowel(self) -> None:
+        """
+        case: [a]
+        """
+        result = describe_transcription("a")
+        expected = "voiced unrounded open front vowel"
+        self.assertEqual(result, expected)
+
+    def test_long_a_vowel(self) -> None:
+        """
+        case: [aː]
+        """
+        result = describe_transcription("aː")
+        expected = "voiced unrounded open front long vowel"
+        self.assertEqual(result, expected)
+
+    def test_half_long_a_vowel(self) -> None:
+        """
+        case: [aˑ]
+        """
+        result = describe_transcription("aˑ")
+        expected = "voiced unrounded open front half-long vowel"
+        self.assertEqual(result, expected)
+
+    def test_extra_short_a_vowel(self) -> None:
+        """
+        case: [ă]
+        """
+        result = describe_transcription("ă")
+        expected = "voiced unrounded open front extra-short vowel"
+        self.assertEqual(result, expected)
+
+    def test_voiceless_long_i_vowel(self) -> None:
+        """
+        case [i̥ː]
+        """
+        expected = "voiceless unrounded close front long vowel"
+        actual = describe_transcription("i̥ː")
+        self.assertEqual(expected, actual)
+
+    def test_voiceless_half_long_i_vowel(self) -> None:
+        """
+        case [i̥ˑ]
+        """
+        expected = "voiceless unrounded close front half-long vowel"
+        actual = describe_transcription("i̥ˑ")
+        self.assertEqual(expected, actual)
+
+
+    def test_voiceless_half_long_i_vowel(self) -> None:
+        """
+        case [ĭ̥]
+        """
+        expected = "voiceless unrounded close front extra-short vowel"
+        actual = describe_transcription("ĭ̥")
+        self.assertEqual(expected, actual)

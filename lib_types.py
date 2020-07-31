@@ -53,6 +53,26 @@ vocal_fold_states: Final[List[VocalFolds]] = \
 
 
 @unique
+class VowelLength(Enum):
+    """
+    Represents the perceived length
+    of a vowel sound.
+    """
+    NORMAL = auto()
+    LONG = auto()
+    HALF_LONG = auto()
+    EXTRA_SHORT = auto()
+
+
+vowel_length_states: Final[List[VowelLength]] = \
+    [VowelLength.LONG,
+     VowelLength.HALF_LONG,
+     VowelLength.EXTRA_SHORT,
+     VowelLength.NORMAL
+     ]
+
+
+@unique
 class Place(Enum):
     """
     Represents the place where the sound is made.
@@ -263,19 +283,23 @@ class Vowel(Phonet):
     """
 
     def __init__(self, height: Height, backness: Backness, rounding: Rounding,
-                 vocal_folds: VocalFolds):
+                 vocal_folds: VocalFolds,
+                 vowel_length: VowelLength):
         super().__init__()
         self.height = height
         self.backness = backness
         self.rounding = rounding
         self.vocal_folds = vocal_folds
+        self.vowel_length = vowel_length
+
 
     def __eq__(self, other):
         return (type(self) == type(other) and
                 self.vocal_folds == other.vocal_folds and
                 self.height == other.height and
                 self.backness == other.backness and
-                self.rounding == other.rounding)
+                self.rounding == other.rounding and
+                self.vowel_length == other.vowel_length)
 
     def __ne__(self, other):
         return not self.__eq__(other)

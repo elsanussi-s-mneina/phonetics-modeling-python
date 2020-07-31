@@ -400,7 +400,7 @@ diacritics_and_suprasegmentals: List[str] = \
 
 exponentials_before: List[str] = ["ⁿ"]
 
-exponentials_after: List[str] = diacritics_and_suprasegmentals + ["ː", "ˑ"]
+exponentials_after: List[str] = diacritics_and_suprasegmentals + ["ː", "ˑ", "̆"]
 exponentials: List[str] = exponentials_before + exponentials_after
 
 # To do: find a more suitable name than exponentials.
