@@ -607,8 +607,9 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
                     height = full_grapheme.height
                     backness = full_grapheme.backness
                     rounding = full_grapheme.rounding
+                    vowel_length = full_grapheme.vowel_length
                     return Vowel(height, backness, rounding, VocalFolds.VOICELESS,
-                                 VowelLength.NORMAL)
+                                 vowel_length)
             return None
         if ipa_text[-1] == "̬":
             full_grapheme: Optional[Phonet] = analyze_transcription(ipa_text[:-1])
@@ -788,7 +789,7 @@ def construct_transcription(phoneme: Phonet) -> str:
     """
     Given a phone, gives back its transcription in the International Phonetic Alphabet.
     """
-    result = construct_transcription_recursively(5, 0, phoneme)
+    result = construct_transcription_recursively(3, 0, phoneme)
     if result is None:
         return "∅"
     return result
@@ -1658,6 +1659,7 @@ def construct_transcription_recursively(recursion_limit: int,
         if is_descender(result):
             return result + "̊"  # add diacritic for voiceless that goes above
         return result + "̥"  # add diacritic for voiceless that goes below
+
 
     # If there is no way to express a voiced consonant in a single
     # grapheme add a diacritic to the grapheme that represents
