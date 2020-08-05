@@ -40,7 +40,9 @@ from lib_types import (Phonet, Height, Backness, Rounding, VocalFolds, Vowel, Co
                        UnmarkedAirstream, UnmarkedRounding, MarkedRounding, UnmarkablePhonet,
                        UnmarkableRounding, height_states, backness_states, rounding_states,
                        airstream_states, manner_states, place_states, vocal_fold_states,
-                       SecondaryArticulation, VowelLength)
+                       SecondaryArticulation, VowelLength, secondary_articulation_states,
+                       vowel_length_states, MarkedSecondaryArticulation,
+                       UnmarkableSecondaryArticulation, MarkedVowelLength, UnmarkableVowelLength)
 
 
 def equivalent_in_place(place_1: Place, place_2: Place) -> bool:
@@ -256,7 +258,10 @@ def unmark_differences(phone_1: Phonet, phone_2: Phonet) -> UnmarkablePhonet:
         place: UnmarkablePlace = unmark_place(phone_1.place, phone_2.place)
         manner: UnmarkableManner = unmark_manner(phone_1.manner, phone_2.manner)
         airstream: UnmarkableAirstream = unmark_airstream(phone_1.airstream, phone_2.airstream)
-        return UnmarkableConsonant(vocal_folds, place, manner, airstream)
+        secondary_articulation: UnmarkableSecondaryArticulation = unmark_secondary_articulation(
+             phone_1.secondary_articulation,
+             phone_2.secondary_articulation)
+        return UnmarkableConsonant(vocal_folds, place, manner, airstream, secondary_articulation)
     if isinstance(phone_1, Vowel) and isinstance(phone_2, Consonant):
         vocal_folds: UnmarkableVocalFolds = unmark_voice(phone_1.vocal_folds, phone_2.vocal_folds)
         return UnmarkableVowel(UnmarkedHeight(), UnmarkedBackness(), UnmarkedRounding(),
@@ -297,6 +302,12 @@ def similar_in_airstream(airstream_1: UnmarkableAirstream) -> List[Airstream]:
     return airstream_states
 
 
+def similar_in_secondary_articulation(secondary_articulation_1: UnmarkableSecondaryArticulation) -> List[SecondaryArticulation]:
+    if isinstance(secondary_articulation_1, MarkedSecondaryArticulation):
+        return secondary_articulation_1.secondary_articulation
+    return secondary_articulation_states
+
+
 def similar_in_height(height_1: UnmarkableHeight) -> List[Height]:
     if isinstance(height_1, MarkedHeight):
         return height_1.height
@@ -315,16 +326,24 @@ def similar_in_rounding(rounding_1: UnmarkableRounding) -> List[Rounding]:
     return rounding_states
 
 
+def similar_in_vowel_length(vowel_length_1: UnmarkableVowelLength) -> List[VowelLength]:
+    if isinstance(vowel_length_1, MarkedVowelLength):
+        return vowel_length_1.vowel_length
+    return vowel_length_states
+
+
 def similar_consonants_to(phonet_1: UnmarkableConsonant) -> List[Phonet]:
     vocal_folds: List[VocalFolds] = similar_in_voice(phonet_1.vocal_folds)
     place: List[Place] = similar_in_place(phonet_1.place)
     manner: List[Manner] = similar_in_manner(phonet_1.manner)
     airstream: List[Airstream] = similar_in_airstream(phonet_1.airstream)
-    return [Consonant(v, p, m, a)
+    secondary_articulation: List[SecondaryArticulation] = similar_in_secondary_articulation(phonet_1.secondary_articulation)
+    return [Consonant(v, p, m, a, s)
             for p in place
             for v in vocal_folds
             for m in manner
             for a in airstream
+            for s in secondary_articulation
             ]
 
 
@@ -333,11 +352,13 @@ def similar_vowels_to(phonet_1: UnmarkableVowel) -> List[Phonet]:
     height: List[Height] = similar_in_height(phonet_1.height)
     backness: List[Backness] = similar_in_backness(phonet_1.backness)
     rounding: List[Rounding] = similar_in_rounding(phonet_1.rounding)
-    return [Vowel(h, b, r, v)
+    vowel_length: List[VowelLength] = similar_in_vowel_length(phonet_1.vowel_length)
+    return [Vowel(h, b, r, v, vl)
             for h in height
             for b in backness
             for r in rounding
             for v in vocal_folds
+            for vl in vowel_length
             ]
 
 
@@ -442,7 +463,8 @@ def retract_phonet(phonete: Optional[Phonet]) -> Optional[Phonet]:
         place = phonete.place
         manner = phonete.manner
         airstream = phonete.airstream
-        return Consonant(voicing, retracted_place(place), manner, airstream)
+        secondary_articulation = phonete.secondary_articulation
+        return Consonant(voicing, retracted_place(place), manner, airstream, secondary_articulation)
     return None
 
 
@@ -477,7 +499,8 @@ def decreak(phone: Phonet) -> Phonet:
         place = phone.place
         manner = phone.manner
         airstream = phone.airstream
-        return Consonant(VocalFolds.VOICED, place, manner, airstream)
+        secondary_articulation = phone.secondary_articulation
+        return Consonant(VocalFolds.VOICED, place, manner, airstream, secondary_articulation)
     return phone
 
 

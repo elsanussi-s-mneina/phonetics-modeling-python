@@ -182,7 +182,7 @@ class SecondaryArticulation(Enum):
     VELARIZED = auto()
     PHARYNGEALIZED = auto()
 
-secondaryArticulationStates: List[SecondaryArticulation] = \
+secondary_articulation_states: List[SecondaryArticulation] = \
      [SecondaryArticulation.LABIALIZED,
       SecondaryArticulation.PALATALIZED,
       SecondaryArticulation.VELARIZED,
@@ -672,6 +672,55 @@ class MarkedRounding(UnmarkableRounding):
 
     def __ne__(self, other):
         return self.__eq__(other)
+
+
+
+
+
+
+
+
+class UnmarkableVowelLength:
+    """
+    For matching with kinds of vowel length.
+    """
+
+    def __init__(self):
+        pass
+
+    pass
+
+
+class UnmarkedVowelLength(UnmarkableVowelLength):
+    """
+    For matching with all kinds of vowel length.
+    """
+
+    def __init__(self):
+        super().__init__()
+
+    def __eq__(self, other):
+        return isinstance(other, UnmarkedVowelLength)
+
+    def __ne__(self, other):
+        return self.__eq__(other)
+
+
+class MarkedVowelLength(UnmarkableVowelLength):
+    """
+    For matching with a specific kind of vowel length.
+    """
+
+    def __init__(self, vowel_length: VowelLength):
+        super().__init__()
+        self.vowel_length = vowel_length
+
+    def __eq__(self, other):
+        return self.vowel_length == other.vowel_length
+
+    def __ne__(self, other):
+        return self.__eq__(other)
+
 
 
 class UnmarkableVowel(UnmarkablePhonet):
