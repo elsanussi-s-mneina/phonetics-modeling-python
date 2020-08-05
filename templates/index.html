@@ -24,7 +24,7 @@
         var screen = document.getElementById("screen");
         var startIndex = screen.selectionStart;
         var endIndex = screen.selectionEnd;
-        var textBefore = screen.value.substring(0, startIndex)
+        var textBefore = screen.value.substring(0, startIndex);
         var textAfter = screen.value.substring(endIndex);
         screen.value = textBefore + replacement + textAfter;
       }
@@ -34,12 +34,12 @@
       {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange=function() {
-          if (this.readyState == 4 && this.status == 200) {
+          if (this.readyState === 4 && this.status === 200) {
             replaceSelectedTextInTextArea(this.responseText);
           }
         };
 
-        selectedText = extractSelectedTextFromTextArea();
+        var selectedText = extractSelectedTextFromTextArea();
         xhttp.open("GET", "http://127.0.0.1:8080/voice_phoneme/" + selectedText, true);
         xhttp.send();
       }
