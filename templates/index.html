@@ -40,7 +40,7 @@
         };
 
         var selectedText = extractSelectedTextFromTextArea();
-        xhttp.open("GET", "http://127.0.0.1:8080/voice_phoneme/" + selectedText, true);
+        xhttp.open("GET", "voice_phoneme/" + selectedText, true);
         xhttp.send();
       }
 
