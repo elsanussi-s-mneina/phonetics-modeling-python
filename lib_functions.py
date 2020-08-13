@@ -44,6 +44,7 @@ from lib_types import (Phonet, Height, Backness, Rounding, VocalFolds, Vowel, Co
                        vowel_length_states, MarkedSecondaryArticulation,
                        UnmarkableSecondaryArticulation, MarkedVowelLength, UnmarkableVowelLength)
 
+from lib_type_helpers import is_consonant, is_vowel
 
 def equivalent_in_place(place_1: Place, place_2: Place) -> bool:
     """
@@ -134,7 +135,7 @@ def voiced_phonet(phone: Phonet) -> Optional[Phonet]:
     A function that given an IPA symbol will convert it to the voiced
     equivalent.
     """
-    if isinstance(phone, Consonant):
+    if is_consonant(phone):
         place = phone.place
         airstream = phone.airstream
         manner = phone.manner
@@ -148,7 +149,7 @@ def voiced_phonet(phone: Phonet) -> Optional[Phonet]:
             return Consonant(VocalFolds.VOICED_ASPIRATED, place, manner, airstream,
                              secondary_articulation)
         return Consonant(VocalFolds.VOICED, place, manner, airstream, secondary_articulation)
-    if isinstance(phone, Vowel):
+    if is_vowel(phone):
         height = phone.height
         backness = phone.backness
         rounding = phone.rounding
@@ -162,7 +163,7 @@ def devoiced_phonet(phone: Phonet) -> Phonet:
     A function that given an IPA symbol will convert it to the voiceless
     equivalent.
     """
-    if isinstance(phone, Consonant):
+    if is_consonant(phone):
         place = phone.place
         airstream = phone.airstream
         manner = phone.manner
@@ -179,7 +180,7 @@ def devoiced_phonet(phone: Phonet) -> Phonet:
         if phone.vocal_folds == VocalFolds.VOICELESS_ASPIRATED:
             return Consonant(VocalFolds.VOICELESS_ASPIRATED, place, manner, airstream,
                              secondary_articulation)
-    if isinstance(phone, Vowel):
+    if is_vowel(phone):
         backness = phone.backness
         height = phone.height
         rounding = phone.rounding
@@ -197,7 +198,7 @@ def spirantized_phonet(phone: Phonet) -> Phonet:
     So the following line implements this
     change in place of articulation.
     """
-    if isinstance(phone, Consonant) and phone.manner == Manner.PLOSIVE:
+    if is_consonant(phone) and phone.manner == Manner.PLOSIVE:
         vocal_folds = phone.vocal_folds
         airstream = phone.airstream
         secondary_articulation = phone.secondary_articulation
@@ -379,71 +380,71 @@ def impossible(phone: Phonet) -> bool:
     considered impossible according to the IPA (pulmonic) consonants chart.
     Does not work for other values.
     """
-    if (isinstance(phone, Consonant) and phone.vocal_folds == VocalFolds.VOICED
+    if (is_consonant(phone) and phone.vocal_folds == VocalFolds.VOICED
             and phone.place == Place.PHARYNGEAL
             and phone.manner == Manner.PLOSIVE
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
-    if (isinstance(phone, Consonant) and phone.vocal_folds == VocalFolds.VOICED_ASPIRATED
+    if (is_consonant(phone) and phone.vocal_folds == VocalFolds.VOICED_ASPIRATED
             and phone.place == Place.PHARYNGEAL
             and phone.manner == Manner.PLOSIVE
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
-    if (isinstance(phone, Consonant) and phone.vocal_folds == VocalFolds.VOICELESS
+    if (is_consonant(phone) and phone.vocal_folds == VocalFolds.VOICELESS
             and phone.place == Place.GLOTTAL
             and phone.manner == Manner.PLOSIVE
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return False  # [ʔ] is not impossible.
-    if (isinstance(phone, Consonant)
+    if (is_consonant(phone)
             and phone.place == Place.GLOTTAL
             and phone.manner == Manner.FRICATIVE
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return False  # [h] and [ɦ] are not impossible.
-    if (isinstance(phone, Consonant)
+    if (is_consonant(phone)
             and phone.place == Place.GLOTTAL
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True  # all other pulmonary egressive consonants are impossible..
-    if (isinstance(phone, Consonant)
+    if (is_consonant(phone)
             and phone.place == Place.PHARYNGEAL
             and phone.manner == Manner.NASAL
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
-    if (isinstance(phone, Consonant)
+    if (is_consonant(phone)
             and phone.place == Place.PHARYNGEAL
             and phone.manner == Manner.LATERAL_FRICATIVE
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
-    if (isinstance(phone, Consonant)
+    if (is_consonant(phone)
             and phone.place == Place.PHARYNGEAL
             and phone.manner == Manner.LATERAL_APPROXIMANT
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
-    if (isinstance(phone, Consonant)
+    if (is_consonant(phone)
             and phone.place == Place.VELAR
             and phone.manner == Manner.TRILL
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
-    if (isinstance(phone, Consonant)
+    if (is_consonant(phone)
             and phone.place == Place.VELAR
             and phone.manner == Manner.TAP_OR_FLAP
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
-    if (isinstance(phone, Consonant)
+    if (is_consonant(phone)
             and phone.place == Place.BILABIAL
             and phone.manner == Manner.LATERAL_FRICATIVE
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
-    if (isinstance(phone, Consonant)
+    if (is_consonant(phone)
             and phone.place == Place.BILABIAL
             and phone.manner == Manner.LATERAL_APPROXIMANT
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
-    if (isinstance(phone, Consonant)
+    if (is_consonant(phone)
             and phone.place == Place.LABIODENTAL
             and phone.manner == Manner.LATERAL_FRICATIVE
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
         return True
-    if (isinstance(phone, Consonant)
+    if (is_consonant(phone)
             and phone.place == Place.LABIODENTAL
             and phone.manner == Manner.LATERAL_APPROXIMANT
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
@@ -472,7 +473,7 @@ def deaspirate(phone: Phonet) -> Phonet:
     """
     Given an aspirated phone, it will return its non-aspirated counterpart.
     """
-    if isinstance(phone, Consonant):
+    if is_consonant(phone):
         if phone.vocal_folds == VocalFolds.VOICED_ASPIRATED:
             place = phone.place
             manner = phone.manner
@@ -495,7 +496,7 @@ def decreak(phone: Phonet) -> Phonet:
     """
     Given a creaky phone, it will return its non-creaky counterpart.
     """
-    if isinstance(phone, Consonant) and phone.vocal_folds == VocalFolds.CREAKY_VOICED:
+    if is_consonant(phone) and phone.vocal_folds == VocalFolds.CREAKY_VOICED:
         place = phone.place
         manner = phone.manner
         airstream = phone.airstream
@@ -512,7 +513,7 @@ def is_glide(phone: Phonet) -> bool:
     """
     Whether a segment is a glide.
     """
-    if isinstance(phone, Consonant) and phone.manner == Manner.APPROXIMANT \
+    if is_consonant(phone) and phone.manner == Manner.APPROXIMANT \
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return phone.place in [Place.PALATAL,
                                Place.LABIAL_VELAR,
