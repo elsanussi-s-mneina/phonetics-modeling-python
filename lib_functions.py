@@ -144,7 +144,7 @@ def voiced_phonet(phone: Phonet) -> Optional[Phonet]:
             return with_vocal_folds(VocalFolds.VOICED_ASPIRATED, phone)
         return with_vocal_folds(VocalFolds.VOICED, phone)
     if is_vowel(phone):
-        return with_vocal_folds(VocalFolds.VOICED)
+        return with_vocal_folds(VocalFolds.VOICED, phone)
     return None
 
 
