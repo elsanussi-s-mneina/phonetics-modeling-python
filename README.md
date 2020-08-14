@@ -1,7 +1,7 @@
 # Phonetics Modeling (Python version)
 
+To see a demonstration of the program, without having to install it, please [see the screenshots](https://github.com/elsanussi-s-mneina/phonetics-modeling-python/wiki/screenshots).
 
-This is the translation from the Haskell version.
 
 ## How to run
 Run the following at the command line:
@@ -20,5 +20,8 @@ Plans:
 - Use the Python programming language.
 - Make it follow closely the design decisions in the phonetics-modeling project at http://github.com/elsanussi-s-mneina/phonetics-modeling
 
+This is the translation from the Haskell version.
+
+
 ## Current Issues
-- more unit tests wanted
+- more unit test coverage to be added
