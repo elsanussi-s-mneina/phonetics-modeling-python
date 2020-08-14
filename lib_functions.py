@@ -459,7 +459,7 @@ def deaspirate(phone: Phonet) -> Phonet:
         if phone.vocal_folds == VocalFolds.VOICED_ASPIRATED:
             return with_vocal_folds(VocalFolds.VOICED, phone)
         if phone.vocal_folds == VocalFolds.VOICELESS_ASPIRATED:
-            return with_vocal_folds(VocalFolds.VOICELESS)
+            return with_vocal_folds(VocalFolds.VOICELESS, phone)
         return phone
     return phone
 
