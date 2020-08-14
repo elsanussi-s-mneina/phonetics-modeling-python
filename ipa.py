@@ -10,6 +10,8 @@ from lib_types import Phonet, Consonant, VocalFolds, Place, Manner, Airstream, M
     Height, Backness, Rounding, SecondaryArticulation, PhonetInventory, VowelLength
 from phonetic_features import analyze_features, show_features
 
+from lib_type_helpers import is_consonant, is_vowel
+
 
 def ipa_text_to_phonet_list_report(text: str) -> str:
     """
@@ -837,75 +839,75 @@ def construct_transcription_recursively(recursion_limit: int,
     if recursion_level == recursion_limit:
         return None
     # Plosives:
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.BILABIAL and \
             phone.manner == Manner.PLOSIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "p" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.BILABIAL and \
             phone.manner == Manner.PLOSIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "b" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.ALVEOLAR and \
             phone.manner == Manner.PLOSIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "t" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.ALVEOLAR and \
             phone.manner == Manner.PLOSIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "d" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.RETROFLEX and \
             phone.manner == Manner.PLOSIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ʈ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone == Consonant(VocalFolds.VOICED, Place.RETROFLEX, Manner.PLOSIVE,
                                Airstream.PULMONIC_EGRESSIVE,
                                SecondaryArticulation.NORMAL):
         return "ɖ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone == Consonant(VocalFolds.VOICELESS, Place.PALATAL, Manner.PLOSIVE,
                                Airstream.PULMONIC_EGRESSIVE,
                                SecondaryArticulation.NORMAL):
         return "c" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone == Consonant(VocalFolds.VOICED, Place.PALATAL, Manner.PLOSIVE,
                                Airstream.PULMONIC_EGRESSIVE,
                                SecondaryArticulation.NORMAL):
         return "ɟ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone == Consonant(VocalFolds.VOICELESS, Place.VELAR, Manner.PLOSIVE,
                                Airstream.PULMONIC_EGRESSIVE,
                                SecondaryArticulation.NORMAL):
         return "k" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.VELAR and \
             phone.manner == Manner.PLOSIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "g" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.UVULAR and \
             phone.manner == Manner.PLOSIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "q" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.UVULAR and \
             phone.manner == Manner.PLOSIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ɢ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.GLOTTAL and \
             phone.manner == Manner.PLOSIVE and \
@@ -914,43 +916,43 @@ def construct_transcription_recursively(recursion_limit: int,
             phone.secondary_articulation)
 
     # Nasals (next line)::
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.BILABIAL and \
             phone.manner == Manner.NASAL and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "m" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.LABIODENTAL and \
             phone.manner == Manner.NASAL and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ɱ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.ALVEOLAR and \
             phone.manner == Manner.NASAL and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "n" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.RETROFLEX and \
             phone.manner == Manner.NASAL and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ɳ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.PALATAL and \
             phone.manner == Manner.NASAL and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ɲ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.VELAR and \
             phone.manner == Manner.NASAL and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ŋ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.UVULAR and \
             phone.manner == Manner.NASAL and \
@@ -958,172 +960,172 @@ def construct_transcription_recursively(recursion_limit: int,
         return "ɴ" + secondary_articulation_transcription(
             phone.secondary_articulation)
     # Trills (next line)::
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.BILABIAL and \
             phone.manner == Manner.TRILL and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ʙ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.ALVEOLAR and \
             phone.manner == Manner.TRILL and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "r" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.UVULAR and \
             phone.manner == Manner.TRILL and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ʀ" + secondary_articulation_transcription(
             phone.secondary_articulation)  # Taps or flaps (next line)::
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.LABIODENTAL and \
             phone.manner == Manner.TAP_OR_FLAP and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ⱱ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.ALVEOLAR and \
             phone.manner == Manner.TAP_OR_FLAP and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE and \
             phone.secondary_articulation == SecondaryArticulation.NORMAL:
         return "ɾ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.RETROFLEX and \
             phone.manner == Manner.TAP_OR_FLAP and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ɽ" + secondary_articulation_transcription(
             phone.secondary_articulation)  # Fricatives (next line)::
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.BILABIAL and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ɸ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.BILABIAL and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "β" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.LABIODENTAL and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "f" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.LABIODENTAL and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "v" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.DENTAL and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "θ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.DENTAL and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ð" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.ALVEOLAR and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "s" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.ALVEOLAR and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "z" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.POSTALVEOLAR and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ʃ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.POSTALVEOLAR and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ʒ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.RETROFLEX and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ʂ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.RETROFLEX and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ʐ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.PALATAL and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ç" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.PALATAL and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ʝ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.VELAR and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "x" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.VELAR and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ɣ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.UVULAR and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "χ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.UVULAR and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ʁ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.PHARYNGEAL and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ħ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.PHARYNGEAL and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ʕ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.GLOTTAL and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "h" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.GLOTTAL and \
             phone.manner == Manner.FRICATIVE and \
@@ -1131,13 +1133,13 @@ def construct_transcription_recursively(recursion_limit: int,
         return "ɦ" + secondary_articulation_transcription(
             phone.secondary_articulation)
     # Lateral Fricatives (next line)::
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.ALVEOLAR and \
             phone.manner == Manner.LATERAL_FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ɬ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.ALVEOLAR and \
             phone.manner == Manner.LATERAL_FRICATIVE and \
@@ -1145,31 +1147,31 @@ def construct_transcription_recursively(recursion_limit: int,
         return "ɮ" + secondary_articulation_transcription(
             phone.secondary_articulation)
     # Approximants (next line)::
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.LABIODENTAL and \
             phone.manner == Manner.APPROXIMANT and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ʋ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.ALVEOLAR and \
             phone.manner == Manner.APPROXIMANT and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ɹ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.RETROFLEX and \
             phone.manner == Manner.APPROXIMANT and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ɻ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.PALATAL and \
             phone.manner == Manner.APPROXIMANT and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "j" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.VELAR and \
             phone.manner == Manner.APPROXIMANT and \
@@ -1177,25 +1179,25 @@ def construct_transcription_recursively(recursion_limit: int,
         return "ɰ" + secondary_articulation_transcription(
             phone.secondary_articulation)
     # Lateral Approximants (next line)::
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.ALVEOLAR and \
             phone.manner == Manner.LATERAL_APPROXIMANT and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "l" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.RETROFLEX and \
             phone.manner == Manner.LATERAL_APPROXIMANT and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ɭ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.PALATAL and \
             phone.manner == Manner.LATERAL_APPROXIMANT and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ʎ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.VELAR and \
             phone.manner == Manner.LATERAL_APPROXIMANT and \
@@ -1203,43 +1205,43 @@ def construct_transcription_recursively(recursion_limit: int,
         return "ʟ" + secondary_articulation_transcription(
             phone.secondary_articulation)
     # Affricates (next line):
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.POSTALVEOLAR and \
             phone.manner == Manner.AFFRICATE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "t͡ʃ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.POSTALVEOLAR and \
             phone.manner == Manner.AFFRICATE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "d͡ʒ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.BILABIAL and \
             phone.manner == Manner.AFFRICATE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "p͡ɸ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.ALVEOLAR and \
             phone.manner == Manner.AFFRICATE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "t͜s" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.ALVEOLAR and \
             phone.manner == Manner.AFFRICATE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "d͡z" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.VELAR and \
             phone.manner == Manner.AFFRICATE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "k͡x" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.UVULAR and \
             phone.manner == Manner.AFFRICATE and \
@@ -1247,37 +1249,37 @@ def construct_transcription_recursively(recursion_limit: int,
         return "q͡χ" + secondary_articulation_transcription(
             phone.secondary_articulation)
     # Under the Other Symbols part of the IPA chart:
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.LABIAL_VELAR and \
             phone.manner == Manner.APPROXIMANT and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "w" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.LABIAL_VELAR and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ʍ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.LABIAL_PALATAL and \
             phone.manner == Manner.APPROXIMANT and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ɥ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.EPIGLOTTAL and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ʜ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.EPIGLOTTAL and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ʢ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.EPIGLOTTAL and \
             phone.manner == Manner.PLOSIVE and \
@@ -1285,19 +1287,19 @@ def construct_transcription_recursively(recursion_limit: int,
         return "ʡ" + secondary_articulation_transcription(
             phone.secondary_articulation)  # Is the epiglottal plosive voiceless? The IPA chart
         # does not specify.
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.ALVEOLOPALATAL and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ɕ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.ALVEOLOPALATAL and \
             phone.manner == Manner.FRICATIVE and \
             phone.airstream == Airstream.PULMONIC_EGRESSIVE:
         return "ʑ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.ALVEOLAR and \
             phone.manner == Manner.LATERAL_FLAP and \
@@ -1306,63 +1308,63 @@ def construct_transcription_recursively(recursion_limit: int,
     #    if phone == Consonant(VocalFolds.VOICELESS,  (Places (PostAlveolar :| [Velar]))
     #                                        Fricative  PulmonicEgressive):
     #        return "ɧ" # Other Consonants:
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.BILABIAL and \
             phone.manner == Manner.PLOSIVE and \
             phone.airstream == Airstream.CLICK:
         return "ʘ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.DENTAL and \
             phone.manner == Manner.PLOSIVE and \
             phone.airstream == Airstream.CLICK:
         return "ǀ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.ALVEOLAR and \
             phone.manner == Manner.PLOSIVE and \
             phone.airstream == Airstream.CLICK:
         return "ǃ" + secondary_articulation_transcription(
             phone.secondary_articulation)  # Or it could be PostAlveolar.
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.PALATOALVEOLAR and \
             phone.manner == Manner.PLOSIVE and \
             phone.airstream == Airstream.CLICK:
         return "ǂ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICELESS and \
             phone.place == Place.ALVEOLAR and \
             phone.manner == Manner.LATERAL and \
             phone.airstream == Airstream.CLICK:
         return "ǁ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.BILABIAL and \
             phone.manner == Manner.PLOSIVE and \
             phone.airstream == Airstream.IMPLOSIVE:
         return "ɓ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.DENTAL and \
             phone.manner == Manner.PLOSIVE and \
             phone.airstream == Airstream.IMPLOSIVE:
         return "ɗ" + secondary_articulation_transcription(
             phone.secondary_articulation)  # Or Alveolar
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.PALATAL and \
             phone.manner == Manner.PLOSIVE and \
             phone.airstream == Airstream.IMPLOSIVE:
         return "ʄ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.VELAR and \
             phone.manner == Manner.PLOSIVE and \
             phone.airstream == Airstream.IMPLOSIVE:
         return "ɠ" + secondary_articulation_transcription(phone.secondary_articulation)
-    if isinstance(phone, Consonant) and \
+    if is_consonant(phone) and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.place == Place.UVULAR and \
             phone.manner == Manner.PLOSIVE and \
@@ -1370,7 +1372,7 @@ def construct_transcription_recursively(recursion_limit: int,
         return "ʛ" + secondary_articulation_transcription(
             phone.secondary_articulation)
     # Close Vowels (next line)::
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.CLOSE and \
             phone.backness == Backness.FRONT and \
             phone.rounding == Rounding.UNROUNDED and \
@@ -1378,98 +1380,98 @@ def construct_transcription_recursively(recursion_limit: int,
             phone.vowel_length == VowelLength.NORMAL and \
             phone.vowel_length == VowelLength.NORMAL:
         return "i"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.CLOSE and \
             phone.backness == Backness.FRONT and \
             phone.rounding == Rounding.ROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "y"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.CLOSE and \
             phone.backness == Backness.CENTRAL and \
             phone.rounding == Rounding.UNROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "ɨ"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.CLOSE and \
             phone.backness == Backness.CENTRAL and \
             phone.rounding == Rounding.ROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "ʉ"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.CLOSE and \
             phone.backness == Backness.BACK and \
             phone.rounding == Rounding.UNROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "ɯ"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.CLOSE and \
             phone.backness == Backness.BACK and \
             phone.rounding == Rounding.ROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "u"  # Near-close Vowels (next line)::
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.NEAR_CLOSE and \
             phone.backness == Backness.FRONT and \
             phone.rounding == Rounding.UNROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "ɪ"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.NEAR_CLOSE and \
             phone.backness == Backness.FRONT and \
             phone.rounding == Rounding.ROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "ʏ"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.NEAR_CLOSE and \
             phone.backness == Backness.BACK and \
             phone.rounding == Rounding.ROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "ʊ"  # Close-mid Vowels (next line)::
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.CLOSE_MID and \
             phone.backness == Backness.FRONT and \
             phone.rounding == Rounding.UNROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "e"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.CLOSE_MID and \
             phone.backness == Backness.FRONT and \
             phone.rounding == Rounding.ROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "ø"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.CLOSE_MID and \
             phone.backness == Backness.CENTRAL and \
             phone.rounding == Rounding.UNROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "ɘ"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.CLOSE_MID and \
             phone.backness == Backness.CENTRAL and \
             phone.rounding == Rounding.ROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "ɵ"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.CLOSE_MID and \
             phone.backness == Backness.BACK and \
             phone.rounding == Rounding.UNROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "ɤ"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.CLOSE_MID and \
             phone.backness == Backness.BACK and \
             phone.rounding == Rounding.ROUNDED and \
@@ -1477,49 +1479,49 @@ def construct_transcription_recursively(recursion_limit: int,
             phone.vowel_length == VowelLength.NORMAL:
         return "o"
     # Mid Vowels (next line)::
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.MID and \
             phone.backness == Backness.CENTRAL and \
             phone.rounding == Rounding.UNROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "ə"  # Open-mid Vowels (next line)::
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.OPEN_MID and \
             phone.backness == Backness.FRONT and \
             phone.rounding == Rounding.UNROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "ɛ"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.OPEN_MID and \
             phone.backness == Backness.FRONT and \
             phone.rounding == Rounding.ROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "œ"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.OPEN_MID and \
             phone.backness == Backness.CENTRAL and \
             phone.rounding == Rounding.UNROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "ɜ"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.OPEN_MID and \
             phone.backness == Backness.CENTRAL and \
             phone.rounding == Rounding.ROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "ɞ"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.OPEN_MID and \
             phone.backness == Backness.BACK and \
             phone.rounding == Rounding.UNROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "ʌ"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.OPEN_MID and \
             phone.backness == Backness.BACK and \
             phone.rounding == Rounding.ROUNDED and \
@@ -1527,14 +1529,14 @@ def construct_transcription_recursively(recursion_limit: int,
             phone.vowel_length == VowelLength.NORMAL:
         return "ɔ"
     # Near-open (next line):
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.NEAR_OPEN and \
             phone.backness == Backness.FRONT and \
             phone.rounding == Rounding.UNROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "æ"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.NEAR_OPEN and \
             phone.backness == Backness.CENTRAL and \
             phone.rounding == Rounding.UNROUNDED and \
@@ -1542,28 +1544,28 @@ def construct_transcription_recursively(recursion_limit: int,
             phone.vowel_length == VowelLength.NORMAL:
         return "ɐ"
     # Open Vowels (next line)::
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.OPEN and \
             phone.backness == Backness.FRONT and \
             phone.rounding == Rounding.UNROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "a"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.OPEN and \
             phone.backness == Backness.FRONT and \
             phone.rounding == Rounding.ROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "ɶ"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.OPEN and \
             phone.backness == Backness.BACK and \
             phone.rounding == Rounding.UNROUNDED and \
             phone.vocal_folds == VocalFolds.VOICED and \
             phone.vowel_length == VowelLength.NORMAL:
         return "ɑ"
-    if isinstance(phone, Vowel) and \
+    if is_vowel(phone) and \
             phone.height == Height.OPEN and \
             phone.backness == Backness.BACK and \
             phone.rounding == Rounding.ROUNDED and \
@@ -1585,7 +1587,7 @@ def construct_transcription_recursively(recursion_limit: int,
     # otherwise
     # it will try to represent it in IPA with more than
     # one character
-    if isinstance(phone, Consonant) and phone.place == Place.POSTALVEOLAR and \
+    if is_consonant(phone) and phone.place == Place.POSTALVEOLAR and \
             recursion_level < recursion_limit:
         vocal_folds = phone.vocal_folds
         manner = phone.manner
@@ -1601,7 +1603,7 @@ def construct_transcription_recursively(recursion_limit: int,
         if result is None:
             return None
         return result + "̠" # Add the diacritic for "retracted"
-    if isinstance(phone, Vowel) and phone.vowel_length != VowelLength.NORMAL \
+    if is_vowel(phone) and phone.vowel_length != VowelLength.NORMAL \
             and recursion_level < recursion_limit:
         height = phone.height
         backness = phone.backness
@@ -1621,7 +1623,7 @@ def construct_transcription_recursively(recursion_limit: int,
     # and then put that diacritic that means voiceless after.
     # (The following two definitions are intended to implement that)
     # Add the small circle diacritic to consonants to make them voiceless.
-    if isinstance(phone, Consonant) and phone.vocal_folds == VocalFolds.VOICELESS \
+    if is_consonant(phone) and phone.vocal_folds == VocalFolds.VOICELESS \
             and recursion_level < recursion_limit:
         place = phone.place
         manner = phone.manner
@@ -1641,7 +1643,7 @@ def construct_transcription_recursively(recursion_limit: int,
         return result + "̥"  # add diacritic for voiceless that goes below
 
     # Add the small circle diacritic to vowels to make them voiceless.
-    if isinstance(phone, Vowel) and phone.vocal_folds == VocalFolds.VOICELESS \
+    if is_vowel(phone) and phone.vocal_folds == VocalFolds.VOICELESS \
             and recursion_level < recursion_limit:
         height = phone.height
         backness = phone.backness
@@ -1664,7 +1666,7 @@ def construct_transcription_recursively(recursion_limit: int,
     # If there is no way to express a voiced consonant in a single
     # grapheme add a diacritic to the grapheme that represents
     # the voiceless counterpart.
-    if isinstance(phone, Consonant) and phone.vocal_folds == VocalFolds.VOICED \
+    if is_consonant(phone) and phone.vocal_folds == VocalFolds.VOICED \
             and recursion_level < recursion_limit:
         place = phone.place
         manner = phone.manner
@@ -1680,7 +1682,7 @@ def construct_transcription_recursively(recursion_limit: int,
         if result is None:
             return None
         return result + "̬"
-    if isinstance(phone, Vowel) and phone.vocal_folds == VocalFolds.VOICED \
+    if is_vowel(phone) and phone.vocal_folds == VocalFolds.VOICED \
             and recursion_level < recursion_limit:
         height = phone.height
         backness = phone.backness
@@ -1694,7 +1696,7 @@ def construct_transcription_recursively(recursion_limit: int,
         if result is None:
             return None
         return result + "̬"
-    if (isinstance(phone, Consonant) and phone.vocal_folds == VocalFolds.VOICED_ASPIRATED
+    if (is_consonant(phone) and phone.vocal_folds == VocalFolds.VOICED_ASPIRATED
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE
             and recursion_level < recursion_limit):
         result = construct_transcription_recursively(
@@ -1705,7 +1707,7 @@ def construct_transcription_recursively(recursion_limit: int,
             return None
         return result + "ʰ"
 
-    if (isinstance(phone, Consonant) and phone.vocal_folds == VocalFolds.VOICELESS_ASPIRATED
+    if (is_consonant(phone) and phone.vocal_folds == VocalFolds.VOICELESS_ASPIRATED
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE
             and recursion_level < recursion_limit):
         result = construct_transcription_recursively(
@@ -1713,7 +1715,7 @@ def construct_transcription_recursively(recursion_limit: int,
         if result is None:
             return None
         return result + "ʰ"
-    if (isinstance(phone, Consonant) and phone.vocal_folds == VocalFolds.CREAKY_VOICED
+    if (is_consonant(phone) and phone.vocal_folds == VocalFolds.CREAKY_VOICED
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE
             and recursion_level < recursion_limit):
         result = construct_transcription_recursively(recursion_limit,
