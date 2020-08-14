@@ -38,7 +38,8 @@ from lib_types import (Phonet, Height, Backness, Rounding, VocalFolds, Vowel, Co
                        UnmarkedManner, UnmarkableManner, MarkedBackness, MarkedHeight,
                        UnmarkableHeight, UnmarkableBackness, UnmarkableAirstream, MarkedAirstream,
                        UnmarkedAirstream, UnmarkedRounding, MarkedRounding, UnmarkablePhonet,
-                       UnmarkableRounding, height_states, backness_states, rounding_states,
+                       UnmarkableRounding, UnmarkedSecondaryArticulation,
+                       height_states, backness_states, rounding_states,
                        airstream_states, manner_states, place_states, vocal_fold_states,
                        SecondaryArticulation, VowelLength, secondary_articulation_states,
                        vowel_length_states, MarkedSecondaryArticulation,
@@ -188,139 +189,228 @@ def spirantized_phonet(phone: Phonet) -> Phonet:
 
 
 def unmark_voice(voice_1: VocalFolds, voice_2: VocalFolds) -> UnmarkableVocalFolds:
+    """
+    chooses either a wildcard value, or a specific non-wildcard value
+    for voicing (i.e. vocal folds).
+    """
     if voice_1 == voice_2:
         return MarkedVocalFolds(voice_1)
     return UnmarkedVocalFolds()
 
 
 def unmark_place(place_1: Place, place_2: Place) -> UnmarkablePlace:
+    """
+    chooses either a wildcard value, or a specific non-wildcard value
+    for place of articulation.
+    """
     if equivalent_in_place(place_1, place_2):
         return MarkedPlace(place_1)
     return UnmarkedPlace()
 
 
 def unmark_manner(manner_1: Manner, manner_2: Manner) -> UnmarkableManner:
+    """
+    chooses either a wildcard value, or a specific non-wildcard value
+    for manner of articulation.
+    """
     if manner_1 == manner_2:
         return MarkedManner(manner_1)
     return UnmarkedManner()
 
 
 def unmark_airstream(airstream_1: Airstream, airstream_2: Airstream) -> UnmarkableAirstream:
+    """
+    chooses either a wildcard value, or a specific non-wildcard value
+    for airstream mechanism.
+    """
     if airstream_1 == airstream_2:
         return MarkedAirstream(airstream_1)
     return UnmarkedAirstream()
 
 
 def unmark_height(height_1: Height, height_2: Height) -> UnmarkableHeight:
+    """
+    chooses either a wildcard value, or a specific non-wildcard value
+    for height.
+    """
     if height_1 == height_2:
         return MarkedHeight(height_1)
     return UnmarkedHeight()
 
 
 def unmark_backness(backness_1: Backness, backness_2: Backness) -> UnmarkableBackness:
+    """
+    chooses either a wildcard value, or a specific non-wildcard value
+    for backness.
+    """
     if backness_1 == backness_2:
         return MarkedBackness(backness_1)
     return UnmarkedBackness()
 
 
 def unmark_rounding(rounding_1: Rounding, rounding_2: Rounding) -> UnmarkableRounding:
+    """
+    chooses either a wildcard value, or a specific non-wildcard value
+    for lip rounding.
+    """
     if rounding_1 == rounding_2:
         return MarkedRounding(rounding_1)
     return UnmarkedRounding()
 
 def unmark_secondary_articulation(sa_1: SecondaryArticulation, sa_2: SecondaryArticulation) \
        -> UnmarkableSecondaryArticulation:
+    """
+    chooses either a wildcard value, or a specific non-wildcard value
+    for secondary articulation.
+    """
     if sa_1 == sa_2:
         return MarkedSecondaryArticulation(sa_1)
     return UnmarkedSecondaryArticulation()
 
 
 def unmark_differences(phone_1: Phonet, phone_2: Phonet) -> UnmarkablePhonet:
+    """
+    Produces a bag of phonete properties, where some of them
+    can be wildcard values. They will be wildcard values,
+    when the property differs between the phonetes.
+    """
     if is_consonant(phone_1) and is_consonant(phone_2):
         vocal_folds: UnmarkableVocalFolds = unmark_voice(phone_1.vocal_folds, phone_2.vocal_folds)
         place: UnmarkablePlace = unmark_place(phone_1.place, phone_2.place)
         manner: UnmarkableManner = unmark_manner(phone_1.manner, phone_2.manner)
         airstream: UnmarkableAirstream = unmark_airstream(phone_1.airstream, phone_2.airstream)
         secondary_articulation: UnmarkableSecondaryArticulation = unmark_secondary_articulation(
-             phone_1.secondary_articulation,
-             phone_2.secondary_articulation)
+            phone_1.secondary_articulation,
+            phone_2.secondary_articulation)
         return UnmarkableConsonant(vocal_folds, place, manner, airstream, secondary_articulation)
     if is_vowel(phone_1) and is_consonant(phone_2):
         vocal_folds: UnmarkableVocalFolds = unmark_voice(phone_1.vocal_folds, phone_2.vocal_folds)
         return UnmarkableVowel(UnmarkedHeight(), UnmarkedBackness(), UnmarkedRounding(),
                                vocal_folds)
     if is_consonant(phone_1) and is_vowel(phone_2):
-        return unmark_differences(phone_2, phone_1)
+        return unmark_differences(phone_1, phone_2)
 
-    if is_vowel(phone_1) and is_vowel(phone_2):
-        # Both are vowels:
-        vocal_folds: UnmarkableVocalFolds = unmark_voice(phone_1.vocal_folds, phone_2.vocal_folds)
-        height: UnmarkableHeight = unmark_height(phone_1.height, phone_2.height)
-        backness: UnmarkableBackness = unmark_backness(phone_1.backness, phone_2.backness)
-        rounding: UnmarkableRounding = unmark_rounding(phone_1.rounding, phone_2.rounding)
-        return UnmarkableVowel(height, backness, rounding, vocal_folds)
+    # Both are vowels:
+    vocal_folds: UnmarkableVocalFolds = unmark_voice(phone_1.vocal_folds, phone_2.vocal_folds)
+    height: UnmarkableHeight = unmark_height(phone_1.height, phone_2.height)
+    backness: UnmarkableBackness = unmark_backness(phone_1.backness, phone_2.backness)
+    rounding: UnmarkableRounding = unmark_rounding(phone_1.rounding, phone_2.rounding)
+    return UnmarkableVowel(height, backness, rounding, vocal_folds)
 
 
 def similar_in_voice(voice_1: UnmarkableVocalFolds) -> List[VocalFolds]:
+    """
+    If the value is a vocal folds value, return
+    all possible vocal folds values, otherwise
+    return the single corresponding vocal folds value.
+    """
     if isinstance(voice_1, MarkedVocalFolds):
         return voice_1.vocal_fold
     return vocal_fold_states
 
 
 def similar_in_place(place_1: UnmarkablePlace) -> List[Place]:
+    """
+    If the value is a wildcard value, return
+    all possible place of articulation values, otherwise
+    return the single corresponding place of articulation value.
+
+    Note: we exclude complex places of articulation
+     (MultiPlace class) from all possible places of articulation.
+    """
     if isinstance(place_1, MarkedPlace):
         return place_1.place
     return place_states
 
 
 def similar_in_manner(manner_1: UnmarkableManner) -> List[Manner]:
+    """
+    If the value is a wildcard value, return
+    all possible manner of articualtion values, otherwise
+    return the single corresponding manner of articulation value.
+    """
     if isinstance(manner_1, MarkedManner):
         return manner_1.manner
     return manner_states
 
 
 def similar_in_airstream(airstream_1: UnmarkableAirstream) -> List[Airstream]:
+    """
+    If the value is a wildcard value, return
+    all possible airstream mechanism values, otherwise
+    return the single corresponding airstream mechanism value.
+    """
     if isinstance(airstream_1, MarkedAirstream):
         return airstream_1.airstream
     return airstream_states
 
 
-def similar_in_secondary_articulation(secondary_articulation_1: UnmarkableSecondaryArticulation) -> List[SecondaryArticulation]:
+def similar_in_secondary_articulation(secondary_articulation_1: UnmarkableSecondaryArticulation) \
+      -> List[SecondaryArticulation]:
+    """
+    If the value is a wildcard value, return
+    all possible secondary articulation values, otherwise
+    return the single corresponding secondary articulation value.
+    """
     if isinstance(secondary_articulation_1, MarkedSecondaryArticulation):
         return secondary_articulation_1.secondary_articulation
     return secondary_articulation_states
 
 
 def similar_in_height(height_1: UnmarkableHeight) -> List[Height]:
+    """
+    If the value is a wildcard value, return
+    all possible height values, otherwise
+    return the single corresponding height value.
+    """
     if isinstance(height_1, MarkedHeight):
         return height_1.height
     return height_states
 
 
 def similar_in_backness(backness_1: UnmarkableBackness) -> List[Backness]:
+    """
+    If the value is a wildcard value, return
+    all possible backness values, otherwise
+    return the single corresponding backness value.
+    """
     if isinstance(backness_1, MarkedBackness):
         return backness_1.backness
     return backness_states
 
 
 def similar_in_rounding(rounding_1: UnmarkableRounding) -> List[Rounding]:
+    """
+    If the value is a wildcard value, return
+    all possible (lip) rounding values, otherwise
+    return the single corresponding rounding value.
+    """
     if isinstance(rounding_1, MarkedRounding):
         return rounding_1.rounding
     return rounding_states
 
 
 def similar_in_vowel_length(vowel_length_1: UnmarkableVowelLength) -> List[VowelLength]:
+    """
+    If the vowel length is marked (i.e. not a wildcard value),
+    return that vowel length by itself in a list,
+    otherwise return all vowel lengths in a list.
+    """
     if isinstance(vowel_length_1, MarkedVowelLength):
         return vowel_length_1.vowel_length
     return vowel_length_states
 
 
 def similar_consonants_to(phonet_1: UnmarkableConsonant) -> List[Phonet]:
+    """
+    a list of vowels that are similar to a specified consonant.
+    """
     vocal_folds: List[VocalFolds] = similar_in_voice(phonet_1.vocal_folds)
     place: List[Place] = similar_in_place(phonet_1.place)
     manner: List[Manner] = similar_in_manner(phonet_1.manner)
     airstream: List[Airstream] = similar_in_airstream(phonet_1.airstream)
-    secondary_articulation: List[SecondaryArticulation] = similar_in_secondary_articulation(phonet_1.secondary_articulation)
+    secondary_articulation: List[SecondaryArticulation] = \
+        similar_in_secondary_articulation(phonet_1.secondary_articulation)
     return [Consonant(v, p, m, a, s)
             for p in place
             for v in vocal_folds
@@ -331,6 +421,9 @@ def similar_consonants_to(phonet_1: UnmarkableConsonant) -> List[Phonet]:
 
 
 def similar_vowels_to(phonet_1: UnmarkableVowel) -> List[Phonet]:
+    """
+    a list of vowels that are similar to a specified vowel.
+    """
     vocal_folds: List[VocalFolds] = similar_in_voice(phonet_1.vocal_folds)
     height: List[Height] = similar_in_height(phonet_1.height)
     backness: List[Backness] = similar_in_backness(phonet_1.backness)
@@ -682,6 +775,7 @@ def show_secondary_articulation(secondary_articulation: SecondaryArticulation) -
         return PHARYNGEALIZED_TEXT
     if secondary_articulation == SecondaryArticulation.NORMAL:
         return ""
+    return ""
 
 
 def show_phonet_inventory(inventory: PhonetInventory) -> str:
@@ -712,22 +806,22 @@ def show_phonet(phonet: Phonet) -> str:
         manner = phonet.manner
         airstream = phonet.airstream
         secondary_articulation = phonet.secondary_articulation
-        x: str = ' '.join([show_vocal_folds(vocal_folds),
-                           show_place(place),
-                           show_manner(manner),
-                           show_airstream(airstream),
-                           show_secondary_articulation(secondary_articulation),
-                           CONSONANT_TEXT])
-        return remove_extra_two_spaces(x)
+        joined: str = ' '.join([show_vocal_folds(vocal_folds),
+                                show_place(place),
+                                show_manner(manner),
+                                show_airstream(airstream),
+                                show_secondary_articulation(secondary_articulation),
+                                CONSONANT_TEXT])
+        return remove_extra_two_spaces(joined)
     if isinstance(phonet, Vowel):
         height = phonet.height
         backness = phonet.backness
         rounding = phonet.rounding
         vowel_length = phonet.vowel_length
         vocal_folds = phonet.vocal_folds
-        x:str = ' '.join([show_vocal_folds(vocal_folds), show_rounding(rounding),
-                         show_height(height), show_backness(backness),
-                         show_vowel_length(vowel_length),
-                         VOWEL_TEXT])
-        return remove_extra_two_spaces(x)
+        joined: str = ' '.join([show_vocal_folds(vocal_folds), show_rounding(rounding),
+                                show_height(height), show_backness(backness),
+                                show_vowel_length(vowel_length),
+                                VOWEL_TEXT])
+        return remove_extra_two_spaces(joined)
     return "[Unrecognized kind of phonete!]"
