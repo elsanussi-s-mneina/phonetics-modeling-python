@@ -136,25 +136,15 @@ def voiced_phonet(phone: Phonet) -> Optional[Phonet]:
     equivalent.
     """
     if is_consonant(phone):
-        place = phone.place
-        airstream = phone.airstream
-        manner = phone.manner
-        secondary_articulation = phone.secondary_articulation
         if phone.vocal_folds == VocalFolds.VOICELESS_ASPIRATED:
-            return Consonant(VocalFolds.VOICED_ASPIRATED, place, manner, airstream,
-                             secondary_articulation)
+            return with_vocal_folds(VocalFolds.VOICED_ASPIRATED, phone)
         if phone.vocal_folds == VocalFolds.VOICELESS or phone.vocal_folds == VocalFolds.VOICED:
-            return Consonant(VocalFolds.VOICED, place, manner, airstream, secondary_articulation)
+            return with_vocal_folds(VocalFolds.VOICED, phone)
         if phone.vocal_folds == VocalFolds.VOICED_ASPIRATED:
-            return Consonant(VocalFolds.VOICED_ASPIRATED, place, manner, airstream,
-                             secondary_articulation)
-        return Consonant(VocalFolds.VOICED, place, manner, airstream, secondary_articulation)
+            return with_vocal_folds(VocalFolds.VOICED_ASPIRATED, phone)
+        return with_vocal_folds(VocalFolds.VOICED, phone)
     if is_vowel(phone):
-        height = phone.height
-        backness = phone.backness
-        rounding = phone.rounding
-        vowel_length = phone.vowel_length
-        return Vowel(height, backness, rounding, VocalFolds.VOICED, vowel_length)
+        return with_vocal_folds(VocalFolds.VOICED)
     return None
 
 
@@ -164,28 +154,14 @@ def devoiced_phonet(phone: Phonet) -> Phonet:
     equivalent.
     """
     if is_consonant(phone):
-        place = phone.place
-        airstream = phone.airstream
-        manner = phone.manner
-        secondary_articulation = phone.secondary_articulation
-        if phone.vocal_folds == VocalFolds.VOICED:
-            return Consonant(VocalFolds.VOICELESS, place, manner, airstream, secondary_articulation)
-        if phone.vocal_folds == VocalFolds.CREAKY_VOICED:
-            return Consonant(VocalFolds.VOICELESS, place, manner, airstream, secondary_articulation)
-        if phone.vocal_folds == VocalFolds.VOICELESS:
-            return Consonant(VocalFolds.VOICELESS, place, manner, airstream, secondary_articulation)
+        if phone.vocal_folds in [VocalFolds.VOICED, VocalFolds.CREAKY_VOICED]:
+            return with_vocal_folds(VocalFolds.VOICELESS, phone)
+        if phone.vocal_folds == [VocalFolds.VOICELESS, VocalFolds.VOICELESS_ASPIRATED]:
+            return phone
         if phone.vocal_folds == VocalFolds.VOICED_ASPIRATED:
-            return Consonant(VocalFolds.VOICELESS_ASPIRATED, place, manner, airstream,
-                             secondary_articulation)
-        if phone.vocal_folds == VocalFolds.VOICELESS_ASPIRATED:
-            return Consonant(VocalFolds.VOICELESS_ASPIRATED, place, manner, airstream,
-                             secondary_articulation)
+            return with_vocal_folds(VocalFolds.VOICELESS_ASPIRATED, phone)
     if is_vowel(phone):
-        backness = phone.backness
-        height = phone.height
-        rounding = phone.rounding
-        vowel_length = phone.vowel_length
-        return Vowel(height, backness, rounding, VocalFolds.VOICELESS, vowel_length)
+        return with_vocal_folds(VocalFolds.VOICELESS, phone)
     return phone
 
 
@@ -459,7 +435,7 @@ def retract_phonet(phonete: Optional[Phonet]) -> Optional[Phonet]:
     :param phonete: a phoneme
     :return: a phoneme pronounced further back
     """
-    if isinstance(phonete, Consonant):
+    if is_consonant(phonete):
         voicing = phonete.vocal_folds
         place = phonete.place
         manner = phonete.manner
@@ -497,11 +473,7 @@ def decreak(phone: Phonet) -> Phonet:
     Given a creaky phone, it will return its non-creaky counterpart.
     """
     if is_consonant(phone) and phone.vocal_folds == VocalFolds.CREAKY_VOICED:
-        place = phone.place
-        manner = phone.manner
-        airstream = phone.airstream
-        secondary_articulation = phone.secondary_articulation
-        return Consonant(VocalFolds.VOICED, place, manner, airstream, secondary_articulation)
+        with_vocal_folds(VocalFolds.VOICED, phone)
     return phone
 
 
