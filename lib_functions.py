@@ -44,7 +44,7 @@ from lib_types import (Phonet, Height, Backness, Rounding, VocalFolds, Vowel, Co
                        vowel_length_states, MarkedSecondaryArticulation,
                        UnmarkableSecondaryArticulation, MarkedVowelLength, UnmarkableVowelLength)
 
-from lib_type_helpers import is_consonant, is_vowel
+from lib_type_helpers import is_consonant, is_vowel, with_vocal_folds
 
 def equivalent_in_place(place_1: Place, place_2: Place) -> bool:
     """
@@ -228,9 +228,15 @@ def unmark_rounding(rounding_1: Rounding, rounding_2: Rounding) -> UnmarkableRou
         return MarkedRounding(rounding_1)
     return UnmarkedRounding()
 
+def unmark_secondary_articulation(sa_1: SecondaryArticulation, sa_2: SecondaryArticulation) \
+       -> UnmarkableSecondaryArticulation:
+    if sa_1 == sa_2:
+        return MarkedSecondaryArticulation(sa_1)
+    return UnmarkedSecondaryArticulation()
+
 
 def unmark_differences(phone_1: Phonet, phone_2: Phonet) -> UnmarkablePhonet:
-    if isinstance(phone_1, Consonant) and isinstance(phone_2, Consonant):
+    if is_consonant(phone_1) and is_consonant(phone_2):
         vocal_folds: UnmarkableVocalFolds = unmark_voice(phone_1.vocal_folds, phone_2.vocal_folds)
         place: UnmarkablePlace = unmark_place(phone_1.place, phone_2.place)
         manner: UnmarkableManner = unmark_manner(phone_1.manner, phone_2.manner)
@@ -239,14 +245,14 @@ def unmark_differences(phone_1: Phonet, phone_2: Phonet) -> UnmarkablePhonet:
              phone_1.secondary_articulation,
              phone_2.secondary_articulation)
         return UnmarkableConsonant(vocal_folds, place, manner, airstream, secondary_articulation)
-    if isinstance(phone_1, Vowel) and isinstance(phone_2, Consonant):
+    if is_vowel(phone_1) and is_consonant(phone_2):
         vocal_folds: UnmarkableVocalFolds = unmark_voice(phone_1.vocal_folds, phone_2.vocal_folds)
         return UnmarkableVowel(UnmarkedHeight(), UnmarkedBackness(), UnmarkedRounding(),
                                vocal_folds)
-    if isinstance(phone_1, Consonant) and isinstance(phone_2, Vowel):
+    if is_consonant(phone_1) and is_vowel(phone_2):
         return unmark_differences(phone_2, phone_1)
 
-    if isinstance(phone_1, Vowel) and isinstance(phone_2, Vowel):
+    if is_vowel(phone_1) and is_vowel(phone_2):
         # Both are vowels:
         vocal_folds: UnmarkableVocalFolds = unmark_voice(phone_1.vocal_folds, phone_2.vocal_folds)
         height: UnmarkableHeight = unmark_height(phone_1.height, phone_2.height)
@@ -451,19 +457,9 @@ def deaspirate(phone: Phonet) -> Phonet:
     """
     if is_consonant(phone):
         if phone.vocal_folds == VocalFolds.VOICED_ASPIRATED:
-            place = phone.place
-            manner = phone.manner
-            airstream = phone.airstream
-            secondary_articulation = phone.secondary_articulation
-            return Consonant(VocalFolds.VOICED, place, manner, airstream,
-                             secondary_articulation)
+            return with_vocal_folds(VocalFolds.VOICED, phone)
         if phone.vocal_folds == VocalFolds.VOICELESS_ASPIRATED:
-            place = phone.place
-            manner = phone.manner
-            airstream = phone.airstream
-            secondary_articulation = phone.secondary_articulation
-            return Consonant(VocalFolds.VOICELESS, place, manner, airstream,
-                             secondary_articulation)
+            return with_vocal_folds(VocalFolds.VOICELESS)
         return phone
     return phone
 
