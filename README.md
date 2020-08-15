@@ -2,6 +2,8 @@
 
 To see a demonstration of the program, without having to install it, please [see the screenshots](https://github.com/elsanussi-s-mneina/phonetics-modeling-python/wiki/screenshots).
 
+# Requirements
+- Python 3.8
 
 ## How to run
 Run the following at the command line:
