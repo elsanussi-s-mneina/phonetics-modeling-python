@@ -816,10 +816,10 @@ def show_phonet(phonet: Phonet) -> str:
         airstream = phonet.airstream
         secondary_articulation = phonet.secondary_articulation
         joined: str = ' '.join([show_vocal_folds(vocal_folds),
+                                show_secondary_articulation(secondary_articulation),
                                 show_place(place),
                                 show_manner(manner),
                                 show_airstream(airstream),
-                                show_secondary_articulation(secondary_articulation),
                                 CONSONANT_TEXT])
         return remove_extra_two_spaces(joined)
     if isinstance(phonet, Vowel):

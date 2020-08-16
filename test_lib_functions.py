@@ -422,7 +422,7 @@ class TestLibFunctions(unittest.TestCase):
         case: t labialized
         """
         result = describe_transcription("tʷ")
-        expected = "voiceless alveolar plosive pulmonic egressive labialized consonant"
+        expected = "voiceless labialized alveolar plosive pulmonic egressive consonant"
         self.assertEqual(result, expected, "case: t labialized")
 
     def test_labialized_r(self) -> None:
@@ -430,7 +430,7 @@ class TestLibFunctions(unittest.TestCase):
         case: r labialized
         """
         result = describe_transcription("rʷ")
-        expected = "voiced alveolar trill pulmonic egressive labialized consonant"
+        expected = "voiced labialized alveolar trill pulmonic egressive consonant"
         self.assertEqual(result, expected)
 
     def test_palatalized_t(self) -> None:
@@ -438,7 +438,7 @@ class TestLibFunctions(unittest.TestCase):
         case: t palatalized
         """
         result = describe_transcription("tʲ")
-        expected = "voiceless alveolar plosive pulmonic egressive palatalized consonant"
+        expected = "voiceless palatalized alveolar plosive pulmonic egressive consonant"
         self.assertEqual(result, expected)
 
 
@@ -447,7 +447,7 @@ class TestLibFunctions(unittest.TestCase):
         case: r palatalized
         """
         result = describe_transcription("rʲ")
-        expected = "voiced alveolar trill pulmonic egressive palatalized consonant"
+        expected = "voiced palatalized alveolar trill pulmonic egressive consonant"
         self.assertEqual(result, expected)
 
     def test_velarized_t(self) -> None:
@@ -455,7 +455,7 @@ class TestLibFunctions(unittest.TestCase):
         case: t velarized
         """
         result = describe_transcription("tˠ")
-        expected = "voiceless alveolar plosive pulmonic egressive velarized consonant"
+        expected = "voiceless velarized alveolar plosive pulmonic egressive consonant"
         self.assertEqual(result, expected)
 
     def test_velarized_r(self) -> None:
@@ -463,19 +463,19 @@ class TestLibFunctions(unittest.TestCase):
         case: r velarized
         """
         result = describe_transcription("rˠ")
-        expected = "voiced alveolar trill pulmonic egressive velarized consonant"
+        expected = "voiced velarized alveolar trill pulmonic egressive consonant"
         self.assertEqual(result, expected)
 
     def test_palatalized_t(self) -> None:
         """case: t pharyngealized"""
         result = describe_transcription("tˤ")
-        expected = "voiceless alveolar plosive pulmonic egressive pharyngealized consonant"
+        expected = "voiceless pharyngealized alveolar plosive pulmonic egressive consonant"
         self.assertEqual(result, expected)
 
     def test_palatalized_r(self) -> None:
         """case: r pharyngealized"""
         result = describe_transcription("rˤ")
-        expected = "voiced alveolar trill pulmonic egressive pharyngealized consonant"
+        expected = "voiced pharyngealized alveolar trill pulmonic egressive consonant"
         self.assertEqual(result, expected)
 
     def test_normal_a_vowel(self) -> None:
@@ -534,3 +534,8 @@ class TestLibFunctions(unittest.TestCase):
         expected = "voiceless unrounded close front extra-short vowel"
         actual = describe_transcription("ĭ̥")
         self.assertEqual(expected, actual)
+
+    def test_ʑ̬ʰˤ_is_the_representation_of_the_voiced_aspirated_pharyngealized_alveolo_palatal_fricative_pulmonic_egressive_consonant(self):
+        expected = "voiced aspirated pharyngealized alveolo-palatal fricative pulmonic egressive consonant"
+        actual = describe_transcription("ʑ̬ʰˤ")
+        self.assertEqual(actual, expected)
