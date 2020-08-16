@@ -10,7 +10,7 @@ from lib_types import Phonet, Consonant, VocalFolds, Place, Manner, Airstream, M
     Height, Backness, Rounding, SecondaryArticulation, PhonetInventory, VowelLength
 from phonetic_features import analyze_features, show_features
 
-from lib_type_helpers import is_consonant, is_vowel
+from lib_type_helpers import is_consonant, is_vowel, to_extra_short
 
 
 def ipa_text_to_phonet_list_report(text: str) -> str:
@@ -736,18 +736,8 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
         full_grapheme = analyze_transcription(ipa_text[:-1])
         if full_grapheme is None:
             return None
-        if isinstance(full_grapheme, Consonant):
-            return full_grapheme
-            # Ignore consonants followed by an extra-short marker.
-        if isinstance(full_grapheme, Vowel):
-            height = full_grapheme.height
-            backness = full_grapheme.backness
-            rounding = full_grapheme.rounding
-            vocal_folds = full_grapheme.vocal_folds
-
-            # Make the vowel extra-short.
-            return Vowel(height, backness, rounding, vocal_folds,
-                         VowelLength.EXTRA_SHORT)
+        return to_extra_short(full_grapheme) # Make the vowel extra-short, but ..
+        #.. ignore consonants followed by an extra-short marker.
 
     if ipa_text[-1] == "ʰ":
         full_grapheme: Optional[Phonet] = analyze_transcription(ipa_text[:-1])
