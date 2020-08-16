@@ -10,7 +10,10 @@ from lib_types import Phonet, Consonant, VocalFolds, Place, Manner, Airstream, M
     Height, Backness, Rounding, SecondaryArticulation, PhonetInventory, VowelLength
 from phonetic_features import analyze_features, show_features
 
-from lib_type_helpers import is_consonant, is_vowel, to_extra_short
+from lib_type_helpers import is_consonant, is_vowel, to_extra_short, to_alveolar, \
+    to_half_long, to_normal_length, to_labialized, to_long, to_palatalized, to_pharyngealized, \
+    to_velarized, \
+    to_voiced, to_voiced_aspirated, to_voiceless, to_voiceless_aspirated
 
 
 def ipa_text_to_phonet_list_report(text: str) -> str:
@@ -140,6 +143,25 @@ def prevent_prohibited_combination(some_text: str) -> str:
     if is_descender(first_character) and is_diacritic_below(second_character):
         return first_character + raise_diacritic(second_character) + rest
     return some_text
+
+
+def append_voiceless_diacritic(ipa_text: str) -> str:
+    """
+    puts a voiceless diacritic after the last character,
+    in IPA text. Determines whether to place the diacritic
+    above or below the character.
+    """
+    if is_descender(ipa_text):
+        return ipa_text + "̊"  # add diacritic for voiceless that goes above
+    return ipa_text + "̥"  # add diacritic for voiceless that goes below
+
+
+def append_voiced_diacritic(ipa_text: str) -> str:
+    return ipa_text + "̬"
+
+
+def append_aspiration_diacritic(ipa_text: str) -> str:
+    return ipa_text + "ʰ"
 
 
 def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
@@ -598,139 +620,56 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
         if ipa_text[-1] == "̥" or ipa_text[-1] == "̊":
             full_grapheme: Optional[Phonet] = analyze_transcription(ipa_text[:-1])
             if full_grapheme is not None:
-                if isinstance(full_grapheme, Consonant):
-                    place = full_grapheme.place
-                    manner = full_grapheme.manner
-                    airstream = full_grapheme.airstream
-                    secondary_articulation = full_grapheme.secondary_articulation
-                    return Consonant(VocalFolds.VOICELESS, place, manner, airstream,
-                                     secondary_articulation)
-                if isinstance(full_grapheme, Vowel):
-                    height = full_grapheme.height
-                    backness = full_grapheme.backness
-                    rounding = full_grapheme.rounding
-                    vowel_length = full_grapheme.vowel_length
-                    return Vowel(height, backness, rounding, VocalFolds.VOICELESS,
-                                 vowel_length)
+                return to_voiceless(full_grapheme)
             return None
         if ipa_text[-1] == "̬":
             full_grapheme: Optional[Phonet] = analyze_transcription(ipa_text[:-1])
             if full_grapheme is None:
                 return None
-            if isinstance(full_grapheme, Consonant):
-                place = full_grapheme.place
-                manner = full_grapheme.manner
-                airstream = full_grapheme.airstream
-                secondary_articulation = full_grapheme.secondary_articulation
-                return Consonant(VocalFolds.VOICED, place, manner, airstream,
-                                 secondary_articulation)
-            if isinstance(full_grapheme, Vowel):
-                height = full_grapheme.height
-                backness = full_grapheme.backness
-                rounding = full_grapheme.rounding
-                vowel_length = full_grapheme.vowel_length
-                return Vowel(height, backness, rounding, VocalFolds.VOICED, vowel_length)
-            return full_grapheme
+            return to_voiced(full_grapheme)
 
         if ipa_text[-1] == "ʷ":
             full_grapheme: Optional[Phonet] = analyze_transcription(ipa_text[:-1])
             if full_grapheme is None:
                 return None
-            if (isinstance(full_grapheme, Consonant)
+
+            if (is_consonant(full_grapheme)
                     and full_grapheme.secondary_articulation == SecondaryArticulation.NORMAL):
-                vocal_folds = full_grapheme.vocal_folds
-                place = full_grapheme.place
-                manner = full_grapheme.manner
-                airstream = full_grapheme.airstream
-                return Consonant(vocal_folds, place, manner, airstream,
-                                 SecondaryArticulation.LABIALIZED)
-            if isinstance(full_grapheme, Vowel):
+                return to_labialized(full_grapheme)
+            if is_vowel(full_grapheme):
                 return full_grapheme  # Should never happen, but let's just ignore it
 
         if ipa_text[-1] == "ʲ":
             full_grapheme = analyze_transcription(ipa_text[:-1])
             if full_grapheme is None:
                 return None
-            if (isinstance(full_grapheme, Consonant)
-                    and full_grapheme.secondary_articulation == SecondaryArticulation.NORMAL):
-                vocal_folds = full_grapheme.vocal_folds
-                place = full_grapheme.place
-                manner = full_grapheme.manner
-                airstream = full_grapheme.airstream
-
-                return Consonant(vocal_folds, place, manner, airstream,
-                                 SecondaryArticulation.PALATALIZED)
-            if isinstance(full_grapheme, Vowel):
-                return full_grapheme  # Should never happen, but let's just ignore it
+            return to_palatalized(full_grapheme)
 
     if ipa_text[-1] == "ˠ":
         full_grapheme = analyze_transcription(ipa_text[:-1])
 
         if full_grapheme is None:
             return None
-        if (isinstance(full_grapheme, Consonant) and
-                full_grapheme.secondary_articulation == SecondaryArticulation.NORMAL):
-            vocal_folds = full_grapheme.vocal_folds
-            place = full_grapheme.place
-            manner = full_grapheme.manner
-            airstream = full_grapheme.airstream
-            return Consonant(vocal_folds, place, manner, airstream,
-                             SecondaryArticulation.VELARIZED)
-        if isinstance(full_grapheme, Vowel):
-            return full_grapheme  # Should never happen, but let's just ignore it
+        return to_velarized(full_grapheme)
 
     if ipa_text[-1] == "ˤ":
         full_grapheme = analyze_transcription(ipa_text[:-1])
         if full_grapheme is None:
             return None
-        if (isinstance(full_grapheme, Consonant) and
-                full_grapheme.secondary_articulation == SecondaryArticulation.NORMAL):
-            vocal_folds = full_grapheme.vocal_folds
-            place = full_grapheme.place
-            manner = full_grapheme.manner
-            airstream = full_grapheme.airstream
-            return Consonant(vocal_folds, place, manner, airstream,
-                             SecondaryArticulation.PHARYNGEALIZED)
-        if isinstance(full_grapheme, Vowel):
-            return full_grapheme  # Should never happen, but let's just ignore it
+        return to_pharyngealized(full_grapheme)
 
     # Long
     if ipa_text[-1] == "ː":
         full_grapheme = analyze_transcription(ipa_text[:-1])
         if full_grapheme is None:
             return None
-        if isinstance(full_grapheme, Consonant):
-            return full_grapheme
-            # Ignore consonants followed by a long marker.
-            # How to handle them can't be decided right now.
-        if isinstance(full_grapheme, Vowel):
-            height = full_grapheme.height
-
-            vocal_folds = full_grapheme.vocal_folds
-            backness = full_grapheme.backness
-            rounding = full_grapheme.rounding
-
-            # Make the vowel long.
-            return Vowel(height, backness, rounding, vocal_folds,
-                         VowelLength.LONG)
+        return to_long(full_grapheme)
 
     if ipa_text[-1] == "ˑ":
         full_grapheme = analyze_transcription(ipa_text[:-1])
         if full_grapheme is None:
             return None
-        if isinstance(full_grapheme, Consonant):
-            return full_grapheme
-            # Ignore consonants followed by a half-long marker.
-            # How to handle them can't be decided right now.
-        if isinstance(full_grapheme, Vowel):
-            height = full_grapheme.height
-            backness = full_grapheme.backness
-            rounding = full_grapheme.rounding
-            vocal_folds = full_grapheme.vocal_folds
-
-            # Make the vowel half-long.
-            return Vowel(height, backness, rounding, vocal_folds,
-                         VowelLength.HALF_LONG)
+        return to_half_long(full_grapheme)
 
     if ipa_text[-1] == "̆":
         full_grapheme = analyze_transcription(ipa_text[:-1])
@@ -741,40 +680,21 @@ def analyze_transcription(ipa_text: str) -> Optional[Phonet]:
 
     if ipa_text[-1] == "ʰ":
         full_grapheme: Optional[Phonet] = analyze_transcription(ipa_text[:-1])
-        if isinstance(full_grapheme, Consonant) \
-                and full_grapheme.vocal_folds == VocalFolds.VOICED:
-            place = full_grapheme.place
-            manner = full_grapheme.manner
-            airstream = full_grapheme.airstream
-            secondary_articulation = full_grapheme.secondary_articulation
-            return Consonant(VocalFolds.VOICED_ASPIRATED, place, manner, airstream,
-                             secondary_articulation)
-            if isinstance(full_grapheme, Consonant) \
-                    and full_grapheme.vocal_folds == VocalFolds.VOICELESS:
-                place = full_grapheme.place
-                manner = full_grapheme.manner
-                airstream = full_grapheme.airstream
-                secondary_articulation = full_grapheme.secondary_articulation
-                return Consonant(VocalFolds.VOICELESS_ASPIRATED, place, manner, airstream,
-                                 secondary_articulation)
-            if isinstance(full_grapheme, Vowel):
-                height = full_grapheme.height
-                backness = full_grapheme.backness
-                rounding = full_grapheme.rounding
-                voicing = full_grapheme.vocal_folds
-                vowel_length = full_grapheme.vowel_length
-                return Vowel(height, backness, rounding, voicing, vowel_length)
-            return full_grapheme
-            # (About the preceding line:) It is strange but we will just
-            # do nothing if they give us an aspirated vowel.
-            # since we have no way to represent it in the type system.
-            # to do: determine
-            # if the idea of an aspirated vowel makes sense
-        if ipa_text[-1] == "̠":
-            full_grapheme: Optional[Phonet] = analyze_transcription(ipa_text[:-1])
-            return retract_phonet(full_grapheme)
-        return None  # not recognized.
-    return None
+        if is_consonant(full_grapheme):
+            if full_grapheme.vocal_folds == VocalFolds.VOICED:
+                return to_voiced_aspirated(full_grapheme)
+            if full_grapheme.vocal_folds == VocalFolds.VOICELESS:
+                return to_voiceless_aspirated(full_grapheme)
+        return full_grapheme # vowels cannot be aspirated. So just ignore it.
+        # (About the preceding line:) It is strange but we will just
+        # do nothing if they give us an aspirated vowel.
+        # since we have no way to represent it in the type system.
+        # to do: determine
+        # if the idea of an aspirated vowel makes sense
+    if ipa_text[-1] == "̠":
+        full_grapheme: Optional[Phonet] = analyze_transcription(ipa_text[:-1])
+        return retract_phonet(full_grapheme)
+    return None  # not recognized.
 
 
 def construct_transcription(phoneme: Phonet) -> str:
@@ -814,12 +734,14 @@ def length_transcription(vowel_length: VowelLength) -> str:
         return "ˑ"
     if vowel_length == VowelLength.LONG:
         return "ː"
+    return ""
+
 
 
 def construct_transcription_recursively(recursion_limit: int,
                                         recursion_level: int, phone: Phonet) -> Optional[str]:
     """
-    Given a Phonet intance, construct the IPA transcription representing it.
+    Given a Phonet instance, construct the IPA transcription representing it.
     :param recursion_limit: a number to ensure the program always halts
     :param recursion_level: the current number of times this function has called itself,
     since it was called by another function.
@@ -1579,31 +1501,17 @@ def construct_transcription_recursively(recursion_limit: int,
     # one character
     if is_consonant(phone) and phone.place == Place.POSTALVEOLAR and \
             recursion_level < recursion_limit:
-        vocal_folds = phone.vocal_folds
-        manner = phone.manner
-        airstream = phone.airstream
-        secondary_articulation = phone.secondary_articulation
         result = construct_transcription_recursively(recursion_limit,
                                                      1 + recursion_level,
-                                                     Consonant(vocal_folds,
-                                                               Place.ALVEOLAR,
-                                                               manner,
-                                                               airstream,
-                                                               secondary_articulation))
+                                                     to_alveolar(phone))
         if result is None:
             return None
         return result + "̠" # Add the diacritic for "retracted"
     if is_vowel(phone) and phone.vowel_length != VowelLength.NORMAL \
             and recursion_level < recursion_limit:
-        height = phone.height
-        backness = phone.backness
-        rounding = phone.rounding
-        vocal_folds = phone.vocal_folds
         result = construct_transcription_recursively(recursion_limit,
                                                      1 + recursion_level,
-                                                     Vowel(height, backness, rounding,
-                                                           vocal_folds,
-                                                           VowelLength.NORMAL))
+                                                     to_normal_length(phone))
         if result is None:
             return None
         return result + length_transcription(phone.vowel_length)
@@ -1615,42 +1523,22 @@ def construct_transcription_recursively(recursion_limit: int,
     # Add the small circle diacritic to consonants to make them voiceless.
     if is_consonant(phone) and phone.vocal_folds == VocalFolds.VOICELESS \
             and recursion_level < recursion_limit:
-        place = phone.place
-        manner = phone.manner
-        airstream = phone.airstream
-        secondary_articulation = phone.secondary_articulation
         result = construct_transcription_recursively(recursion_limit,
                                                      1 + recursion_level,
-                                                     Consonant(VocalFolds.VOICED,
-                                                               place,
-                                                               manner,
-                                                               airstream,
-                                                               secondary_articulation))
+                                                     to_voiced(phone))
         if result is None:
             return None
-        if is_descender(result):
-            return result + "̊"  # add diacritic for voiceless that goes above
-        return result + "̥"  # add diacritic for voiceless that goes below
+        return append_voiceless_diacritic(result)
 
     # Add the small circle diacritic to vowels to make them voiceless.
     if is_vowel(phone) and phone.vocal_folds == VocalFolds.VOICELESS \
             and recursion_level < recursion_limit:
-        height = phone.height
-        backness = phone.backness
-        rounding = phone.rounding
-        vowel_length = phone.vowel_length
         result = construct_transcription_recursively(recursion_limit,
                                                      1 + recursion_level,
-                                                     Vowel(height,
-                                                           backness,
-                                                           rounding,
-                                                           VocalFolds.VOICED,
-                                                           vowel_length))
+                                                     to_voiced(phone))
         if result is None:
             return None
-        if is_descender(result):
-            return result + "̊"  # add diacritic for voiceless that goes above
-        return result + "̥"  # add diacritic for voiceless that goes below
+        return append_voiceless_diacritic(result)
 
 
     # If there is no way to express a voiced consonant in a single
@@ -1658,34 +1546,21 @@ def construct_transcription_recursively(recursion_limit: int,
     # the voiceless counterpart.
     if is_consonant(phone) and phone.vocal_folds == VocalFolds.VOICED \
             and recursion_level < recursion_limit:
-        place = phone.place
-        manner = phone.manner
-        airstream = phone.airstream
-        secondary_articulation = phone.secondary_articulation
         result = construct_transcription_recursively(recursion_limit,
                                                      1 + recursion_level,
-                                                     Consonant(VocalFolds.VOICELESS,
-                                                               place,
-                                                               manner,
-                                                               airstream,
-                                                               secondary_articulation))
+                                                     to_voiceless(phone))
         if result is None:
             return None
-        return result + "̬"
+        return append_voiced_diacritic(result)
     if is_vowel(phone) and phone.vocal_folds == VocalFolds.VOICED \
             and recursion_level < recursion_limit:
-        height = phone.height
-        backness = phone.backness
-        rounding = phone.rounding
-        vowel_length = phone.vowel_length
         result = construct_transcription_recursively(recursion_limit,
                                                      1 + recursion_level,
-                                                     Vowel(height, backness, rounding,
-                                                           VocalFolds.VOICELESS,
-                                                           vowel_length))
+                                                     to_voiceless(phone))
         if result is None:
             return None
-        return result + "̬"
+        return append_voiced_diacritic(result)
+
     if (is_consonant(phone) and phone.vocal_folds == VocalFolds.VOICED_ASPIRATED
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE
             and recursion_level < recursion_limit):
@@ -1695,7 +1570,7 @@ def construct_transcription_recursively(recursion_limit: int,
             deaspirate(phone))
         if result is None:
             return None
-        return result + "ʰ"
+        return append_aspiration_diacritic(result)
 
     if (is_consonant(phone) and phone.vocal_folds == VocalFolds.VOICELESS_ASPIRATED
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE
@@ -1704,7 +1579,7 @@ def construct_transcription_recursively(recursion_limit: int,
             recursion_limit, 1 + recursion_level, deaspirate(phone))
         if result is None:
             return None
-        return result + "ʰ"
+        return append_aspiration_diacritic(result)
     if (is_consonant(phone) and phone.vocal_folds == VocalFolds.CREAKY_VOICED
             and phone.airstream == Airstream.PULMONIC_EGRESSIVE
             and recursion_level < recursion_limit):
