@@ -187,3 +187,14 @@ BEFORE_SERVER_START_MESSAGE: Final[str] =  \
     to get the voiced phoneme alternative of [s].
     Browse to http://localhost:8080/devoice_phoneme/z
     to get the voiceless phoneme alternative of [z]."""
+
+
+UNRECOGNIZED_KIND_OF_PHONEME: Final[str] = "[Unrecognized kind of phonete!]"
+UNRECOGNIZED_VOCAL_FOLDS    : Final[str] = "[Unrecognized vocal folds!]"
+UNRECOGNIZED_AIRSTREAM      : Final[str] = "[Unrecognized airstream!]"
+UNRECOGNIZED_MANNER         : Final[str] = "[Unrecognized manner!]"
+UNRECOGNIZED_PLACE          : Final[str] = '[Error: unrecognized place!]'
+UNRECOGNIZED_VOWEL_LENGTH   : Final[str] = "[Unrecognized vowel length!]"
+UNRECOGNIZED_ROUNDING       : Final[str] = "[Unrecognized rounding!]"
+UNRECOGNIZED_VOWEL_HEIGHT   : Final[str] = "[Unrecognized vowel height!]"
+UNRECOGNIZED_VOWEL_BACKNESS : Final[str] = "[Unrecognized vowel backness!]"

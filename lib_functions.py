@@ -28,7 +28,16 @@ from english_us_text import (PLOSIVE_MANNER_TEXT, NASAL_MANNER_TEXT, TRILL_MANNE
                              VOICED_ASPIRATED_VOCAL_FOLDS_TEXT, VOICELESS_VOCAL_FOLDS_TEXT,
                              VOICED_VOCAL_FOLDS_TEXT, CONSONANT_TEXT, VOWEL_TEXT, LABIALIZED_TEXT,
                              PALATALIZED_TEXT, VELARIZED_TEXT, PHARYNGEALIZED_TEXT,
-                             EXTRA_SHORT_TEXT, HALF_LONG_TEXT, LONG_TEXT)
+                             EXTRA_SHORT_TEXT, HALF_LONG_TEXT, LONG_TEXT,
+                             UNRECOGNIZED_KIND_OF_PHONEME,
+                             UNRECOGNIZED_VOCAL_FOLDS,
+                             UNRECOGNIZED_AIRSTREAM,
+                             UNRECOGNIZED_MANNER,
+                             UNRECOGNIZED_PLACE,
+                             UNRECOGNIZED_VOWEL_LENGTH,
+                             UNRECOGNIZED_ROUNDING,
+                             UNRECOGNIZED_VOWEL_HEIGHT,
+                             UNRECOGNIZED_VOWEL_BACKNESS)
 from lib_types import (Phonet, Height, Backness, Rounding, VocalFolds, Vowel, Consonant, Place,
                        Manner, Airstream,
                        MultiPlace, PhonetInventory,
@@ -596,7 +605,7 @@ def show_backness(backness: Backness) -> str:
         return CENTRAL_BACKNESS_TEXT
     if backness == Backness.BACK:
         return BACK_BACKNESS_TEXT
-    return "[Unrecognized vowel backness!]"
+    return UNRECOGNIZED_VOWEL_BACKNESS
 
 
 def show_height(height: Height) -> str:
@@ -620,7 +629,7 @@ def show_height(height: Height) -> str:
         return NEAR_OPEN_HEIGHT_TEXT
     if height == Height.OPEN:
         return OPEN_HEIGHT_TEXT
-    return "[Unrecognized vowel height!]"
+    return UNRECOGNIZED_VOWEL_HEIGHT
 
 
 def show_rounding(rounding: Rounding) -> str:
@@ -633,7 +642,7 @@ def show_rounding(rounding: Rounding) -> str:
         return ROUNDED_ROUNDING_TEXT
     if rounding == Rounding.UNROUNDED:
         return UNROUNDED_ROUNDING_TEXT
-    return "[Unrecognized rounding!]"
+    return UNRECOGNIZED_ROUNDING
 
 
 def show_vowel_length(length: VowelLength) -> str:
@@ -650,7 +659,7 @@ def show_vowel_length(length: VowelLength) -> str:
         return HALF_LONG_TEXT
     if length == VowelLength.LONG:
         return LONG_TEXT
-    return "[Unrecognized vowel length!]"
+    return UNRECOGNIZED_VOWEL_LENGTH
 
 
 def show_place(place: Place) -> str:
@@ -694,7 +703,7 @@ def show_place(place: Place) -> str:
         return PALATOALVEOLAR_PLACE_TEXT
     if isinstance(place, MultiPlace):
         return ' '.join(map(show_place, place.places()))
-    return '[Error: unrecognized place!]'
+    return UNRECOGNIZED_PLACE
 
 
 def show_manner(manner1: Manner) -> str:
@@ -724,7 +733,7 @@ def show_manner(manner1: Manner) -> str:
         return LATERAL_FLAP_MANNER_TEXT
     if manner1 == Manner.LATERAL:
         return LATERAL_MANNER_TEXT
-    return "[Unrecognized manner!]"
+    return UNRECOGNIZED_MANNER
 
 
 def show_airstream(airstream_1: Airstream) -> str:
@@ -739,7 +748,7 @@ def show_airstream(airstream_1: Airstream) -> str:
         return CLICK_AIRSTREAM_TEXT
     if airstream_1 == Airstream.IMPLOSIVE:
         return IMPLOSIVE_AIRSTREAM_TEXT
-    return "[Unrecognized airstream!]"
+    return UNRECOGNIZED_AIRSTREAM
 
 
 def show_vocal_folds(vocal_folds_1: VocalFolds) -> str:
@@ -757,7 +766,7 @@ def show_vocal_folds(vocal_folds_1: VocalFolds) -> str:
         return VOICELESS_ASPIRATED_VOCAL_FOLDS_TEXT
     if vocal_folds_1 == VocalFolds.CREAKY_VOICED:
         return CREAKY_VOICED_VOCAL_FOLDS_TEXT
-    return "[Unrecognized vocal folds!]"
+    return UNRECOGNIZED_VOCAL_FOLDS
 
 
 def show_secondary_articulation(secondary_articulation: SecondaryArticulation) -> str:
@@ -824,4 +833,4 @@ def show_phonet(phonet: Phonet) -> str:
                                 show_vowel_length(vowel_length),
                                 VOWEL_TEXT])
         return remove_extra_two_spaces(joined)
-    return "[Unrecognized kind of phonete!]"
+    return UNRECOGNIZED_KIND_OF_PHONEME
