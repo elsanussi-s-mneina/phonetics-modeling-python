@@ -64,3 +64,6 @@ def start_server():
     """
     print(BEFORE_SERVER_START_MESSAGE)
     app.run(port=8080)
+
+if __name__ == "__main__":
+    start_server()

@@ -24,6 +24,20 @@ Plans:
 
 This is the translation from the Haskell version.
 
+## How to use Docker
+
+Build the image by running the following command:
+
+`docker build -t phonetics-modeling-python .`
+
+Start the Docker container. This will start the server.
+`docker run -p 8770:8080 phonetics-modeling-python`
+
+Now open your browser, and browse to:
+  `http://localhost:8770/voice_phoneme/s`
+
+OR:
+ `http://localhost:8770/voice_phoneme/s`
 
 ## Current Issues
 - more unit test coverage to be added
