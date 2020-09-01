@@ -120,31 +120,6 @@ def is_descender(character: str) -> bool:
     return character in descenders
 
 
-def prevent_prohibited_combination(some_text: str) -> str:
-    """
-    Prevent placement of diacritics below a full-width
-    character,
-    when doing so would likely make the result
-    difficult to read, whenever there is another
-    diacritic with the same meaning, but can go above.
-    And vice-versa (above - below).
-
-    Only support the voiceless diacritic so far.
-    """
-    if len(some_text) == 0:
-        return ""
-    if len(some_text) == 1:
-        return some_text
-    first_character: str = some_text[0]
-    second_character: str = some_text[1]
-    rest = some_text[2:]
-    if is_ascender(first_character) and is_diacritic_above(second_character):
-        return first_character + lower_diacritic(second_character) + rest
-    if is_descender(first_character) and is_diacritic_below(second_character):
-        return first_character + raise_diacritic(second_character) + rest
-    return some_text
-
-
 def append_voiceless_diacritic(ipa_text: str) -> str:
     """
     puts a voiceless diacritic after the last character,
