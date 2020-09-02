@@ -32,20 +32,18 @@ def then_parser(first_parser: Callable[[str], Optional[Tuple[str, str]]], second
            parsed_2, rest_2 = second_result
            return parsed + parsed_2, rest_2
 
-"""
--- | combines parsers by using one or the other.
-orParser
-  :: (Text -> Maybe (Text, Text))
-  -> (Text -> Maybe (Text, Text))
-  -> Text
-  -> Maybe (Text, Text)
-orParser firstParser secondParser text =
-  case firstParser text of
-    Nothing -> case secondParser text of
-                      Nothing -> Nothing
-                      Just (parsed, rest) -> Just (parsed, rest)
-    Just (parsed, rest) -> Just (parsed, rest)
-"""
+
+def or_parser(first_parser: Callable[[str], Optional[Tuple[str, str]]], second_parser: Callable[[str], Optional[Tuple[str, str]]], text: str) -> Optional[Tuple[str, str]]:
+  """
+  combines parsers by using one or the other.
+  """
+  result = first_parser(text)
+  if result is None:
+    result_2 = second_parser(text)
+    return result_2
+  else:
+    return result
+
 
 def many_parser(sub_parser: Callable[[str], Optional[Tuple[str, str]]], text: str) -> Optional[Tuple[str, str]]:
     """

@@ -3,7 +3,7 @@ unit tests for primitive parsers
 """
 
 import unittest
-from primitive_parsers import single_char_parser, then_parser, many_parser
+from primitive_parsers import single_char_parser, then_parser, many_parser, or_parser
 from functools import partial
 
 class TestPrimitiveParsers(unittest.TestCase):
@@ -80,14 +80,32 @@ class TestPrimitiveParsers(unittest.TestCase):
         self.assertEqual(many_parser(partial(single_char_parser, ['f']), "fffa"), ("fff", "a"))
         self.assertEqual(many_parser(partial(single_char_parser, ['d']), "ddrst"), ("dd", "rst"))
     
-    # def test_or_parser_3(self) -> None:
-    #     """or-parser"""
-    #     it "parses \"aaaf\" successfully" $ do
-    #       or_parser (many_parser (single_char_parser ['f'])) (many_parser (single_char_parser ['a'])) "aaaf" `shouldBe` Just ("aaa", "f")
-    #       or_parser (single_char_parser ['f']) (many_parser $ single_char_parser ['a']) "ffffa" `shouldBe` Just ("f", "fffa")
-    #     it "parse failure case" $ do
-    #       or_parser (many_parser $ single_char_parser ['a', 'b']) (many_parser $ single_char_parser ['k']) "ttttnnn" `shouldBe` Nothing
-    #
+    def test_or_parser_3(self) -> None:
+         """or-parser"""
+         # it parses "aaaf" successfully
+         expected = ("aaa", "f")
+         actual = or_parser(partial(many_parser, partial(single_char_parser, ['f'])), \
+                            partial(many_parser, partial(single_char_parser, ['a'])), "aaaf")
+         self.assertEqual(actual, expected)
+
+
+    def test_or_parser_4(self) -> None:
+         """or-parser"""
+         # it parses "ffffa" successfully
+         expected = ("f", "fffa")
+         actual = or_parser(partial(single_char_parser, ['f']), \
+                            partial(many_parser, partial(single_char_parser, ['a'])), "ffffa")
+         self.assertEqual(actual, expected)
+
+
+    def test_or_parser_5(self) -> None:
+         """or-parser"""
+         # parse failure case
+         expected = None
+         actual = or_parser(partial(many_parser, partial(single_char_parser, ['a', 'b'])), \
+                            partial(many_parser, partial(single_char_parser, ['k'])), "ttttnnn")
+         self.assertEqual(actual, expected)
+
     # def test_optional_parser(self) -> None:
     #     """optional parser"""
     #     it "parses \"aaaf\" successfully" $ do
