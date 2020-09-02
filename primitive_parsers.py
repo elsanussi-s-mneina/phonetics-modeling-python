@@ -2,8 +2,7 @@
 unit tests for primitive parsers
 """
 
-import unittest
-from typing import Callable, List, Optional, Tuple 
+from typing import Callable, List, Optional, Tuple
 
 
 def single_char_parser(char_list: List[str], text: str) -> Optional[Tuple[str, str]]:
