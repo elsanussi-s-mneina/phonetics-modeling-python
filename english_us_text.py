@@ -3,8 +3,9 @@ from typing import Final
 
 APPLICATION_TITLE: Final[str] = "Phonetics Modeling Program"
 
-MENU: Final[str] = \
-    """What do you want to accomplish?
+MENU: Final[
+    str
+] = """What do you want to accomplish?
   1) view the English phoneme inventory (as IPA graphemes).
   2) make a phoneme voiced.
   3) make a phoneme unvoiced.
@@ -28,39 +29,46 @@ USER_INPUT_START_SERVER: Final[str] = "8"
 
 PROMPT: Final[str] = "(PROMPT:) "
 
-SORRY_UNABLE_TO_CALCULATE: Final[str] = \
-    "Sorry: unable to calculate answer with that input."
+SORRY_UNABLE_TO_CALCULATE: Final[
+    str
+] = "Sorry: unable to calculate answer with that input."
 
-PHONEME_TO_DEVOICE_MESSAGE: Final[str] = \
-    """Type a phoneme using IPA symbols: and then press the enter key:
+PHONEME_TO_DEVOICE_MESSAGE: Final[
+    str
+] = """Type a phoneme using IPA symbols: and then press the enter key:
      and the computer will display
      the devoiced counterpart:"""
 
-PHONEME_TO_VOICE_MESSAGE: Final[str] = \
-    """Type a phoneme using IPA symbols: and then press the enter key:
+PHONEME_TO_VOICE_MESSAGE: Final[
+    str
+] = """Type a phoneme using IPA symbols: and then press the enter key:
      and the computer will display
      the voiced counterpart:"""
 
-PHONEME_TO_DESCRIBE_MESSAGE: Final[str] = \
-    """
+PHONEME_TO_DESCRIBE_MESSAGE: Final[
+    str
+] = """
     Type a phoneme using IPA symbols: and then press the enter key:
     and the computer will display
     its English description:"""
 
-PHONEME_TO_CALCULATE_SPE_MESSAGE: Final[str] = \
-    """
+PHONEME_TO_CALCULATE_SPE_MESSAGE: Final[
+    str
+] = """
     Type a phoneme using IPA symbols: and then press the enter key:
     and the computer will display
     its SPE features:"""
 
-IPA_TEXT_TO_DIVIDE_MESSAGE: Final[str] = \
-    """
+IPA_TEXT_TO_DIVIDE_MESSAGE: Final[
+    str
+] = """
     Type text using IPA symbols: and then press the enter key:
     and the computer will display
     the text you entered with separate phonemes on separate lines:"""
 
-PLEASE_READ_README_MESSAGE: Final[str] = \
-    "Please read README.md file for instructions on how to use."
+PLEASE_READ_README_MESSAGE: Final[
+    str
+] = "Please read README.md file for instructions on how to use."
 PROGRAM_TERMINATED_NORMALLY_MESSAGE: Final[str] = "Program terminated normally."
 USER_SELECTED_MESSAGE: Final[str] = "The user selected:"
 UNRECOGNIZED_SELECTION_MESSAGE: Final[str] = "Unrecognized selection. No action taken."
@@ -164,8 +172,9 @@ MAKE_A_PHONEME_VOICED_TEXT: Final[str] = "Make a phoneme voiced…"
 QUIT_TEXT: Final[str] = "Quit"
 MAKE_A_PHONEME_UNVOICED_TEXT: Final[str] = "Make a phoneme unvoiced…"
 DESCRIBE_PHONEME_TEXT: Final[str] = "Describe a phoneme…"
-GET_FEATURES_OF_PHONEME_TEXT: Final[str] = \
-    "Get sound patterns of English features of IPA transcription…"
+GET_FEATURES_OF_PHONEME_TEXT: Final[
+    str
+] = "Get sound patterns of English features of IPA transcription…"
 SPLIT_TRANSCRIPTION_TEXT: Final[str] = "Split IPA transcription text…"
 
 # Headers:
@@ -179,9 +188,9 @@ ENGLISH_PHONEME_INVENTORY_HEADER: Final[str] = "English Phoneme Inventory"
 INPUT_HEADER: Final[str] = "Input:"
 
 
-
-BEFORE_SERVER_START_MESSAGE: Final[str] =  \
-    """Starting server...
+BEFORE_SERVER_START_MESSAGE: Final[
+    str
+] = """Starting server...
     Server running... at port 8080 locally.
     Browse to http://localhost:8080/voice_phoneme/s
     to get the voiced phoneme alternative of [s].
@@ -190,11 +199,11 @@ BEFORE_SERVER_START_MESSAGE: Final[str] =  \
 
 
 UNRECOGNIZED_KIND_OF_PHONEME: Final[str] = "[Unrecognized kind of phonete!]"
-UNRECOGNIZED_VOCAL_FOLDS    : Final[str] = "[Unrecognized vocal folds!]"
-UNRECOGNIZED_AIRSTREAM      : Final[str] = "[Unrecognized airstream!]"
-UNRECOGNIZED_MANNER         : Final[str] = "[Unrecognized manner!]"
-UNRECOGNIZED_PLACE          : Final[str] = '[Error: unrecognized place!]'
-UNRECOGNIZED_VOWEL_LENGTH   : Final[str] = "[Unrecognized vowel length!]"
-UNRECOGNIZED_ROUNDING       : Final[str] = "[Unrecognized rounding!]"
-UNRECOGNIZED_VOWEL_HEIGHT   : Final[str] = "[Unrecognized vowel height!]"
-UNRECOGNIZED_VOWEL_BACKNESS : Final[str] = "[Unrecognized vowel backness!]"
+UNRECOGNIZED_VOCAL_FOLDS: Final[str] = "[Unrecognized vocal folds!]"
+UNRECOGNIZED_AIRSTREAM: Final[str] = "[Unrecognized airstream!]"
+UNRECOGNIZED_MANNER: Final[str] = "[Unrecognized manner!]"
+UNRECOGNIZED_PLACE: Final[str] = "[Error: unrecognized place!]"
+UNRECOGNIZED_VOWEL_LENGTH: Final[str] = "[Unrecognized vowel length!]"
+UNRECOGNIZED_ROUNDING: Final[str] = "[Unrecognized rounding!]"
+UNRECOGNIZED_VOWEL_HEIGHT: Final[str] = "[Unrecognized vowel height!]"
+UNRECOGNIZED_VOWEL_BACKNESS: Final[str] = "[Unrecognized vowel backness!]"

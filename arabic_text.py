@@ -4,8 +4,9 @@ from typing import Final
 APPLICATION_TITLE: Final[str] = "Phonetics Modeling Program"
 DIALOG_WINDOW_TITLE: Final[str] = "Request"
 
-MENU: Final[str] = \
-    """What do you want to accomplish?
+MENU: Final[
+    str
+] = """What do you want to accomplish?
   1) view the English phoneme inventory (as IPA graphemes).
   2) make a phoneme voiced.
   3) make a phoneme unvoiced.
@@ -26,33 +27,39 @@ USER_INPUT_OPEN_WINDOW: Final[str] = "7"
 
 PROMPT: Final[str] = "(PROMPT:) "
 
-SORRY_UNABLE_TO_CALCULATE: Final[str] = \
-    "Sorry: unable to calculate answer with that input."
+SORRY_UNABLE_TO_CALCULATE: Final[
+    str
+] = "Sorry: unable to calculate answer with that input."
 
-PHONEME_TO_DEVOICE_MESSAGE: Final[str] = \
-    """Type a phoneme using IPA symbols: and then press the enter key:
+PHONEME_TO_DEVOICE_MESSAGE: Final[
+    str
+] = """Type a phoneme using IPA symbols: and then press the enter key:
      and the computer will display
      the devoiced counterpart:"""
 
-PHONEME_TO_VOICE_MESSAGE: Final[str] = \
-    """Type a phoneme using IPA symbols: and then press the enter key:
+PHONEME_TO_VOICE_MESSAGE: Final[
+    str
+] = """Type a phoneme using IPA symbols: and then press the enter key:
      and the computer will display
      the voiced counterpart:"""
 
-PHONEME_TO_DESCRIBE_MESSAGE: Final[str] = \
-    """
+PHONEME_TO_DESCRIBE_MESSAGE: Final[
+    str
+] = """
     Type a phoneme using IPA symbols: and then press the enter key:
     and the computer will display
     its English description:"""
 
-PHONEME_TO_CALCULATE_SPE_MESSAGE: Final[str] = \
-    """
+PHONEME_TO_CALCULATE_SPE_MESSAGE: Final[
+    str
+] = """
     Type a phoneme using IPA symbols: and then press the enter key:
     and the computer will display
     its SPE features:"""
 
-IPA_TEXT_TO_DIVIDE_MESSAGE: Final[str] = \
-    """
+IPA_TEXT_TO_DIVIDE_MESSAGE: Final[
+    str
+] = """
     اطبع نص بالرموز ذات الألفباء الصواتية العالمية:
     ثم اضغط على مفتاح الإدخال:
     والحاسوب سيريك 
@@ -61,8 +68,9 @@ IPA_TEXT_TO_DIVIDE_MESSAGE: Final[str] = \
     and the computer will display
     the text you entered with separate phonemes on separate lines:"""
 
-PLEASE_READ_README_MESSAGE: Final[str] = \
-    "Please read README.md file for instructions on how to use."
+PLEASE_READ_README_MESSAGE: Final[
+    str
+] = "Please read README.md file for instructions on how to use."
 PROGRAM_TERMINATED_NORMALLY_MESSAGE: Final[str] = "Program terminated normally."
 USER_SELECTED_MESSAGE: Final[str] = "The user selected:"
 UNRECOGNIZED_SELECTION_MESSAGE: Final[str] = "Unrecognized selection. No action taken."
@@ -156,8 +164,9 @@ MAKE_A_PHONEME_VOICED_TEXT: Final[str] = "Make a phoneme voiced…"
 QUIT_TEXT: Final[str] = "Quit"
 MAKE_A_PHONEME_UNVOICED_TEXT: Final[str] = "Make a phoneme unvoiced…"
 DESCRIBE_PHONEME_TEXT: Final[str] = "Describe a phoneme…"
-GET_FEATURES_OF_PHONEME_TEXT: Final[str] = \
-    "Get sound patterns of English features of IPA transcription…"
+GET_FEATURES_OF_PHONEME_TEXT: Final[
+    str
+] = "Get sound patterns of English features of IPA transcription…"
 SPLIT_TRANSCRIPTION_TEXT: Final[str] = "Split IPA transcription text…"
 
 # Headers:

@@ -8,6 +8,7 @@ The API follows REST conventions.
 """
 
 from flask import Flask, jsonify, render_template
+
 # Flask is a third-party framework we use to be able
 # to handle HTTP requests conveniently.
 
@@ -16,9 +17,11 @@ from ipa import voiced_transcription, devoiced_transcription
 
 app = Flask(__name__)
 
+
 @app.route("/")
 def index() -> str:
     return render_template("index.html")
+
 
 @app.route("/voice_phoneme_j/<phoneme>", methods=["GET"])
 def voice_phoneme_javascript(phoneme: str) -> str:
@@ -65,6 +68,7 @@ def start_server():
     print(BEFORE_SERVER_START_MESSAGE)
     # app.run(host="0.0.0.0", port=8080)
     app.run(port=8080)
+
 
 if __name__ == "__main__":
     start_server()

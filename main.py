@@ -11,25 +11,40 @@ instead of via text.
 
 from typing import Callable
 
-from english_us_text import PHONEME_TO_DEVOICE_MESSAGE, PHONEME_TO_VOICE_MESSAGE, \
-    PHONEME_TO_DESCRIBE_MESSAGE, PHONEME_TO_CALCULATE_SPE_MESSAGE, \
-    IPA_TEXT_TO_DIVIDE_MESSAGE, PROMPT, PLEASE_READ_README_MESSAGE, \
-    PROGRAM_TERMINATED_NORMALLY_MESSAGE, USER_SELECTED_MESSAGE, \
-    USER_INPUT_VIEW_ENGLISH_PHONEME_INVENTORY, \
-    USER_INPUT_MAKE_A_PHONEME_UNVOICED, \
-    USER_INPUT_DESCRIBE_A_PHONEME_IN_ENGLISH, \
-    USER_INPUT_DESCRIBE_A_PHONEME_IN_SPE, \
-    USER_INPUT_CHUNK_IPA_BY_PHONEME, \
-    USER_INPUT_MAKE_A_PHONEME_VOICED, \
-    USER_INPUT_OPEN_WINDOW, \
-    UNRECOGNIZED_SELECTION_MESSAGE, \
-    NO_ANALYSIS_FOUND_MESSAGE, \
-    MENU, USER_INPUT_START_SERVER
-from lib_functions import (show_phonet)
-from ipa import ipa_text_to_phonet_list_report, analyze_transcription, construct_transcription, \
-    voiced_transcription, devoiced_transcription, describe_transcription, \
-    analyze_transcription_to_sound_patterns_of_english, english_phonet_inventory_report
-from lib_types import (Phonet)
+from english_us_text import (
+    PHONEME_TO_DEVOICE_MESSAGE,
+    PHONEME_TO_VOICE_MESSAGE,
+    PHONEME_TO_DESCRIBE_MESSAGE,
+    PHONEME_TO_CALCULATE_SPE_MESSAGE,
+    IPA_TEXT_TO_DIVIDE_MESSAGE,
+    PROMPT,
+    PLEASE_READ_README_MESSAGE,
+    PROGRAM_TERMINATED_NORMALLY_MESSAGE,
+    USER_SELECTED_MESSAGE,
+    USER_INPUT_VIEW_ENGLISH_PHONEME_INVENTORY,
+    USER_INPUT_MAKE_A_PHONEME_UNVOICED,
+    USER_INPUT_DESCRIBE_A_PHONEME_IN_ENGLISH,
+    USER_INPUT_DESCRIBE_A_PHONEME_IN_SPE,
+    USER_INPUT_CHUNK_IPA_BY_PHONEME,
+    USER_INPUT_MAKE_A_PHONEME_VOICED,
+    USER_INPUT_OPEN_WINDOW,
+    UNRECOGNIZED_SELECTION_MESSAGE,
+    NO_ANALYSIS_FOUND_MESSAGE,
+    MENU,
+    USER_INPUT_START_SERVER,
+)
+from lib_functions import show_phonet
+from ipa import (
+    ipa_text_to_phonet_list_report,
+    analyze_transcription,
+    construct_transcription,
+    voiced_transcription,
+    devoiced_transcription,
+    describe_transcription,
+    analyze_transcription_to_sound_patterns_of_english,
+    english_phonet_inventory_report,
+)
+from lib_types import Phonet
 from main_server import start_server
 from main_window import open_window
 
@@ -130,8 +145,10 @@ def prompt_for_phoneme_to_calculate_sound_patterns_of_english_features_from() ->
     and print those features.
     :return: None
     """
-    prompt_for_text_and_apply(analyze_transcription_to_sound_patterns_of_english,
-                              PHONEME_TO_CALCULATE_SPE_MESSAGE)
+    prompt_for_text_and_apply(
+        analyze_transcription_to_sound_patterns_of_english,
+        PHONEME_TO_CALCULATE_SPE_MESSAGE,
+    )
 
 
 def prompt_for_transcription_text_to_split() -> None:
@@ -141,7 +158,9 @@ def prompt_for_transcription_text_to_split() -> None:
     separate lines.
     :return: None
     """
-    prompt_for_text_and_apply(ipa_text_to_phonet_list_report, IPA_TEXT_TO_DIVIDE_MESSAGE)
+    prompt_for_text_and_apply(
+        ipa_text_to_phonet_list_report, IPA_TEXT_TO_DIVIDE_MESSAGE
+    )
 
 
 def main() -> None:
@@ -167,7 +186,7 @@ def acknowledge_and_respond(selection: str) -> None:
     :return: None
     """
     print()
-    print(' '.join([USER_SELECTED_MESSAGE, selection]))
+    print(" ".join([USER_SELECTED_MESSAGE, selection]))
     put_blank_line()
     respond_to_selection(selection)
 

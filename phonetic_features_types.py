@@ -4,10 +4,11 @@ from enum import unique, Enum, auto
 @unique
 class Polarity(Enum):
     """
-     Represents the '+' (plus) or '-' (minus)
-     of a binary feature. e.g. [+sonorant],
-     [-sonorant]
+    Represents the '+' (plus) or '-' (minus)
+    of a binary feature. e.g. [+sonorant],
+    [-sonorant]
     """
+
     PLUS = auto()
     MINUS = auto()
 

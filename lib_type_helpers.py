@@ -1,16 +1,28 @@
 """
 These functions are useful to facilitate programming using immutability.
 """
-from lib_types import Consonant, Phonet, VocalFolds, Vowel, VowelLength, \
-    Place, Manner, Airstream, SecondaryArticulation
+from lib_types import (
+    Consonant,
+    Phonet,
+    VocalFolds,
+    Vowel,
+    VowelLength,
+    Place,
+    Manner,
+    Airstream,
+    SecondaryArticulation,
+)
+
 
 def is_consonant(phone: Phonet) -> bool:
     """Whether a phone is a consonant"""
     return isinstance(phone, Consonant)
 
+
 def is_vowel(phone: Phonet) -> bool:
     """Whether a phone is a vowel"""
     return isinstance(phone, Vowel)
+
 
 def with_vocal_folds(vocal_folds: VocalFolds, phone: Phonet) -> Phonet:
     """
@@ -22,13 +34,11 @@ def with_vocal_folds(vocal_folds: VocalFolds, phone: Phonet) -> Phonet:
             phone.place,
             phone.manner,
             phone.airstream,
-            phone.secondary_articulation)
+            phone.secondary_articulation,
+        )
     return Vowel(
-        phone.height,
-        phone.backness,
-        phone.rounding,
-        vocal_folds,
-        phone.vowel_length)
+        phone.height, phone.backness, phone.rounding, vocal_folds, phone.vowel_length
+    )
 
 
 def with_place(place: Place, phone: Phonet) -> Phonet:
@@ -46,7 +56,8 @@ def with_place(place: Place, phone: Phonet) -> Phonet:
         place,
         phone.manner,
         phone.airstream,
-        phone.secondary_articulation)
+        phone.secondary_articulation,
+    )
 
 
 def with_manner(manner: Manner, phone: Phonet) -> Phonet:
@@ -64,7 +75,8 @@ def with_manner(manner: Manner, phone: Phonet) -> Phonet:
         phone.place,
         manner,
         phone.airstream,
-        phone.secondary_articulation)
+        phone.secondary_articulation,
+    )
 
 
 def with_airstream(airstream: Airstream, phone: Phonet) -> Phonet:
@@ -82,7 +94,8 @@ def with_airstream(airstream: Airstream, phone: Phonet) -> Phonet:
         phone.place,
         phone.manner,
         airstream,
-        phone.secondary_articulation)
+        phone.secondary_articulation,
+    )
 
 
 def with_vowel_length(vowel_length: VowelLength, phone: Phonet) -> Phonet:
@@ -96,15 +109,13 @@ def with_vowel_length(vowel_length: VowelLength, phone: Phonet) -> Phonet:
 
     # Make the vowel extra-short.
     return Vowel(
-        phone.height,
-        phone.backness,
-        phone.rounding,
-        phone.vocal_folds,
-        vowel_length)
+        phone.height, phone.backness, phone.rounding, phone.vocal_folds, vowel_length
+    )
 
 
-def with_secondary_articulation(secondary_articulation: SecondaryArticulation, \
-    phone: Phonet) -> Phonet:
+def with_secondary_articulation(
+    secondary_articulation: SecondaryArticulation, phone: Phonet
+) -> Phonet:
     """
     Change the secondary articulation of a consonant to a particular one.
     Ignore vowels.
@@ -119,7 +130,8 @@ def with_secondary_articulation(secondary_articulation: SecondaryArticulation, \
         phone.place,
         phone.manner,
         phone.airstream,
-        secondary_articulation)
+        secondary_articulation,
+    )
 
 
 def to_extra_short(phone: Phonet) -> Phonet:

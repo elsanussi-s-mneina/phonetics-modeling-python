@@ -5,9 +5,14 @@ Unit tests for lib_functions
 import unittest
 
 from lib_functions import is_glide
-from ipa import ipa_text_to_phonet_list_report, analyze_transcription, voiced_transcription, \
-    devoiced_transcription, analyze_transcription_to_sound_patterns_of_english, \
-    describe_transcription
+from ipa import (
+    ipa_text_to_phonet_list_report,
+    analyze_transcription,
+    voiced_transcription,
+    devoiced_transcription,
+    analyze_transcription_to_sound_patterns_of_english,
+    describe_transcription,
+)
 
 
 class TestLibFunctions(unittest.TestCase):
@@ -22,7 +27,9 @@ class TestLibFunctions(unittest.TestCase):
 
     def test_ipa_text_to_phonet_list_report__given_l(self) -> None:
         result = ipa_text_to_phonet_list_report("l")
-        expected = "/l/ voiced alveolar lateral approximant pulmonic egressive consonant"
+        expected = (
+            "/l/ voiced alveolar lateral approximant pulmonic egressive consonant"
+        )
         self.assertEqual(result, expected)
 
     def test_ipa_text_to_phonet_list_report__given_j(self) -> None:
@@ -31,59 +38,84 @@ class TestLibFunctions(unittest.TestCase):
         """
         result = ipa_text_to_phonet_list_report("j")
         expected = "/j/ voiced palatal approximant pulmonic egressive consonant"
-        self.assertEqual(result,
-                         expected)
+        self.assertEqual(result, expected)
 
     def test_ipa_text_to_phonet_list_report__given_one_affricate(self) -> None:
         result = ipa_text_to_phonet_list_report("t͡ʃ")
-        expected = "/t͡ʃ/ voiceless post-alveolar affricate pulmonic egressive consonant"
-        self.assertEqual(result, expected,
-                         msg="should be that [t͡ʃ] ..")
+        expected = (
+            "/t͡ʃ/ voiceless post-alveolar affricate pulmonic egressive consonant"
+        )
+        self.assertEqual(result, expected, msg="should be that [t͡ʃ] ..")
 
-    def test_ipa_text_to_phonet_list_report__given_one_affricate_accept_other_tie_bar(self) -> None:
+    def test_ipa_text_to_phonet_list_report__given_one_affricate_accept_other_tie_bar(
+        self,
+    ) -> None:
         result = ipa_text_to_phonet_list_report("t͜ʃ")
-        expected = "/t͜ʃ/ voiceless post-alveolar affricate pulmonic egressive consonant"
-        self.assertEqual(result, expected,
-                         msg="should accept opposite tie-bar")
+        expected = (
+            "/t͜ʃ/ voiceless post-alveolar affricate pulmonic egressive consonant"
+        )
+        self.assertEqual(result, expected, msg="should accept opposite tie-bar")
 
     def test_ipa_text_to_phonet_list_report__given_two_phonemes(self) -> None:
         result = ipa_text_to_phonet_list_report("kc")
-        expected = "/k/ voiceless velar plosive pulmonic egressive consonant\n" + \
-                   "/c/ voiceless palatal plosive pulmonic egressive consonant"
+        expected = (
+            "/k/ voiceless velar plosive pulmonic egressive consonant\n"
+            + "/c/ voiceless palatal plosive pulmonic egressive consonant"
+        )
         self.assertEqual(result, expected, msg="should be that [kc] has two lines")
 
-    def test_ipa_text_to_phonet_list_report__given_a_plosive_then_fricative(self) -> None:
+    def test_ipa_text_to_phonet_list_report__given_a_plosive_then_fricative(
+        self,
+    ) -> None:
         result = ipa_text_to_phonet_list_report("tʃ")
-        expected = "/t/ voiceless alveolar plosive pulmonic egressive consonant\n" + \
-                   "/ʃ/ voiceless post-alveolar fricative pulmonic egressive consonant"
-        self.assertEqual(result, expected, msg="should be that (tʃ) with no tie bar is 2 phonemes.")
+        expected = (
+            "/t/ voiceless alveolar plosive pulmonic egressive consonant\n"
+            + "/ʃ/ voiceless post-alveolar fricative pulmonic egressive consonant"
+        )
+        self.assertEqual(
+            result, expected, msg="should be that (tʃ) with no tie bar is 2 phonemes."
+        )
 
-    def test_ipa_text_to_phonet_list_report__given_2_affricates_and_a_plosive(self) -> None:
+    def test_ipa_text_to_phonet_list_report__given_2_affricates_and_a_plosive(
+        self,
+    ) -> None:
         result = ipa_text_to_phonet_list_report("t͜ʃdd͜ʒ")
-        expected = "/t͜ʃ/ voiceless post-alveolar affricate pulmonic egressive consonant\n" + \
-                   "/d/ voiced alveolar plosive pulmonic egressive consonant\n" + \
-                   "/d͜ʒ/ voiced post-alveolar affricate pulmonic egressive consonant"
-        self.assertEqual(result,
-                         expected,
-                         msg="should be that (t͜ʃdd͜ʒ) is properly split into 3 phonemes")
+        expected = (
+            "/t͜ʃ/ voiceless post-alveolar affricate pulmonic egressive consonant\n"
+            + "/d/ voiced alveolar plosive pulmonic egressive consonant\n"
+            + "/d͜ʒ/ voiced post-alveolar affricate pulmonic egressive consonant"
+        )
+        self.assertEqual(
+            result,
+            expected,
+            msg="should be that (t͜ʃdd͜ʒ) is properly split into 3 phonemes",
+        )
 
     def test_ipa_text_to_phonet_list_report__four_phonemes_two_affricates(self) -> None:
         result = ipa_text_to_phonet_list_report("t͜ʃdd͜ʒʒ")
-        expected = "/t͜ʃ/ voiceless post-alveolar affricate pulmonic egressive consonant\n" + \
-                   "/d/ voiced alveolar plosive pulmonic egressive consonant\n" + \
-                   "/d͜ʒ/ voiced post-alveolar affricate pulmonic egressive consonant\n" + \
-                   "/ʒ/ voiced post-alveolar fricative pulmonic egressive consonant"
-        self.assertEqual(result,
-                         expected,
-                         msg="should be that (t͜ʃdd͜ʒʒ) is properly split into 4 phonemes")
+        expected = (
+            "/t͜ʃ/ voiceless post-alveolar affricate pulmonic egressive consonant\n"
+            + "/d/ voiced alveolar plosive pulmonic egressive consonant\n"
+            + "/d͜ʒ/ voiced post-alveolar affricate pulmonic egressive consonant\n"
+            + "/ʒ/ voiced post-alveolar fricative pulmonic egressive consonant"
+        )
+        self.assertEqual(
+            result,
+            expected,
+            msg="should be that (t͜ʃdd͜ʒʒ) is properly split into 4 phonemes",
+        )
 
     def test_is_glide_j(self) -> None:
         result = is_glide(analyze_transcription("j"))
-        self.assertTrue(result, "should be that: [j] the voiced palatal approximant is a glide.")
+        self.assertTrue(
+            result, "should be that: [j] the voiced palatal approximant is a glide."
+        )
 
     def test_is_glide_2(self) -> None:
         result = is_glide(analyze_transcription("ʝ"))
-        self.assertFalse(result, "should be that: [ʝ] the voiced palatal fricative is not a glide.")
+        self.assertFalse(
+            result, "should be that: [ʝ] the voiced palatal fricative is not a glide."
+        )
 
     def test_is_glide_3(self) -> None:
         result = is_glide(analyze_transcription("w"))
@@ -99,14 +131,18 @@ class TestLibFunctions(unittest.TestCase):
 
     def sound_patterns_of_english_case_t(self) -> None:
         result = analyze_transcription_to_sound_patterns_of_english("t")
-        expected = "[+consonantal; -syllabic; -continuant; -sonorant; +anterior; " + \
-                   "-distributed; coronal; -round; -voice]"
+        expected = (
+            "[+consonantal; -syllabic; -continuant; -sonorant; +anterior; "
+            + "-distributed; coronal; -round; -voice]"
+        )
         self.assertEqual(result, expected)
 
     def sound_patterns_of_english_case_d(self) -> None:
         result = analyze_transcription_to_sound_patterns_of_english("d")
-        expected = "[+consonantal; -syllabic; -continuant; -sonorant; +anterior; " + \
-                   "-distributed; coronal; -round; +voice]"
+        expected = (
+            "[+consonantal; -syllabic; -continuant; -sonorant; +anterior; "
+            + "-distributed; coronal; -round; +voice]"
+        )
         self.assertEqual(result, expected)
 
     def x_voiced_is_y(self, unvoiced_phoneme: str, voiced_phoneme: str) -> None:
@@ -115,16 +151,31 @@ class TestLibFunctions(unittest.TestCase):
         self.assertEqual(
             result,
             expected,
-            msg="should be that: [" + unvoiced_phoneme + "] voiced is [" + voiced_phoneme + "]")
+            msg="should be that: ["
+            + unvoiced_phoneme
+            + "] voiced is ["
+            + voiced_phoneme
+            + "]",
+        )
 
     def x_devoiced_is_y(self, unvoiced_phoneme: str, voiced_phoneme: str) -> None:
         result = devoiced_transcription(voiced_phoneme)
         expected = unvoiced_phoneme
-        self.assertEqual(result, expected,
-                         msg=("should be that: [" + voiced_phoneme
-                              + "] devoiced is [" + unvoiced_phoneme + "]"))
+        self.assertEqual(
+            result,
+            expected,
+            msg=(
+                "should be that: ["
+                + voiced_phoneme
+                + "] devoiced is ["
+                + unvoiced_phoneme
+                + "]"
+            ),
+        )
 
-    def is_voiceless_counterpart_of(self, unvoiced_phoneme: str, voiced_phoneme: str) -> None:
+    def is_voiceless_counterpart_of(
+        self, unvoiced_phoneme: str, voiced_phoneme: str
+    ) -> None:
         """
         Tests voicing and devoicing a phoneme.
         :param unvoiced_phoneme: the unvoiced phoneme
@@ -400,21 +451,30 @@ class TestLibFunctions(unittest.TestCase):
         voicing and devoicing a phoneme (when no change (idempotency))
         :return: None
         """
-        self.assertEqual(devoiced_transcription("q"),
-                         "q",
-                         msg="should be that: [q] devoiced is the same as itself")
-        self.assertEqual(voiced_transcription("ɢ"),
-                         "ɢ",
-                         msg="should be that: [ɢ] voiced is the same as itself")
-        self.assertEqual(voiced_transcription(voiced_transcription("k")),
-                         voiced_transcription("k"),
-                         msg="voicing something twice is the same as voicing it once")
-        self.assertEqual(voiced_transcription(voiced_transcription("g")),
-                         voiced_transcription("g"),
-                         msg="[g]")
-        self.assertEqual(devoiced_transcription(devoiced_transcription("k")),
-                         devoiced_transcription("k"))
-
+        self.assertEqual(
+            devoiced_transcription("q"),
+            "q",
+            msg="should be that: [q] devoiced is the same as itself",
+        )
+        self.assertEqual(
+            voiced_transcription("ɢ"),
+            "ɢ",
+            msg="should be that: [ɢ] voiced is the same as itself",
+        )
+        self.assertEqual(
+            voiced_transcription(voiced_transcription("k")),
+            voiced_transcription("k"),
+            msg="voicing something twice is the same as voicing it once",
+        )
+        self.assertEqual(
+            voiced_transcription(voiced_transcription("g")),
+            voiced_transcription("g"),
+            msg="[g]",
+        )
+        self.assertEqual(
+            devoiced_transcription(devoiced_transcription("k")),
+            devoiced_transcription("k"),
+        )
 
     def test_labialized_t(self) -> None:
         """
@@ -440,7 +500,6 @@ class TestLibFunctions(unittest.TestCase):
         result = describe_transcription("tʲ")
         expected = "voiceless palatalized alveolar plosive pulmonic egressive consonant"
         self.assertEqual(result, expected)
-
 
     def test_palatalized_r(self) -> None:
         """
@@ -469,7 +528,9 @@ class TestLibFunctions(unittest.TestCase):
     def test_palatalized_t(self) -> None:
         """case: t pharyngealized"""
         result = describe_transcription("tˤ")
-        expected = "voiceless pharyngealized alveolar plosive pulmonic egressive consonant"
+        expected = (
+            "voiceless pharyngealized alveolar plosive pulmonic egressive consonant"
+        )
         self.assertEqual(result, expected)
 
     def test_palatalized_r(self) -> None:
@@ -526,7 +587,6 @@ class TestLibFunctions(unittest.TestCase):
         actual = describe_transcription("i̥ˑ")
         self.assertEqual(expected, actual)
 
-
     def test_voiceless_half_long_i_vowel(self) -> None:
         """
         case [ĭ̥]
@@ -535,7 +595,9 @@ class TestLibFunctions(unittest.TestCase):
         actual = describe_transcription("ĭ̥")
         self.assertEqual(expected, actual)
 
-    def test_ʑ̬ʰˤ_is_the_representation_of_the_voiced_aspirated_pharyngealized_alveolo_palatal_fricative_pulmonic_egressive_consonant(self):
+    def test_ʑ̬ʰˤ_is_the_representation_of_the_voiced_aspirated_pharyngealized_alveolo_palatal_fricative_pulmonic_egressive_consonant(
+        self,
+    ):
         expected = "voiced aspirated pharyngealized alveolo-palatal fricative pulmonic egressive consonant"
         actual = describe_transcription("ʑ̬ʰˤ")
         self.assertEqual(actual, expected)

@@ -5,56 +5,130 @@ as Sound Patterns of English features.
 
 from typing import List, Optional
 
-from english_us_text import (PLOSIVE_MANNER_TEXT, NASAL_MANNER_TEXT, TRILL_MANNER_TEXT,
-                             TAP_OR_FLAP_MANNER_TEXT, APPROXIMANT_MANNER_TEXT,
-                             FRICATIVE_MANNER_TEXT,
-                             AFFRICATE_MANNER_TEXT, LATERAL_FRICATIVE_MANNER_TEXT,
-                             LATERAL_APPROXIMANT_MANNER_TEXT,
-                             LATERAL_FLAP_MANNER_TEXT, LATERAL_MANNER_TEXT,
-                             CREAKY_VOICED_VOCAL_FOLDS_TEXT, IMPLOSIVE_AIRSTREAM_TEXT,
-                             CLICK_AIRSTREAM_TEXT, PULMONIC_EGRESSIVE_AIRSTREAM_TEXT,
-                             PALATOALVEOLAR_PLACE_TEXT, ALVEOLOPALATAL_PLACE_TEXT,
-                             LABIALPALATAL_PLACE_TEXT,
-                             LABIALVELAR_PLACE_TEXT, EPIGLOTTAL_PLACE_TEXT, GLOTTAL_PLACE_TEXT,
-                             PHARYNGEAL_PLACE_TEXT, UVULAR_PLACE_TEXT, VELAR_PLACE_TEXT,
-                             PALATAL_PLACE_TEXT, RETROFLEX_PLACE_TEXT, POSTALVEOLAR_PLACE_TEXT,
-                             ALVEOLAR_PLACE_TEXT, DENTAL_PLACE_TEXT, LABIODENTAL_PLACE_TEXT,
-                             BILABIAL_PLACE_TEXT, UNROUNDED_ROUNDING_TEXT, ROUNDED_ROUNDING_TEXT,
-                             OPEN_HEIGHT_TEXT, NEAR_OPEN_HEIGHT_TEXT, OPEN_MID_HEIGHT_TEXT,
-                             MID_HEIGHT_TEXT, CLOSE_MID_HEIGHT_TEXT, NEAR_CLOSE_HEIGHT_TEXT,
-                             CLOSE_HEIGHT_TEXT, BACK_BACKNESS_TEXT, CENTRAL_BACKNESS_TEXT,
-                             FRONT_BACKNESS_TEXT,
-                             VOICELESS_ASPIRATED_VOCAL_FOLDS_TEXT,
-                             VOICED_ASPIRATED_VOCAL_FOLDS_TEXT, VOICELESS_VOCAL_FOLDS_TEXT,
-                             VOICED_VOCAL_FOLDS_TEXT, CONSONANT_TEXT, VOWEL_TEXT, LABIALIZED_TEXT,
-                             PALATALIZED_TEXT, VELARIZED_TEXT, PHARYNGEALIZED_TEXT,
-                             EXTRA_SHORT_TEXT, HALF_LONG_TEXT, LONG_TEXT,
-                             UNRECOGNIZED_KIND_OF_PHONEME,
-                             UNRECOGNIZED_VOCAL_FOLDS,
-                             UNRECOGNIZED_AIRSTREAM,
-                             UNRECOGNIZED_MANNER,
-                             UNRECOGNIZED_PLACE,
-                             UNRECOGNIZED_VOWEL_LENGTH,
-                             UNRECOGNIZED_ROUNDING,
-                             UNRECOGNIZED_VOWEL_HEIGHT,
-                             UNRECOGNIZED_VOWEL_BACKNESS)
-from lib_types import (Phonet, Height, Backness, Rounding, VocalFolds, Vowel, Consonant, Place,
-                       Manner, Airstream,
-                       MultiPlace, PhonetInventory,
-                       UnmarkableConsonant, UnmarkableVowel,
-                       UnmarkablePlace, UnmarkableVocalFolds, MarkedVocalFolds, UnmarkedVocalFolds,
-                       UnmarkedHeight, UnmarkedBackness, MarkedManner, MarkedPlace, UnmarkedPlace,
-                       UnmarkedManner, UnmarkableManner, MarkedBackness, MarkedHeight,
-                       UnmarkableHeight, UnmarkableBackness, UnmarkableAirstream, MarkedAirstream,
-                       UnmarkedAirstream, UnmarkedRounding, MarkedRounding, UnmarkablePhonet,
-                       UnmarkableRounding, UnmarkedSecondaryArticulation,
-                       height_states, backness_states, rounding_states,
-                       airstream_states, manner_states, place_states, vocal_fold_states,
-                       SecondaryArticulation, VowelLength, secondary_articulation_states,
-                       vowel_length_states, MarkedSecondaryArticulation,
-                       UnmarkableSecondaryArticulation, MarkedVowelLength, UnmarkableVowelLength)
+from english_us_text import (
+    PLOSIVE_MANNER_TEXT,
+    NASAL_MANNER_TEXT,
+    TRILL_MANNER_TEXT,
+    TAP_OR_FLAP_MANNER_TEXT,
+    APPROXIMANT_MANNER_TEXT,
+    FRICATIVE_MANNER_TEXT,
+    AFFRICATE_MANNER_TEXT,
+    LATERAL_FRICATIVE_MANNER_TEXT,
+    LATERAL_APPROXIMANT_MANNER_TEXT,
+    LATERAL_FLAP_MANNER_TEXT,
+    LATERAL_MANNER_TEXT,
+    CREAKY_VOICED_VOCAL_FOLDS_TEXT,
+    IMPLOSIVE_AIRSTREAM_TEXT,
+    CLICK_AIRSTREAM_TEXT,
+    PULMONIC_EGRESSIVE_AIRSTREAM_TEXT,
+    PALATOALVEOLAR_PLACE_TEXT,
+    ALVEOLOPALATAL_PLACE_TEXT,
+    LABIALPALATAL_PLACE_TEXT,
+    LABIALVELAR_PLACE_TEXT,
+    EPIGLOTTAL_PLACE_TEXT,
+    GLOTTAL_PLACE_TEXT,
+    PHARYNGEAL_PLACE_TEXT,
+    UVULAR_PLACE_TEXT,
+    VELAR_PLACE_TEXT,
+    PALATAL_PLACE_TEXT,
+    RETROFLEX_PLACE_TEXT,
+    POSTALVEOLAR_PLACE_TEXT,
+    ALVEOLAR_PLACE_TEXT,
+    DENTAL_PLACE_TEXT,
+    LABIODENTAL_PLACE_TEXT,
+    BILABIAL_PLACE_TEXT,
+    UNROUNDED_ROUNDING_TEXT,
+    ROUNDED_ROUNDING_TEXT,
+    OPEN_HEIGHT_TEXT,
+    NEAR_OPEN_HEIGHT_TEXT,
+    OPEN_MID_HEIGHT_TEXT,
+    MID_HEIGHT_TEXT,
+    CLOSE_MID_HEIGHT_TEXT,
+    NEAR_CLOSE_HEIGHT_TEXT,
+    CLOSE_HEIGHT_TEXT,
+    BACK_BACKNESS_TEXT,
+    CENTRAL_BACKNESS_TEXT,
+    FRONT_BACKNESS_TEXT,
+    VOICELESS_ASPIRATED_VOCAL_FOLDS_TEXT,
+    VOICED_ASPIRATED_VOCAL_FOLDS_TEXT,
+    VOICELESS_VOCAL_FOLDS_TEXT,
+    VOICED_VOCAL_FOLDS_TEXT,
+    CONSONANT_TEXT,
+    VOWEL_TEXT,
+    LABIALIZED_TEXT,
+    PALATALIZED_TEXT,
+    VELARIZED_TEXT,
+    PHARYNGEALIZED_TEXT,
+    EXTRA_SHORT_TEXT,
+    HALF_LONG_TEXT,
+    LONG_TEXT,
+    UNRECOGNIZED_KIND_OF_PHONEME,
+    UNRECOGNIZED_VOCAL_FOLDS,
+    UNRECOGNIZED_AIRSTREAM,
+    UNRECOGNIZED_MANNER,
+    UNRECOGNIZED_PLACE,
+    UNRECOGNIZED_VOWEL_LENGTH,
+    UNRECOGNIZED_ROUNDING,
+    UNRECOGNIZED_VOWEL_HEIGHT,
+    UNRECOGNIZED_VOWEL_BACKNESS,
+)
+from lib_types import (
+    Phonet,
+    Height,
+    Backness,
+    Rounding,
+    VocalFolds,
+    Vowel,
+    Consonant,
+    Place,
+    Manner,
+    Airstream,
+    MultiPlace,
+    PhonetInventory,
+    UnmarkableConsonant,
+    UnmarkableVowel,
+    UnmarkablePlace,
+    UnmarkableVocalFolds,
+    MarkedVocalFolds,
+    UnmarkedVocalFolds,
+    UnmarkedHeight,
+    UnmarkedBackness,
+    MarkedManner,
+    MarkedPlace,
+    UnmarkedPlace,
+    UnmarkedManner,
+    UnmarkableManner,
+    MarkedBackness,
+    MarkedHeight,
+    UnmarkableHeight,
+    UnmarkableBackness,
+    UnmarkableAirstream,
+    MarkedAirstream,
+    UnmarkedAirstream,
+    UnmarkedRounding,
+    MarkedRounding,
+    UnmarkablePhonet,
+    UnmarkableRounding,
+    UnmarkedSecondaryArticulation,
+    height_states,
+    backness_states,
+    rounding_states,
+    airstream_states,
+    manner_states,
+    place_states,
+    vocal_fold_states,
+    SecondaryArticulation,
+    VowelLength,
+    secondary_articulation_states,
+    vowel_length_states,
+    MarkedSecondaryArticulation,
+    UnmarkableSecondaryArticulation,
+    MarkedVowelLength,
+    UnmarkableVowelLength,
+)
 
 from lib_type_helpers import is_consonant, is_vowel, with_vocal_folds
+
 
 def equivalent_in_place(place_1: Place, place_2: Place) -> bool:
     """
@@ -148,7 +222,10 @@ def voiced_phonet(phone: Phonet) -> Optional[Phonet]:
     if is_consonant(phone):
         if phone.vocal_folds == VocalFolds.VOICELESS_ASPIRATED:
             return with_vocal_folds(VocalFolds.VOICED_ASPIRATED, phone)
-        if phone.vocal_folds == VocalFolds.VOICELESS or phone.vocal_folds == VocalFolds.VOICED:
+        if (
+            phone.vocal_folds == VocalFolds.VOICELESS
+            or phone.vocal_folds == VocalFolds.VOICED
+        ):
             return with_vocal_folds(VocalFolds.VOICED, phone)
         if phone.vocal_folds == VocalFolds.VOICED_ASPIRATED:
             return with_vocal_folds(VocalFolds.VOICED_ASPIRATED, phone)
@@ -189,11 +266,17 @@ def spirantized_phonet(phone: Phonet) -> Phonet:
         airstream = phone.airstream
         secondary_articulation = phone.secondary_articulation
         if phone.place == Place.ALVEOLAR:
-            return Consonant(vocal_folds, Place.DENTAL, Manner.FRICATIVE, airstream,
-                             secondary_articulation)
+            return Consonant(
+                vocal_folds,
+                Place.DENTAL,
+                Manner.FRICATIVE,
+                airstream,
+                secondary_articulation,
+            )
         place = phone.place
-        return Consonant(vocal_folds, place, Manner.FRICATIVE, airstream,
-                         secondary_articulation)
+        return Consonant(
+            vocal_folds, place, Manner.FRICATIVE, airstream, secondary_articulation
+        )
     return phone
 
 
@@ -227,7 +310,9 @@ def unmark_manner(manner_1: Manner, manner_2: Manner) -> UnmarkableManner:
     return UnmarkedManner()
 
 
-def unmark_airstream(airstream_1: Airstream, airstream_2: Airstream) -> UnmarkableAirstream:
+def unmark_airstream(
+    airstream_1: Airstream, airstream_2: Airstream
+) -> UnmarkableAirstream:
     """
     chooses either a wildcard value, or a specific non-wildcard value
     for airstream mechanism.
@@ -266,8 +351,10 @@ def unmark_rounding(rounding_1: Rounding, rounding_2: Rounding) -> UnmarkableRou
         return MarkedRounding(rounding_1)
     return UnmarkedRounding()
 
-def unmark_secondary_articulation(sa_1: SecondaryArticulation, sa_2: SecondaryArticulation) \
-       -> UnmarkableSecondaryArticulation:
+
+def unmark_secondary_articulation(
+    sa_1: SecondaryArticulation, sa_2: SecondaryArticulation
+) -> UnmarkableSecondaryArticulation:
     """
     chooses either a wildcard value, or a specific non-wildcard value
     for secondary articulation.
@@ -284,23 +371,36 @@ def unmark_differences(phone_1: Phonet, phone_2: Phonet) -> UnmarkablePhonet:
     when the property differs between the phonetes.
     """
     if is_consonant(phone_1) and is_consonant(phone_2):
-        vocal_folds: UnmarkableVocalFolds = unmark_voice(phone_1.vocal_folds, phone_2.vocal_folds)
+        vocal_folds: UnmarkableVocalFolds = unmark_voice(
+            phone_1.vocal_folds, phone_2.vocal_folds
+        )
         place: UnmarkablePlace = unmark_place(phone_1.place, phone_2.place)
         manner: UnmarkableManner = unmark_manner(phone_1.manner, phone_2.manner)
-        airstream: UnmarkableAirstream = unmark_airstream(phone_1.airstream, phone_2.airstream)
-        secondary_articulation: UnmarkableSecondaryArticulation = unmark_secondary_articulation(
-            phone_1.secondary_articulation,
-            phone_2.secondary_articulation)
-        return UnmarkableConsonant(vocal_folds, place, manner, airstream, secondary_articulation)
+        airstream: UnmarkableAirstream = unmark_airstream(
+            phone_1.airstream, phone_2.airstream
+        )
+        secondary_articulation: UnmarkableSecondaryArticulation = (
+            unmark_secondary_articulation(
+                phone_1.secondary_articulation, phone_2.secondary_articulation
+            )
+        )
+        return UnmarkableConsonant(
+            vocal_folds, place, manner, airstream, secondary_articulation
+        )
     if is_vowel(phone_1) and is_consonant(phone_2):
-        vocal_folds: UnmarkableVocalFolds = unmark_voice(phone_1.vocal_folds, phone_2.vocal_folds)
-        return UnmarkableVowel(UnmarkedHeight(), UnmarkedBackness(), UnmarkedRounding(),
-                               vocal_folds)
+        vocal_folds: UnmarkableVocalFolds = unmark_voice(
+            phone_1.vocal_folds, phone_2.vocal_folds
+        )
+        return UnmarkableVowel(
+            UnmarkedHeight(), UnmarkedBackness(), UnmarkedRounding(), vocal_folds
+        )
     if is_consonant(phone_1) and is_vowel(phone_2):
         return unmark_differences(phone_1, phone_2)
 
     # Both are vowels:
-    vocal_folds: UnmarkableVocalFolds = unmark_voice(phone_1.vocal_folds, phone_2.vocal_folds)
+    vocal_folds: UnmarkableVocalFolds = unmark_voice(
+        phone_1.vocal_folds, phone_2.vocal_folds
+    )
     height: UnmarkableHeight = unmark_height(phone_1.height, phone_2.height)
     backness: UnmarkableBackness = unmark_backness(phone_1.backness, phone_2.backness)
     rounding: UnmarkableRounding = unmark_rounding(phone_1.rounding, phone_2.rounding)
@@ -354,8 +454,9 @@ def similar_in_airstream(airstream_1: UnmarkableAirstream) -> List[Airstream]:
     return airstream_states
 
 
-def similar_in_secondary_articulation(secondary_articulation_1: UnmarkableSecondaryArticulation) \
-      -> List[SecondaryArticulation]:
+def similar_in_secondary_articulation(
+    secondary_articulation_1: UnmarkableSecondaryArticulation,
+) -> List[SecondaryArticulation]:
     """
     If the value is a wildcard value, return
     all possible secondary articulation values, otherwise
@@ -418,15 +519,17 @@ def similar_consonants_to(phonet_1: UnmarkableConsonant) -> List[Phonet]:
     place: List[Place] = similar_in_place(phonet_1.place)
     manner: List[Manner] = similar_in_manner(phonet_1.manner)
     airstream: List[Airstream] = similar_in_airstream(phonet_1.airstream)
-    secondary_articulation: List[SecondaryArticulation] = \
-        similar_in_secondary_articulation(phonet_1.secondary_articulation)
-    return [Consonant(v, p, m, a, s)
-            for p in place
-            for v in vocal_folds
-            for m in manner
-            for a in airstream
-            for s in secondary_articulation
-            ]
+    secondary_articulation: List[
+        SecondaryArticulation
+    ] = similar_in_secondary_articulation(phonet_1.secondary_articulation)
+    return [
+        Consonant(v, p, m, a, s)
+        for p in place
+        for v in vocal_folds
+        for m in manner
+        for a in airstream
+        for s in secondary_articulation
+    ]
 
 
 def similar_vowels_to(phonet_1: UnmarkableVowel) -> List[Phonet]:
@@ -438,13 +541,14 @@ def similar_vowels_to(phonet_1: UnmarkableVowel) -> List[Phonet]:
     backness: List[Backness] = similar_in_backness(phonet_1.backness)
     rounding: List[Rounding] = similar_in_rounding(phonet_1.rounding)
     vowel_length: List[VowelLength] = similar_in_vowel_length(phonet_1.vowel_length)
-    return [Vowel(h, b, r, v, vl)
-            for h in height
-            for b in backness
-            for r in rounding
-            for v in vocal_folds
-            for vl in vowel_length
-            ]
+    return [
+        Vowel(h, b, r, v, vl)
+        for h in height
+        for b in backness
+        for r in rounding
+        for v in vocal_folds
+        for vl in vowel_length
+    ]
 
 
 def similar_phonemes_to(phonet_1: UnmarkablePhonet) -> List[Phonet]:
@@ -464,74 +568,105 @@ def impossible(phone: Phonet) -> bool:
     considered impossible according to the IPA (pulmonic) consonants chart.
     Does not work for other values.
     """
-    if (is_consonant(phone) and phone.vocal_folds == VocalFolds.VOICED
-            and phone.place == Place.PHARYNGEAL
-            and phone.manner == Manner.PLOSIVE
-            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
+    if (
+        is_consonant(phone)
+        and phone.vocal_folds == VocalFolds.VOICED
+        and phone.place == Place.PHARYNGEAL
+        and phone.manner == Manner.PLOSIVE
+        and phone.airstream == Airstream.PULMONIC_EGRESSIVE
+    ):
         return True
-    if (is_consonant(phone) and phone.vocal_folds == VocalFolds.VOICED_ASPIRATED
-            and phone.place == Place.PHARYNGEAL
-            and phone.manner == Manner.PLOSIVE
-            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
+    if (
+        is_consonant(phone)
+        and phone.vocal_folds == VocalFolds.VOICED_ASPIRATED
+        and phone.place == Place.PHARYNGEAL
+        and phone.manner == Manner.PLOSIVE
+        and phone.airstream == Airstream.PULMONIC_EGRESSIVE
+    ):
         return True
-    if (is_consonant(phone) and phone.vocal_folds == VocalFolds.VOICELESS
-            and phone.place == Place.GLOTTAL
-            and phone.manner == Manner.PLOSIVE
-            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
+    if (
+        is_consonant(phone)
+        and phone.vocal_folds == VocalFolds.VOICELESS
+        and phone.place == Place.GLOTTAL
+        and phone.manner == Manner.PLOSIVE
+        and phone.airstream == Airstream.PULMONIC_EGRESSIVE
+    ):
         return False  # [ʔ] is not impossible.
-    if (is_consonant(phone)
-            and phone.place == Place.GLOTTAL
-            and phone.manner == Manner.FRICATIVE
-            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
+    if (
+        is_consonant(phone)
+        and phone.place == Place.GLOTTAL
+        and phone.manner == Manner.FRICATIVE
+        and phone.airstream == Airstream.PULMONIC_EGRESSIVE
+    ):
         return False  # [h] and [ɦ] are not impossible.
-    if (is_consonant(phone)
-            and phone.place == Place.GLOTTAL
-            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
+    if (
+        is_consonant(phone)
+        and phone.place == Place.GLOTTAL
+        and phone.airstream == Airstream.PULMONIC_EGRESSIVE
+    ):
         return True  # all other pulmonary egressive consonants are impossible..
-    if (is_consonant(phone)
-            and phone.place == Place.PHARYNGEAL
-            and phone.manner == Manner.NASAL
-            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
+    if (
+        is_consonant(phone)
+        and phone.place == Place.PHARYNGEAL
+        and phone.manner == Manner.NASAL
+        and phone.airstream == Airstream.PULMONIC_EGRESSIVE
+    ):
         return True
-    if (is_consonant(phone)
-            and phone.place == Place.PHARYNGEAL
-            and phone.manner == Manner.LATERAL_FRICATIVE
-            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
+    if (
+        is_consonant(phone)
+        and phone.place == Place.PHARYNGEAL
+        and phone.manner == Manner.LATERAL_FRICATIVE
+        and phone.airstream == Airstream.PULMONIC_EGRESSIVE
+    ):
         return True
-    if (is_consonant(phone)
-            and phone.place == Place.PHARYNGEAL
-            and phone.manner == Manner.LATERAL_APPROXIMANT
-            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
+    if (
+        is_consonant(phone)
+        and phone.place == Place.PHARYNGEAL
+        and phone.manner == Manner.LATERAL_APPROXIMANT
+        and phone.airstream == Airstream.PULMONIC_EGRESSIVE
+    ):
         return True
-    if (is_consonant(phone)
-            and phone.place == Place.VELAR
-            and phone.manner == Manner.TRILL
-            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
+    if (
+        is_consonant(phone)
+        and phone.place == Place.VELAR
+        and phone.manner == Manner.TRILL
+        and phone.airstream == Airstream.PULMONIC_EGRESSIVE
+    ):
         return True
-    if (is_consonant(phone)
-            and phone.place == Place.VELAR
-            and phone.manner == Manner.TAP_OR_FLAP
-            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
+    if (
+        is_consonant(phone)
+        and phone.place == Place.VELAR
+        and phone.manner == Manner.TAP_OR_FLAP
+        and phone.airstream == Airstream.PULMONIC_EGRESSIVE
+    ):
         return True
-    if (is_consonant(phone)
-            and phone.place == Place.BILABIAL
-            and phone.manner == Manner.LATERAL_FRICATIVE
-            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
+    if (
+        is_consonant(phone)
+        and phone.place == Place.BILABIAL
+        and phone.manner == Manner.LATERAL_FRICATIVE
+        and phone.airstream == Airstream.PULMONIC_EGRESSIVE
+    ):
         return True
-    if (is_consonant(phone)
-            and phone.place == Place.BILABIAL
-            and phone.manner == Manner.LATERAL_APPROXIMANT
-            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
+    if (
+        is_consonant(phone)
+        and phone.place == Place.BILABIAL
+        and phone.manner == Manner.LATERAL_APPROXIMANT
+        and phone.airstream == Airstream.PULMONIC_EGRESSIVE
+    ):
         return True
-    if (is_consonant(phone)
-            and phone.place == Place.LABIODENTAL
-            and phone.manner == Manner.LATERAL_FRICATIVE
-            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
+    if (
+        is_consonant(phone)
+        and phone.place == Place.LABIODENTAL
+        and phone.manner == Manner.LATERAL_FRICATIVE
+        and phone.airstream == Airstream.PULMONIC_EGRESSIVE
+    ):
         return True
-    if (is_consonant(phone)
-            and phone.place == Place.LABIODENTAL
-            and phone.manner == Manner.LATERAL_APPROXIMANT
-            and phone.airstream == Airstream.PULMONIC_EGRESSIVE):
+    if (
+        is_consonant(phone)
+        and phone.place == Place.LABIODENTAL
+        and phone.manner == Manner.LATERAL_APPROXIMANT
+        and phone.airstream == Airstream.PULMONIC_EGRESSIVE
+    ):
         return True
     return False  # Everything else is assumed to be possible.
 
@@ -549,7 +684,9 @@ def retract_phonet(phonete: Optional[Phonet]) -> Optional[Phonet]:
         manner = phonete.manner
         airstream = phonete.airstream
         secondary_articulation = phonete.secondary_articulation
-        return Consonant(voicing, retracted_place(place), manner, airstream, secondary_articulation)
+        return Consonant(
+            voicing, retracted_place(place), manner, airstream, secondary_articulation
+        )
     return None
 
 
@@ -583,12 +720,17 @@ def is_glide(phone: Phonet) -> bool:
     """
     Whether a segment is a glide.
     """
-    if is_consonant(phone) and phone.manner == Manner.APPROXIMANT \
-            and phone.airstream == Airstream.PULMONIC_EGRESSIVE:
-        return phone.place in [Place.PALATAL,
-                               Place.LABIAL_VELAR,
-                               Place.LABIAL_PALATAL,
-                               Place.VELAR]
+    if (
+        is_consonant(phone)
+        and phone.manner == Manner.APPROXIMANT
+        and phone.airstream == Airstream.PULMONIC_EGRESSIVE
+    ):
+        return phone.place in [
+            Place.PALATAL,
+            Place.LABIAL_VELAR,
+            Place.LABIAL_PALATAL,
+            Place.VELAR,
+        ]
     return False
 
 
@@ -702,7 +844,7 @@ def show_place(place: Place) -> str:
     if place == Place.PALATOALVEOLAR:
         return PALATOALVEOLAR_PLACE_TEXT
     if isinstance(place, MultiPlace):
-        return ' '.join(map(show_place, place.places()))
+        return " ".join(map(show_place, place.places()))
     return UNRECOGNIZED_PLACE
 
 
@@ -796,7 +938,7 @@ def show_phonet_inventory(inventory: PhonetInventory) -> str:
     :return: text containing the IPA representation of each
     phoneme in the phoneme inventory
     """
-    return ''.join(map(show_phonet, inventory.contents))
+    return "".join(map(show_phonet, inventory.contents))
 
 
 def remove_extra_two_spaces(text: str) -> str:
@@ -815,12 +957,16 @@ def show_phonet(phonet: Phonet) -> str:
         manner = phonet.manner
         airstream = phonet.airstream
         secondary_articulation = phonet.secondary_articulation
-        joined: str = ' '.join([show_vocal_folds(vocal_folds),
-                                show_secondary_articulation(secondary_articulation),
-                                show_place(place),
-                                show_manner(manner),
-                                show_airstream(airstream),
-                                CONSONANT_TEXT])
+        joined: str = " ".join(
+            [
+                show_vocal_folds(vocal_folds),
+                show_secondary_articulation(secondary_articulation),
+                show_place(place),
+                show_manner(manner),
+                show_airstream(airstream),
+                CONSONANT_TEXT,
+            ]
+        )
         return remove_extra_two_spaces(joined)
     if isinstance(phonet, Vowel):
         height = phonet.height
@@ -828,9 +974,15 @@ def show_phonet(phonet: Phonet) -> str:
         rounding = phonet.rounding
         vowel_length = phonet.vowel_length
         vocal_folds = phonet.vocal_folds
-        joined: str = ' '.join([show_vocal_folds(vocal_folds), show_rounding(rounding),
-                                show_height(height), show_backness(backness),
-                                show_vowel_length(vowel_length),
-                                VOWEL_TEXT])
+        joined: str = " ".join(
+            [
+                show_vocal_folds(vocal_folds),
+                show_rounding(rounding),
+                show_height(height),
+                show_backness(backness),
+                show_vowel_length(vowel_length),
+                VOWEL_TEXT,
+            ]
+        )
         return remove_extra_two_spaces(joined)
     return UNRECOGNIZED_KIND_OF_PHONEME

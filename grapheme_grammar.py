@@ -203,7 +203,7 @@ def is_tie_bar(a_character: str) -> bool:
     international phonetic alphabet together. The tie bar is
     usually used to indicate an affricate, or double-articulation.
     """
-    return a_character in ['͜', '͡']
+    return a_character in ["͜", "͡"]
 
 
 def elem_w(string_list: List[str]) -> Callable[[str], bool]:
@@ -225,10 +225,14 @@ def prediacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
     the text not yet parsed is in the second part
     of the tuple.
     """
-    if (not len(text) == 0 and is_exponential_before(text[0])
-            and is_segmental_at(1, text)):
+    if (
+        not len(text) == 0
+        and is_exponential_before(text[0])
+        and is_segmental_at(1, text)
+    ):
         if is_tie_bar_at(2, text):
-            return text[:4], text[4:]  # include tie bar and character after it.
+            # include tie bar and character after it.
+            return text[:4], text[4:]
         return text[:2], text[2:]
     return None
 
@@ -248,8 +252,10 @@ def prepostdiacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
     (prepart, middle) = preresult
     if is_exponential_after_at(0, middle):
         length_of_first: int = len(prepart)
-        segmental: str = prepart[(length_of_first - 1):]
-        postresult: Optional[Tuple[str, str]] = postdiacritic_parser_function(segmental + middle)
+        segmental: str = prepart[(length_of_first - 1) :]
+        postresult: Optional[Tuple[str, str]] = postdiacritic_parser_function(
+            segmental + middle
+        )
         if postresult is None:
             return None
         (postpart, rest) = postresult
@@ -269,7 +275,11 @@ def postdiacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
         number_of_postdiacritics: int = count_post_diacritics_in_a_row(text, 1)
         chunk_length: int = number_of_postdiacritics + 1
         return text[:chunk_length], text[chunk_length:]
-    if is_segmental_at(0, text) and is_tie_bar_at(1, text) and is_exponential_after_at(2, text):
+    if (
+        is_segmental_at(0, text)
+        and is_tie_bar_at(1, text)
+        and is_exponential_after_at(2, text)
+    ):
         number_of_postdiacritics: int = count_post_diacritics_in_a_row(text, 3)
         chunk_length: int = number_of_postdiacritics + 3
         return text[:chunk_length], text[chunk_length:]
@@ -296,107 +306,162 @@ def is_exponential(character: str) -> bool:
     return character in exponentials
 
 
-plosivePulmonic: List[str] = \
-    ["p", "b", "t", "d",
-     "ʈ", "ɖ", "c", "ɟ", "k", "g", "q", "ɢ",
-     "ʔ"]
+plosivePulmonic: List[str] = [
+    "p",
+    "b",
+    "t",
+    "d",
+    "ʈ",
+    "ɖ",
+    "c",
+    "ɟ",
+    "k",
+    "g",
+    "q",
+    "ɢ",
+    "ʔ",
+]
 nasalPulmonic: List[str] = ["m", "ɱ", "n", "ɳ", "ɲ", "ŋ", "ɴ"]
 trillPulmonic: List[str] = ["ʙ", "r", "ʀ"]
 tapOrFlapPulmonic: List[str] = ["ⱱ", "ɾ", "ɽ"]
-fricativePulmonic: List[str] \
-    = \
-    ["ɸ", "β", "f", "v", "θ", "ð", "s", "z", "ʃ", "ʒ",
-     "ʂ", "ʐ", "ç", "ʝ", "x", "ɣ", "χ", "ʁ", "ħ", "ʕ",
-     "h", "ɦ"
-     ]
+fricativePulmonic: List[str] = [
+    "ɸ",
+    "β",
+    "f",
+    "v",
+    "θ",
+    "ð",
+    "s",
+    "z",
+    "ʃ",
+    "ʒ",
+    "ʂ",
+    "ʐ",
+    "ç",
+    "ʝ",
+    "x",
+    "ɣ",
+    "χ",
+    "ʁ",
+    "ħ",
+    "ʕ",
+    "h",
+    "ɦ",
+]
 lateral_fricative_pulmonic: List[str] = ["ɬ", "ɮ"]
 approximant_pulmonic: List[str] = ["ʋ", "ɹ", "ɻ", "j", "ɰ"]
 lateral_approximant_pulmonic: List[str] = ["l", "ɭ", "ʎ", "ʟ"]
-consonants_pulmonic: List[str] = \
-      plosivePulmonic \
-      + nasalPulmonic \
-      + trillPulmonic \
-      + tapOrFlapPulmonic \
-      + fricativePulmonic \
-      + lateral_fricative_pulmonic \
-      + approximant_pulmonic \
-      + lateral_approximant_pulmonic
-consonants_nonpulmonic: List[str] = \
-    ["ʘ",
-     "ɓ",  # Bilabial
-     "ǀ",  # Dental
-     "ɗ",  # Dental/alveolar
-     "ǃ",  # (Post)alveolar
-     "ʄ",
-     "ǂ",
-     "ɠ",
-     "ǁ",
-     "ʛ"
-     ]
-other_symbols: List[str] = \
-    ["ʍ", "ɕ",
-     "w", "ʑ",
-     "ɥ", "ɺ",
-     "ʜ", "ɧ",
-     "ʢ",
-     "ʡ",
-     ]
+consonants_pulmonic: List[str] = (
+    plosivePulmonic
+    + nasalPulmonic
+    + trillPulmonic
+    + tapOrFlapPulmonic
+    + fricativePulmonic
+    + lateral_fricative_pulmonic
+    + approximant_pulmonic
+    + lateral_approximant_pulmonic
+)
+consonants_nonpulmonic: List[str] = [
+    "ʘ",
+    "ɓ",  # Bilabial
+    "ǀ",  # Dental
+    "ɗ",  # Dental/alveolar
+    "ǃ",  # (Post)alveolar
+    "ʄ",
+    "ǂ",
+    "ɠ",
+    "ǁ",
+    "ʛ",
+]
+other_symbols: List[str] = [
+    "ʍ",
+    "ɕ",
+    "w",
+    "ʑ",
+    "ɥ",
+    "ɺ",
+    "ʜ",
+    "ɧ",
+    "ʢ",
+    "ʡ",
+]
 consonants: List[str] = consonants_pulmonic + consonants_nonpulmonic + other_symbols
-vowels: List[str] = \
-    ["i", "y", "ɨ", "ʉ", "ɯ", "u",  # Close
-     "ɪ", "ʏ", "ʊ",  # Close-mid
-     "e", "ø", "ɘ", "ɵ", "ɤ", "o",  # Open-mid
-     "ə",
-     "ɛ", "œ", "ɜ", "ɞ", "ʌ", "ɔ",  # Open-mid
-     "æ", "ɐ",
-     "a", "ɶ", "ɑ", "ɒ"  # Open
-     ]
+vowels: List[str] = [
+    "i",
+    "y",
+    "ɨ",
+    "ʉ",
+    "ɯ",
+    "u",  # Close
+    "ɪ",
+    "ʏ",
+    "ʊ",  # Close-mid
+    "e",
+    "ø",
+    "ɘ",
+    "ɵ",
+    "ɤ",
+    "o",  # Open-mid
+    "ə",
+    "ɛ",
+    "œ",
+    "ɜ",
+    "ɞ",
+    "ʌ",
+    "ɔ",  # Open-mid
+    "æ",
+    "ɐ",
+    "a",
+    "ɶ",
+    "ɑ",
+    "ɒ",  # Open
+]
 strict_segmentals: List[str] = consonants + vowels
 """ IPA text that is not a semantic modifier to what is before or after it.
     This includes vowels, and consonants. It excludes all diacritics.
 """
 
-diacritics_and_suprasegmentals: List[str] = \
-    ["̥",  # Voiceless
-     "̊",  # Voiceless (diacritic placed above symbol with descender)
-     "̤",  # Breathy voiced
-     # End of first row.
-     "̬",  # Voiced
-     "̰",  # Creaky voiced
-     "̺",  # Apical
-     # End of second row.
-     "ʰ",  # Aspirated
-     "̼",  # Linguolabial
-     "̻",  # Laminal
-     # End of third row.
-     "̹",  # More rounded
-     "ʷ",  # Labialised
-     "̃",  # Nasalised
-     # End of fourth row.
-     "̜",  # Less rounded
-     "ʲ",  # Palatalised
-     "ⁿ",  # Pre/post nasalised
-     "̟",  # Advanced
-     "ˠ",  # Velarised
-     "ˡ",  # Lateral release
-     "̠",  # Retracted
-     "ˤ",  # Pharyngealised
-     "̚",  # No audible release
-     "̈",  # Centralised
-     "̽",  # Mid centralised
-     "̝",  # Raised
-     "̩",  # Syllabic
-     "̞",  # Lowered
-     "̯",  # Non-syllabic
-     "̘",  # Advanced tongue root
-     "˞",  # Rhoticity
-     "̙",  # Retracted tongue root
-     "ʼ",  # Ejective
-     "̍",  # Syllabic (diacritic placed above)
-     "̪",  # Dental
-     "̣",  # Closer variety/Fricative
-     "̇"  # Palatalization/Centralization
-     ]
+diacritics_and_suprasegmentals: List[str] = [
+    "̥",  # Voiceless
+    "̊",  # Voiceless (diacritic placed above symbol with descender)
+    "̤",  # Breathy voiced
+    # End of first row.
+    "̬",  # Voiced
+    "̰",  # Creaky voiced
+    "̺",  # Apical
+    # End of second row.
+    "ʰ",  # Aspirated
+    "̼",  # Linguolabial
+    "̻",  # Laminal
+    # End of third row.
+    "̹",  # More rounded
+    "ʷ",  # Labialised
+    "̃",  # Nasalised
+    # End of fourth row.
+    "̜",  # Less rounded
+    "ʲ",  # Palatalised
+    "ⁿ",  # Pre/post nasalised
+    "̟",  # Advanced
+    "ˠ",  # Velarised
+    "ˡ",  # Lateral release
+    "̠",  # Retracted
+    "ˤ",  # Pharyngealised
+    "̚",  # No audible release
+    "̈",  # Centralised
+    "̽",  # Mid centralised
+    "̝",  # Raised
+    "̩",  # Syllabic
+    "̞",  # Lowered
+    "̯",  # Non-syllabic
+    "̘",  # Advanced tongue root
+    "˞",  # Rhoticity
+    "̙",  # Retracted tongue root
+    "ʼ",  # Ejective
+    "̍",  # Syllabic (diacritic placed above)
+    "̪",  # Dental
+    "̣",  # Closer variety/Fricative
+    "̇",  # Palatalization/Centralization
+]
 
 exponentials_before: List[str] = ["ⁿ"]
 

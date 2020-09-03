@@ -3,24 +3,71 @@ from typing import Optional, List, Iterator, Callable, Tuple
 
 from lib_type_helpers import is_consonant, is_vowel
 
-from english_us_text import SYLLABIC_PHONEME_FEATURE_TEXT, CONSONANTAL_PHONEME_FEATURE_TEXT, \
-    SONORANT_PHONEME_FEATURE_TEXT, CONTINUANT_PHONEME_FEATURE_TEXT, VOICE_PHONEME_FEATURE_TEXT, \
-    ATR_PHONEME_FEATURE_TEXT, NASAL_PHONEME_FEATURE_TEXT, LATERAL_PHONEME_FEATURE_TEXT, \
-    DELAYED_RELEASE_PHONEME_FEATURE_TEXT, SPREAD_GLOTTIS_PHONEME_FEATURE_TEXT, \
-    CONSTRICTED_GLOTTIS_PHONEME_FEATURE_TEXT, LABIAL_PHONEME_FEATURE_TEXT, \
-    CORONAL_PHONEME_FEATURE_TEXT, DORSAL_PHONEME_FEATURE_TEXT, PHARYNGEAL_PHONEME_FEATURE_TEXT, \
-    LARYNGEAL_PHONEME_FEATURE_TEXT, ROUND_PHONEME_FEATURE_TEXT, ANTERIOR_PHONEME_FEATURE_TEXT, \
-    DISTRIBUTED_PHONEME_FEATURE_TEXT, STRIDENT_PHONEME_FEATURE_TEXT, HIGH_PHONEME_FEATURE_TEXT, \
-    LOW_PHONEME_FEATURE_TEXT, BACK_PHONEME_FEATURE_TEXT
+from english_us_text import (
+    SYLLABIC_PHONEME_FEATURE_TEXT,
+    CONSONANTAL_PHONEME_FEATURE_TEXT,
+    SONORANT_PHONEME_FEATURE_TEXT,
+    CONTINUANT_PHONEME_FEATURE_TEXT,
+    VOICE_PHONEME_FEATURE_TEXT,
+    ATR_PHONEME_FEATURE_TEXT,
+    NASAL_PHONEME_FEATURE_TEXT,
+    LATERAL_PHONEME_FEATURE_TEXT,
+    DELAYED_RELEASE_PHONEME_FEATURE_TEXT,
+    SPREAD_GLOTTIS_PHONEME_FEATURE_TEXT,
+    CONSTRICTED_GLOTTIS_PHONEME_FEATURE_TEXT,
+    LABIAL_PHONEME_FEATURE_TEXT,
+    CORONAL_PHONEME_FEATURE_TEXT,
+    DORSAL_PHONEME_FEATURE_TEXT,
+    PHARYNGEAL_PHONEME_FEATURE_TEXT,
+    LARYNGEAL_PHONEME_FEATURE_TEXT,
+    ROUND_PHONEME_FEATURE_TEXT,
+    ANTERIOR_PHONEME_FEATURE_TEXT,
+    DISTRIBUTED_PHONEME_FEATURE_TEXT,
+    STRIDENT_PHONEME_FEATURE_TEXT,
+    HIGH_PHONEME_FEATURE_TEXT,
+    LOW_PHONEME_FEATURE_TEXT,
+    BACK_PHONEME_FEATURE_TEXT,
+)
 from lib_functions import is_glide
-from lib_types import Phonet, Vowel, Consonant, Manner, Place, VocalFolds, Airstream, Height, \
-    Backness, Rounding
-from phonetic_features_types import Polarity, PhonemeFeature, SyllabicFeature, ConsonantalFeature, \
-    SonorantFeature, ContinuantFeature, VoiceFeature, AdvancedTongueRootFeature, NasalFeature, \
-    LateralFeature, DelayedReleaseFeature, SpreadGlottisFeature, ConstrictedGlottisFeature, \
-    LabialFeature, CoronalFeature, DorsalFeature, PharyngealFeature, LaryngealFeature, \
-    RoundFeature, \
-    AnteriorFeature, DistributedFeature, StridentFeature, HighFeature, LowFeature, BackFeature
+from lib_types import (
+    Phonet,
+    Vowel,
+    Consonant,
+    Manner,
+    Place,
+    VocalFolds,
+    Airstream,
+    Height,
+    Backness,
+    Rounding,
+)
+from phonetic_features_types import (
+    Polarity,
+    PhonemeFeature,
+    SyllabicFeature,
+    ConsonantalFeature,
+    SonorantFeature,
+    ContinuantFeature,
+    VoiceFeature,
+    AdvancedTongueRootFeature,
+    NasalFeature,
+    LateralFeature,
+    DelayedReleaseFeature,
+    SpreadGlottisFeature,
+    ConstrictedGlottisFeature,
+    LabialFeature,
+    CoronalFeature,
+    DorsalFeature,
+    PharyngealFeature,
+    LaryngealFeature,
+    RoundFeature,
+    AnteriorFeature,
+    DistributedFeature,
+    StridentFeature,
+    HighFeature,
+    LowFeature,
+    BackFeature,
+)
 
 
 def show_polarity(polarity: Polarity) -> str:
@@ -154,9 +201,11 @@ def continuant(phone: Phonet) -> Optional[PhonemeFeature]:
       Lateral approximants may be considered [+continuant]. (arguable)
       (see chart on page 259))
     """
-    if is_consonant(phone) and phone.manner in [Manner.PLOSIVE,
-                                                         Manner.NASAL,
-                                                         Manner.AFFRICATE]:
+    if is_consonant(phone) and phone.manner in [
+        Manner.PLOSIVE,
+        Manner.NASAL,
+        Manner.AFFRICATE,
+    ]:
         return ContinuantFeature(Polarity.MINUS)
     if is_consonant(phone) and phone.manner == Manner.APPROXIMANT:
         return ContinuantFeature(Polarity.PLUS)
@@ -187,10 +236,12 @@ def lateral(phone: Phonet) -> Optional[PhonemeFeature]:
     All other segments are not defined for [lateral].
     """
     if is_consonant(phone):
-        if phone.manner in [Manner.LATERAL,
-                            Manner.LATERAL_APPROXIMANT,
-                            Manner.LATERAL_FRICATIVE,
-                            Manner.LATERAL_FLAP]:
+        if phone.manner in [
+            Manner.LATERAL,
+            Manner.LATERAL_APPROXIMANT,
+            Manner.LATERAL_FRICATIVE,
+            Manner.LATERAL_FLAP,
+        ]:
             return LateralFeature()
     return None
 
@@ -237,12 +288,14 @@ def coronal(phone: Phonet) -> Optional[PhonemeFeature]:
     (The fact that Post-alveolar consonants are coronal is indicated by
      Table 12. on page 265.)
     """
-    if is_consonant(phone) and phone.place in [Place.DENTAL,
-                                                        Place.ALVEOLAR,
-                                                        Place.ALVEOLOPALATAL,
-                                                        Place.RETROFLEX,
-                                                        Place.PALATAL,
-                                                        Place.POSTALVEOLAR]:
+    if is_consonant(phone) and phone.place in [
+        Place.DENTAL,
+        Place.ALVEOLAR,
+        Place.ALVEOLOPALATAL,
+        Place.RETROFLEX,
+        Place.PALATAL,
+        Place.POSTALVEOLAR,
+    ]:
         return CoronalFeature()
     return None
 
@@ -261,8 +314,11 @@ def dorsal(phone: Phonet) -> Optional[PhonemeFeature]:
     Uvulars are [dorsal].
     All other segments are undefined for [dorsal].
     """
-    if is_consonant(phone) \
-            and phone.place in [Place.PALATAL, Place.VELAR, Place.UVULAR]:
+    if is_consonant(phone) and phone.place in [
+        Place.PALATAL,
+        Place.VELAR,
+        Place.UVULAR,
+    ]:
         return DorsalFeature()
     return None
 
@@ -274,8 +330,11 @@ def pharyngeal(phone: Phonet) -> Optional[PhonemeFeature]:
 
     (Source: page 264)
     """
-    if is_consonant(phone) \
-            and phone.place == Place.PHARYNGEAL and phone.manner == Manner.FRICATIVE:
+    if (
+        is_consonant(phone)
+        and phone.place == Place.PHARYNGEAL
+        and phone.manner == Manner.FRICATIVE
+    ):
         return PharyngealFeature()
     return None
 
@@ -300,11 +359,15 @@ def voice(phone: Phonet) -> Optional[PhonemeFeature]:
     All other segments are [-voice].
     """
     if is_consonant(phone):
-        if phone.vocal_folds == VocalFolds.VOICELESS \
-                and phone.place == Place.GLOTTAL \
-                and phone.manner == Manner.PLOSIVE \
-                and phone.airstream == Airstream.PULMONIC_EGRESSIVE:
-            return VoiceFeature(Polarity.MINUS)  # The voiceless glottal plosive is [-voice]
+        if (
+            phone.vocal_folds == VocalFolds.VOICELESS
+            and phone.place == Place.GLOTTAL
+            and phone.manner == Manner.PLOSIVE
+            and phone.airstream == Airstream.PULMONIC_EGRESSIVE
+        ):
+            return VoiceFeature(
+                Polarity.MINUS
+            )  # The voiceless glottal plosive is [-voice]
         if phone.vocal_folds == VocalFolds.VOICED_ASPIRATED:
             return VoiceFeature(Polarity.PLUS)
         if phone.vocal_folds == VocalFolds.VOICED:
@@ -322,10 +385,12 @@ def spread_glottis(phone: Phonet) -> Optional[PhonemeFeature]:
     All other segments are not defined for [spread glottis].
     (Source: page 262)
     """
-    if is_consonant(phone) \
-            and phone.vocal_folds in [VocalFolds.VOICELESS_ASPIRATED,
-                                      VocalFolds.VOICED_ASPIRATED] \
-            and phone.manner == Manner.PLOSIVE:
+    if (
+        is_consonant(phone)
+        and phone.vocal_folds
+        in [VocalFolds.VOICELESS_ASPIRATED, VocalFolds.VOICED_ASPIRATED]
+        and phone.manner == Manner.PLOSIVE
+    ):
         return SpreadGlottisFeature()
     return None
 
@@ -338,8 +403,11 @@ def constricted_glottis(phone: Phonet) -> Optional[PhonemeFeature]:
 
     (Source: page 262)
     """
-    if is_consonant(phone) and phone.place == Place.GLOTTAL \
-            and phone.manner == Manner.PLOSIVE:
+    if (
+        is_consonant(phone)
+        and phone.place == Place.GLOTTAL
+        and phone.manner == Manner.PLOSIVE
+    ):
         return ConstrictedGlottisFeature()
     if is_consonant(phone) and phone.vocal_folds == VocalFolds.CREAKY_VOICED:
         if sonorant(phone) == SonorantFeature(Polarity.PLUS):
@@ -369,10 +437,12 @@ def anterior(phone: Phonet) -> Optional[PhonemeFeature]:
     """
     if is_consonant(phone) and phone.place in [Place.DENTAL, Place.ALVEOLAR]:
         return AnteriorFeature(Polarity.PLUS)
-    if is_consonant(phone) and phone.place in [Place.POSTALVEOLAR,
-                                                        Place.RETROFLEX,
-                                                        Place.PALATAL,
-                                                        Place.ALVEOLOPALATAL]:
+    if is_consonant(phone) and phone.place in [
+        Place.POSTALVEOLAR,
+        Place.RETROFLEX,
+        Place.PALATAL,
+        Place.ALVEOLOPALATAL,
+    ]:
         return AnteriorFeature(Polarity.MINUS)
     return None
 
@@ -418,21 +488,29 @@ def strident(phone: Phonet) -> Optional[PhonemeFeature]:
     (Source: page 266, under [+/-strident] heading, under the subsection
     "Natural classes".)
     """
-    if is_consonant(phone) \
-            and phone.place == Place.ALVEOLAR \
-            and phone.manner in [Manner.FRICATIVE, Manner.AFFRICATE]:
+    if (
+        is_consonant(phone)
+        and phone.place == Place.ALVEOLAR
+        and phone.manner in [Manner.FRICATIVE, Manner.AFFRICATE]
+    ):
         return StridentFeature(Polarity.PLUS)
-    if is_consonant(phone) \
-            and phone.place == Place.POSTALVEOLAR \
-            and phone.manner in [Manner.FRICATIVE, Manner.AFFRICATE]:
+    if (
+        is_consonant(phone)
+        and phone.place == Place.POSTALVEOLAR
+        and phone.manner in [Manner.FRICATIVE, Manner.AFFRICATE]
+    ):
         return StridentFeature(Polarity.PLUS)
-    if is_consonant(phone) \
-            and phone.place == Place.LABIODENTAL \
-            and phone.manner in [Manner.FRICATIVE, Manner.AFFRICATE]:
+    if (
+        is_consonant(phone)
+        and phone.place == Place.LABIODENTAL
+        and phone.manner in [Manner.FRICATIVE, Manner.AFFRICATE]
+    ):
         return StridentFeature(Polarity.PLUS)
-    if is_consonant(phone) \
-            and phone.place == Place.UVULAR \
-            and phone.manner in [Manner.FRICATIVE, Manner.AFFRICATE]:
+    if (
+        is_consonant(phone)
+        and phone.place == Place.UVULAR
+        and phone.manner in [Manner.FRICATIVE, Manner.AFFRICATE]
+    ):
         return StridentFeature(Polarity.PLUS)
     if is_consonant(phone) and phone.manner in [Manner.FRICATIVE, Manner.AFFRICATE]:
         return StridentFeature(Polarity.MINUS)
@@ -530,89 +608,117 @@ def atr(phone: Phonet) -> Optional[PhonemeFeature]:
     """
     Advanced tongue root
     """
-    if is_vowel(phone) \
-            and phone.height == Height.CLOSE \
-            and phone.backness == Backness.FRONT \
-            and phone.rounding == Rounding.UNROUNDED \
-            and phone.vocal_folds == VocalFolds.VOICED:
+    if (
+        is_vowel(phone)
+        and phone.height == Height.CLOSE
+        and phone.backness == Backness.FRONT
+        and phone.rounding == Rounding.UNROUNDED
+        and phone.vocal_folds == VocalFolds.VOICED
+    ):
         return AdvancedTongueRootFeature(Polarity.PLUS)
-    if is_vowel(phone) \
-            and phone.height == Height.CLOSE_MID \
-            and phone.backness == Backness.FRONT \
-            and phone.rounding == Rounding.UNROUNDED \
-            and phone.vocal_folds == VocalFolds.VOICED:
+    if (
+        is_vowel(phone)
+        and phone.height == Height.CLOSE_MID
+        and phone.backness == Backness.FRONT
+        and phone.rounding == Rounding.UNROUNDED
+        and phone.vocal_folds == VocalFolds.VOICED
+    ):
         return AdvancedTongueRootFeature(Polarity.PLUS)
-    if is_vowel(phone) \
-            and phone.height == Height.CLOSE \
-            and phone.backness == Backness.BACK \
-            and phone.rounding == Rounding.ROUNDED \
-            and phone.vocal_folds == VocalFolds.VOICED:
+    if (
+        is_vowel(phone)
+        and phone.height == Height.CLOSE
+        and phone.backness == Backness.BACK
+        and phone.rounding == Rounding.ROUNDED
+        and phone.vocal_folds == VocalFolds.VOICED
+    ):
         return AdvancedTongueRootFeature(Polarity.PLUS)
-    if is_vowel(phone) \
-            and phone.height == Height.CLOSE_MID \
-            and phone.backness == Backness.FRONT \
-            and phone.rounding == Rounding.ROUNDED \
-            and phone.vocal_folds == VocalFolds.VOICED:
+    if (
+        is_vowel(phone)
+        and phone.height == Height.CLOSE_MID
+        and phone.backness == Backness.FRONT
+        and phone.rounding == Rounding.ROUNDED
+        and phone.vocal_folds == VocalFolds.VOICED
+    ):
         return AdvancedTongueRootFeature(Polarity.PLUS)
-    if is_vowel(phone) \
-            and phone.height == Height.CLOSE_MID \
-            and phone.backness == Backness.BACK \
-            and phone.rounding == Rounding.ROUNDED \
-            and phone.vocal_folds == VocalFolds.VOICED:
+    if (
+        is_vowel(phone)
+        and phone.height == Height.CLOSE_MID
+        and phone.backness == Backness.BACK
+        and phone.rounding == Rounding.ROUNDED
+        and phone.vocal_folds == VocalFolds.VOICED
+    ):
         return AdvancedTongueRootFeature(Polarity.PLUS)
-    if is_vowel(phone) \
-            and phone.height == Height.CLOSE \
-            and phone.backness == Backness.FRONT \
-            and phone.rounding == Rounding.ROUNDED \
-            and phone.vocal_folds == VocalFolds.VOICED:
+    if (
+        is_vowel(phone)
+        and phone.height == Height.CLOSE
+        and phone.backness == Backness.FRONT
+        and phone.rounding == Rounding.ROUNDED
+        and phone.vocal_folds == VocalFolds.VOICED
+    ):
         return AdvancedTongueRootFeature(Polarity.PLUS)
-    if is_vowel(phone) \
-            and phone.height == Height.NEAR_OPEN \
-            and phone.backness == Backness.FRONT \
-            and phone.rounding == Rounding.UNROUNDED \
-            and phone.vocal_folds == VocalFolds.VOICED:
+    if (
+        is_vowel(phone)
+        and phone.height == Height.NEAR_OPEN
+        and phone.backness == Backness.FRONT
+        and phone.rounding == Rounding.UNROUNDED
+        and phone.vocal_folds == VocalFolds.VOICED
+    ):
         return AdvancedTongueRootFeature(Polarity.MINUS)
-    if is_vowel(phone) \
-            and phone.height == Height.OPEN \
-            and phone.backness == Backness.BACK \
-            and phone.rounding == Rounding.UNROUNDED \
-            and phone.vocal_folds == VocalFolds.VOICED:
+    if (
+        is_vowel(phone)
+        and phone.height == Height.OPEN
+        and phone.backness == Backness.BACK
+        and phone.rounding == Rounding.UNROUNDED
+        and phone.vocal_folds == VocalFolds.VOICED
+    ):
         return AdvancedTongueRootFeature(Polarity.MINUS)
-    if is_vowel(phone) \
-            and phone.height == Height.CLOSE \
-            and phone.backness == Backness.CENTRAL \
-            and phone.rounding == Rounding.UNROUNDED \
-            and phone.vocal_folds == VocalFolds.VOICED:
+    if (
+        is_vowel(phone)
+        and phone.height == Height.CLOSE
+        and phone.backness == Backness.CENTRAL
+        and phone.rounding == Rounding.UNROUNDED
+        and phone.vocal_folds == VocalFolds.VOICED
+    ):
         return AdvancedTongueRootFeature(Polarity.MINUS)
-    if is_vowel(phone) \
-            and phone.height == Height.OPEN_MID \
-            and phone.backness == Backness.BACK \
-            and phone.rounding == Rounding.UNROUNDED \
-            and phone.vocal_folds == VocalFolds.VOICED:
+    if (
+        is_vowel(phone)
+        and phone.height == Height.OPEN_MID
+        and phone.backness == Backness.BACK
+        and phone.rounding == Rounding.UNROUNDED
+        and phone.vocal_folds == VocalFolds.VOICED
+    ):
         return AdvancedTongueRootFeature(Polarity.MINUS)
-    if is_vowel(phone) \
-            and phone.height == Height.NEAR_CLOSE \
-            and phone.backness == Backness.FRONT \
-            and phone.rounding == Rounding.UNROUNDED \
-            and phone.vocal_folds == VocalFolds.VOICED:
+    if (
+        is_vowel(phone)
+        and phone.height == Height.NEAR_CLOSE
+        and phone.backness == Backness.FRONT
+        and phone.rounding == Rounding.UNROUNDED
+        and phone.vocal_folds == VocalFolds.VOICED
+    ):
         return AdvancedTongueRootFeature(Polarity.MINUS)
-    if is_vowel(phone) \
-            and phone.height == Height.NEAR_CLOSE \
-            and phone.backness == Backness.BACK \
-            and phone.rounding == Rounding.ROUNDED \
-            and phone.vocal_folds == VocalFolds.VOICED:
+    if (
+        is_vowel(phone)
+        and phone.height == Height.NEAR_CLOSE
+        and phone.backness == Backness.BACK
+        and phone.rounding == Rounding.ROUNDED
+        and phone.vocal_folds == VocalFolds.VOICED
+    ):
         return AdvancedTongueRootFeature(Polarity.MINUS)
-    if is_vowel(phone) \
-            and phone.height == Height.OPEN_MID \
-            and phone.backness == Backness.FRONT \
-            and phone.rounding == Rounding.UNROUNDED \
-            and phone.vocal_folds == VocalFolds.VOICED:
+    if (
+        is_vowel(phone)
+        and phone.height == Height.OPEN_MID
+        and phone.backness == Backness.FRONT
+        and phone.rounding == Rounding.UNROUNDED
+        and phone.vocal_folds == VocalFolds.VOICED
+    ):
         return AdvancedTongueRootFeature(Polarity.MINUS)
-    if is_vowel(phone) \
-            and phone.height == Height.OPEN_MID \
-            and phone.backness == Backness.BACK \
-            and phone.rounding == Rounding.ROUNDED \
-            and phone.vocal_folds == VocalFolds.VOICED:
+    if (
+        is_vowel(phone)
+        and phone.height == Height.OPEN_MID
+        and phone.backness == Backness.BACK
+        and phone.rounding == Rounding.ROUNDED
+        and phone.vocal_folds == VocalFolds.VOICED
+    ):
         return AdvancedTongueRootFeature(Polarity.MINUS)
     return None
 
@@ -629,31 +735,31 @@ def feature_matrix(phonete: Phonet) -> List[Optional[PhonemeFeature]]:
     For example:
     /phone/
     """
-    return \
-        [consonantal(phonete),
-         syllabic(phonete),
-         continuant(phonete),
-         sonorant(phonete),
-         delayed_release(phonete),
-         anterior(phonete),
-         distributed(phonete),
-         strident(phonete),
-         high(phonete),
-         low(phonete),
-         nasal(phonete),
-         lateral(phonete),
-         labial(phonete),
-         coronal(phonete),
-         dorsal(phonete),
-         pharyngeal(phonete),
-         laryngeal(phonete),
-         back(phonete),
-         lip_round(phonete),
-         voice(phonete),
-         atr(phonete),
-         spread_glottis(phonete),
-         constricted_glottis(phonete)
-         ]
+    return [
+        consonantal(phonete),
+        syllabic(phonete),
+        continuant(phonete),
+        sonorant(phonete),
+        delayed_release(phonete),
+        anterior(phonete),
+        distributed(phonete),
+        strident(phonete),
+        high(phonete),
+        low(phonete),
+        nasal(phonete),
+        lateral(phonete),
+        labial(phonete),
+        coronal(phonete),
+        dorsal(phonete),
+        pharyngeal(phonete),
+        laryngeal(phonete),
+        back(phonete),
+        lip_round(phonete),
+        voice(phonete),
+        atr(phonete),
+        spread_glottis(phonete),
+        constricted_glottis(phonete),
+    ]
 
 
 def analyze_features(phonete: Phonet) -> List[PhonemeFeature]:
@@ -675,8 +781,9 @@ def show_features(features: List[PhonemeFeature]) -> str:
     return "[" + "; ".join(features_strings) + "]"
 
 
-def relevant_binary(feature: Callable[[Polarity], PhonemeFeature],
-                    other_feature: PhonemeFeature) -> bool:
+def relevant_binary(
+    feature: Callable[[Polarity], PhonemeFeature], other_feature: PhonemeFeature
+) -> bool:
     """
     Given a binary feature, and another feature.
     returns whether they are the same kind of feature.
@@ -686,13 +793,16 @@ def relevant_binary(feature: Callable[[Polarity], PhonemeFeature],
       But [+sonorant] and [+voice] are not relevant because
     "voice" and "sonorant" are different.
     """
-    return other_feature == feature(Polarity.PLUS) or other_feature == feature(Polarity.MINUS)
+    return other_feature == feature(Polarity.PLUS) or other_feature == feature(
+        Polarity.MINUS
+    )
 
 
-def binary_difference(feature: Callable[[Polarity], PhonemeFeature],
-                      list1: List[PhonemeFeature],
-                      list2: List[PhonemeFeature]) \
-        -> Tuple[Optional[PhonemeFeature], Optional[PhonemeFeature]]:
+def binary_difference(
+    feature: Callable[[Polarity], PhonemeFeature],
+    list1: List[PhonemeFeature],
+    list2: List[PhonemeFeature],
+) -> Tuple[Optional[PhonemeFeature], Optional[PhonemeFeature]]:
     """
     Finds the difference between two lists of phoneme features with respect
     to a single Sound Patterns of English binary feature (e.g. +/-voice).
@@ -707,10 +817,9 @@ def binary_difference(feature: Callable[[Polarity], PhonemeFeature],
     return first_part, second_part
 
 
-def unary_difference(feature: PhonemeFeature,
-                     list1: List[PhonemeFeature],
-                     list2: List[PhonemeFeature]) \
-        -> Tuple[Optional[PhonemeFeature], Optional[PhonemeFeature]]:
+def unary_difference(
+    feature: PhonemeFeature, list1: List[PhonemeFeature], list2: List[PhonemeFeature]
+) -> Tuple[Optional[PhonemeFeature], Optional[PhonemeFeature]]:
     """
     Finds the difference between two lists of phoneme features with respect
     to a single Sound Patterns of English unary feature (e.g. nasal).
@@ -724,9 +833,9 @@ def unary_difference(feature: PhonemeFeature,
     return None, feature
 
 
-def difference(list1: List[PhonemeFeature],
-               list2: List[PhonemeFeature]) \
-        -> List[Tuple[Optional[PhonemeFeature], Optional[PhonemeFeature]]]:
+def difference(
+    list1: List[PhonemeFeature], list2: List[PhonemeFeature]
+) -> List[Tuple[Optional[PhonemeFeature], Optional[PhonemeFeature]]]:
     """
     This function takes two lists of phoneme features
     and returns how they differ. Any phonemic
@@ -735,31 +844,31 @@ def difference(list1: List[PhonemeFeature],
     feature that is positive in one list but absent
     in the other will be represented.
     """
-    return \
-        [binary_difference(SyllabicFeature, list1, list2),
-         binary_difference(ConsonantalFeature, list1, list2),
-         binary_difference(SonorantFeature, list1, list2),
-         binary_difference(ContinuantFeature, list1, list2),
-         binary_difference(VoiceFeature, list1, list2),
-         binary_difference(AdvancedTongueRootFeature, list1, list2),
-         unary_difference(NasalFeature(), list1, list2),
-         unary_difference(LateralFeature(), list1, list2),
-         unary_difference(DelayedReleaseFeature(), list1, list2),
-         unary_difference(SpreadGlottisFeature(), list1, list2),
-         unary_difference(ConstrictedGlottisFeature(), list1, list2),
-         unary_difference(LabialFeature(), list1, list2),
-         unary_difference(CoronalFeature(), list1, list2),
-         unary_difference(DorsalFeature(), list1, list2),
-         unary_difference(PharyngealFeature(), list1, list2),
-         unary_difference(LaryngealFeature(), list1, list2),
-         binary_difference(RoundFeature, list1, list2),
-         binary_difference(AnteriorFeature, list1, list2),
-         binary_difference(DistributedFeature, list1, list2),
-         binary_difference(StridentFeature, list1, list2),
-         binary_difference(HighFeature, list1, list2),
-         binary_difference(LowFeature, list1, list2),
-         binary_difference(BackFeature, list1, list2)
-         ]
+    return [
+        binary_difference(SyllabicFeature, list1, list2),
+        binary_difference(ConsonantalFeature, list1, list2),
+        binary_difference(SonorantFeature, list1, list2),
+        binary_difference(ContinuantFeature, list1, list2),
+        binary_difference(VoiceFeature, list1, list2),
+        binary_difference(AdvancedTongueRootFeature, list1, list2),
+        unary_difference(NasalFeature(), list1, list2),
+        unary_difference(LateralFeature(), list1, list2),
+        unary_difference(DelayedReleaseFeature(), list1, list2),
+        unary_difference(SpreadGlottisFeature(), list1, list2),
+        unary_difference(ConstrictedGlottisFeature(), list1, list2),
+        unary_difference(LabialFeature(), list1, list2),
+        unary_difference(CoronalFeature(), list1, list2),
+        unary_difference(DorsalFeature(), list1, list2),
+        unary_difference(PharyngealFeature(), list1, list2),
+        unary_difference(LaryngealFeature(), list1, list2),
+        binary_difference(RoundFeature, list1, list2),
+        binary_difference(AnteriorFeature, list1, list2),
+        binary_difference(DistributedFeature, list1, list2),
+        binary_difference(StridentFeature, list1, list2),
+        binary_difference(HighFeature, list1, list2),
+        binary_difference(LowFeature, list1, list2),
+        binary_difference(BackFeature, list1, list2),
+    ]
 
 
 def syllabic(phone: Phonet) -> Optional[PhonemeFeature]:
