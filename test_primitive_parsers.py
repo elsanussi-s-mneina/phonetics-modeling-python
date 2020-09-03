@@ -3,7 +3,7 @@ unit tests for primitive parsers
 """
 
 import unittest
-from primitive_parsers import single_char_parser, then_parser, many_parser, or_parser
+from primitive_parsers import single_char_parser, then_parser, many_parser, optional_parser, or_parser
 from functools import partial
 
 class TestPrimitiveParsers(unittest.TestCase):
@@ -106,13 +106,28 @@ class TestPrimitiveParsers(unittest.TestCase):
                             partial(many_parser, partial(single_char_parser, ['k'])), "ttttnnn")
          self.assertEqual(actual, expected)
 
-    # def test_optional_parser(self) -> None:
-    #     """optional parser"""
-    #     it "parses \"aaaf\" successfully" $ do
-    #       optional_parser (many_parser (single_char_parser ['a'])) "aaaf" `shouldBe` Just ("aaa", "f")
-    #     it "parses \"bbb\" successfully without consuming any input" $ do
-    #       optional_parser (many_parser (single_char_parser ['a'])) "bbb" `shouldBe` Just ("", "bbb")
-    #     it "parses \"f\" successfully" $ do
-    #       optional_parser (single_char_parser ['f']) "f" `shouldBe` Just("f", "")
-    #     it "does parse \"d\" when expecting an \"f\", but does not consume \"d\"." $ do
-    #       optional_parser (single_char_parser ['f']) "d" `shouldBe` Just("", "d")
+    def test_optional_parser(self) -> None:
+        """optional parser: parses "aaaf" successfully"""
+        expected = ("aaa", "f")
+        actual = optional_parser(partial(many_parser, partial(single_char_parser, ['a'])), "aaaf")
+        self.assertEqual(actual, expected)
+
+    def test_optional_parser_succeeds_not_consuming_input(self) -> None:
+        """it "parses "bbb" successfully without consuming any input"""
+        expected = ("", "bbb")
+        actual = optional_parser(partial(many_parser, partial(single_char_parser, ['a'])), "bbb")
+        self.assertEqual(actual, expected)
+
+    def test_optional_parser_succeeds_consuming_input(self) -> None:
+        """it "parses "bbb" successfully without consuming any input"""
+        expected = ("f", "")
+        actual = optional_parser(partial(many_parser, partial(single_char_parser, ['f'])), "f")
+        self.assertEqual(actual, expected)
+
+    def test_optional_parser_succeeds_not_consuming_input(self) -> None:
+        """
+        does parse "d" when expecting an "f", but does not consume "d"
+        """
+        expected = ("", "d")
+        actual = optional_parser(partial(many_parser, partial(single_char_parser, ['f'])), "d")
+        self.assertEqual(actual, expected)

@@ -63,17 +63,17 @@ def many_parser(sub_parser: Callable[[str], Optional[Tuple[str, str]]], text: st
           return parsed, rest
       else:
           parsed_2, rest_2 = result_2
-          return (parsed + parsed_2, rest_2)         
+          return (parsed + parsed_2, rest_2)
 
-"""
--- | changes a parser by making it never return Nothing,
---   that is it makes the parser optional.
-optionalParser
-  :: (Text -> Maybe (Text, Text))
-  -> Text
-  -> Maybe (Text, Text)
-optionalParser subParser text =
-  case subParser text of
-    Nothing -> Just ("", text) -- Return text unconsumed.
-    Just (parsed, rest) -> Just (parsed, rest)
-"""
+
+
+def optional_parser(sub_parser: Callable[[str], Optional[Tuple[str, str]]], text: str) -> Optional[Tuple[str, str]]:
+  """
+  changes a parser by making it never return Nothing,
+  that is it makes the parser optional.
+  """
+  result = sub_parser(text)
+  if result is None:
+    return ("", text) # return text unconsumed
+  else:
+    return result
