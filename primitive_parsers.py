@@ -6,6 +6,15 @@ from typing import Callable, List, Optional, Tuple
 
 
 def single_char_parser(char_list: List[str], text: str) -> Optional[Tuple[str, str]]:
+    """
+    :param char_list: list of characters that will be accepted. Anything else will not be accepted.
+    :param text: text to be parsed
+    :return: a tuple or none. If it was able to parse at least one character from the text,
+             then it returns a tuple, with the first part of the tuple being a string containing
+             only the first character of the input text. The second part contains the part of
+             the input text that was not parsed.
+             If it is not able to parse the text it returns None.
+    """
     if len(text) == 0:
         return None
     elif text[0] in char_list:
