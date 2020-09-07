@@ -576,7 +576,7 @@ def impossible(phone: Phonet) -> bool:
         and phone.airstream == Airstream.PULMONIC_EGRESSIVE
     ):
         return True
-    if (
+    elif (
         is_consonant(phone)
         and phone.vocal_folds == VocalFolds.VOICED_ASPIRATED
         and phone.place == Place.PHARYNGEAL
@@ -584,7 +584,7 @@ def impossible(phone: Phonet) -> bool:
         and phone.airstream == Airstream.PULMONIC_EGRESSIVE
     ):
         return True
-    if (
+    elif (
         is_consonant(phone)
         and phone.vocal_folds == VocalFolds.VOICELESS
         and phone.place == Place.GLOTTAL
@@ -592,83 +592,84 @@ def impossible(phone: Phonet) -> bool:
         and phone.airstream == Airstream.PULMONIC_EGRESSIVE
     ):
         return False  # [ʔ] is not impossible.
-    if (
+    elif (
         is_consonant(phone)
         and phone.place == Place.GLOTTAL
         and phone.manner == Manner.FRICATIVE
         and phone.airstream == Airstream.PULMONIC_EGRESSIVE
     ):
         return False  # [h] and [ɦ] are not impossible.
-    if (
+    elif (
         is_consonant(phone)
         and phone.place == Place.GLOTTAL
         and phone.airstream == Airstream.PULMONIC_EGRESSIVE
     ):
         return True  # all other pulmonary egressive consonants are impossible..
-    if (
+    elif (
         is_consonant(phone)
         and phone.place == Place.PHARYNGEAL
         and phone.manner == Manner.NASAL
         and phone.airstream == Airstream.PULMONIC_EGRESSIVE
     ):
         return True
-    if (
+    elif (
         is_consonant(phone)
         and phone.place == Place.PHARYNGEAL
         and phone.manner == Manner.LATERAL_FRICATIVE
         and phone.airstream == Airstream.PULMONIC_EGRESSIVE
     ):
         return True
-    if (
+    elif (
         is_consonant(phone)
         and phone.place == Place.PHARYNGEAL
         and phone.manner == Manner.LATERAL_APPROXIMANT
         and phone.airstream == Airstream.PULMONIC_EGRESSIVE
     ):
         return True
-    if (
+    elif (
         is_consonant(phone)
         and phone.place == Place.VELAR
         and phone.manner == Manner.TRILL
         and phone.airstream == Airstream.PULMONIC_EGRESSIVE
     ):
         return True
-    if (
+    elif (
         is_consonant(phone)
         and phone.place == Place.VELAR
         and phone.manner == Manner.TAP_OR_FLAP
         and phone.airstream == Airstream.PULMONIC_EGRESSIVE
     ):
         return True
-    if (
+    elif (
         is_consonant(phone)
         and phone.place == Place.BILABIAL
         and phone.manner == Manner.LATERAL_FRICATIVE
         and phone.airstream == Airstream.PULMONIC_EGRESSIVE
     ):
         return True
-    if (
+    elif (
         is_consonant(phone)
         and phone.place == Place.BILABIAL
         and phone.manner == Manner.LATERAL_APPROXIMANT
         and phone.airstream == Airstream.PULMONIC_EGRESSIVE
     ):
         return True
-    if (
+    elif (
         is_consonant(phone)
         and phone.place == Place.LABIODENTAL
         and phone.manner == Manner.LATERAL_FRICATIVE
         and phone.airstream == Airstream.PULMONIC_EGRESSIVE
     ):
         return True
-    if (
+    elif (
         is_consonant(phone)
         and phone.place == Place.LABIODENTAL
         and phone.manner == Manner.LATERAL_APPROXIMANT
         and phone.airstream == Airstream.PULMONIC_EGRESSIVE
     ):
         return True
-    return False  # Everything else is assumed to be possible.
+    else:
+        return False  # Everything else is assumed to be possible.
 
 
 def retract_phonet(phonete: Optional[Phonet]) -> Optional[Phonet]:
@@ -687,7 +688,8 @@ def retract_phonet(phonete: Optional[Phonet]) -> Optional[Phonet]:
         return Consonant(
             voicing, retracted_place(place), manner, airstream, secondary_articulation
         )
-    return None
+    else:
+        return None
 
 
 def deaspirate(phone: Phonet) -> Phonet:
@@ -697,10 +699,12 @@ def deaspirate(phone: Phonet) -> Phonet:
     if is_consonant(phone):
         if phone.vocal_folds == VocalFolds.VOICED_ASPIRATED:
             return with_vocal_folds(VocalFolds.VOICED, phone)
-        if phone.vocal_folds == VocalFolds.VOICELESS_ASPIRATED:
+        elif phone.vocal_folds == VocalFolds.VOICELESS_ASPIRATED:
             return with_vocal_folds(VocalFolds.VOICELESS, phone)
+        else:
+            return phone
+    else:
         return phone
-    return phone
 
 
 def decreak(phone: Phonet) -> Phonet:
@@ -709,7 +713,8 @@ def decreak(phone: Phonet) -> Phonet:
     """
     if is_consonant(phone) and phone.vocal_folds == VocalFolds.CREAKY_VOICED:
         with_vocal_folds(VocalFolds.VOICED, phone)
-    return phone
+    else:
+        return phone
 
 
 # Go to Section 12.2 of the textbook to understand
@@ -731,7 +736,8 @@ def is_glide(phone: Phonet) -> bool:
             Place.LABIAL_PALATAL,
             Place.VELAR,
         ]
-    return False
+    else:
+        return False
 
 
 def show_backness(backness: Backness) -> str:
@@ -743,11 +749,12 @@ def show_backness(backness: Backness) -> str:
     """
     if backness == Backness.FRONT:
         return FRONT_BACKNESS_TEXT
-    if backness == Backness.CENTRAL:
+    elif backness == Backness.CENTRAL:
         return CENTRAL_BACKNESS_TEXT
-    if backness == Backness.BACK:
+    elif backness == Backness.BACK:
         return BACK_BACKNESS_TEXT
-    return UNRECOGNIZED_VOWEL_BACKNESS
+    else:
+        return UNRECOGNIZED_VOWEL_BACKNESS
 
 
 def show_height(height: Height) -> str:
@@ -759,19 +766,20 @@ def show_height(height: Height) -> str:
     """
     if height == Height.CLOSE:
         return CLOSE_HEIGHT_TEXT
-    if height == Height.NEAR_CLOSE:
+    elif height == Height.NEAR_CLOSE:
         return NEAR_CLOSE_HEIGHT_TEXT
-    if height == Height.CLOSE_MID:
+    elif height == Height.CLOSE_MID:
         return CLOSE_MID_HEIGHT_TEXT
-    if height == Height.MID:
+    elif height == Height.MID:
         return MID_HEIGHT_TEXT
-    if height == Height.OPEN_MID:
+    elif height == Height.OPEN_MID:
         return OPEN_MID_HEIGHT_TEXT
-    if height == Height.NEAR_OPEN:
+    elif height == Height.NEAR_OPEN:
         return NEAR_OPEN_HEIGHT_TEXT
-    if height == Height.OPEN:
+    elif height == Height.OPEN:
         return OPEN_HEIGHT_TEXT
-    return UNRECOGNIZED_VOWEL_HEIGHT
+    else:
+        return UNRECOGNIZED_VOWEL_HEIGHT
 
 
 def show_rounding(rounding: Rounding) -> str:
@@ -782,9 +790,10 @@ def show_rounding(rounding: Rounding) -> str:
     """
     if rounding == Rounding.ROUNDED:
         return ROUNDED_ROUNDING_TEXT
-    if rounding == Rounding.UNROUNDED:
+    elif rounding == Rounding.UNROUNDED:
         return UNROUNDED_ROUNDING_TEXT
-    return UNRECOGNIZED_ROUNDING
+    else:
+        return UNRECOGNIZED_ROUNDING
 
 
 def show_vowel_length(length: VowelLength) -> str:
@@ -795,13 +804,14 @@ def show_vowel_length(length: VowelLength) -> str:
     """
     if length == VowelLength.NORMAL:
         return ""
-    if length == VowelLength.EXTRA_SHORT:
+    elif length == VowelLength.EXTRA_SHORT:
         return EXTRA_SHORT_TEXT
-    if length == VowelLength.HALF_LONG:
+    elif length == VowelLength.HALF_LONG:
         return HALF_LONG_TEXT
-    if length == VowelLength.LONG:
+    elif length == VowelLength.LONG:
         return LONG_TEXT
-    return UNRECOGNIZED_VOWEL_LENGTH
+    else:
+        return UNRECOGNIZED_VOWEL_LENGTH
 
 
 def show_place(place: Place) -> str:
@@ -813,39 +823,40 @@ def show_place(place: Place) -> str:
     """
     if place == Place.BILABIAL:
         return BILABIAL_PLACE_TEXT
-    if place == Place.LABIODENTAL:
+    elif place == Place.LABIODENTAL:
         return LABIODENTAL_PLACE_TEXT
-    if place == Place.DENTAL:
+    elif place == Place.DENTAL:
         return DENTAL_PLACE_TEXT
-    if place == Place.ALVEOLAR:
+    elif place == Place.ALVEOLAR:
         return ALVEOLAR_PLACE_TEXT
-    if place == Place.POSTALVEOLAR:
+    elif place == Place.POSTALVEOLAR:
         return POSTALVEOLAR_PLACE_TEXT
-    if place == Place.RETROFLEX:
+    elif place == Place.RETROFLEX:
         return RETROFLEX_PLACE_TEXT
-    if place == Place.PALATAL:
+    elif place == Place.PALATAL:
         return PALATAL_PLACE_TEXT
-    if place == Place.VELAR:
+    elif place == Place.VELAR:
         return VELAR_PLACE_TEXT
-    if place == Place.UVULAR:
+    elif place == Place.UVULAR:
         return UVULAR_PLACE_TEXT
-    if place == Place.PHARYNGEAL:
+    elif place == Place.PHARYNGEAL:
         return PHARYNGEAL_PLACE_TEXT
-    if place == Place.GLOTTAL:
+    elif place == Place.GLOTTAL:
         return GLOTTAL_PLACE_TEXT
-    if place == Place.EPIGLOTTAL:
+    elif place == Place.EPIGLOTTAL:
         return EPIGLOTTAL_PLACE_TEXT
-    if place == Place.LABIAL_VELAR:
+    elif place == Place.LABIAL_VELAR:
         return LABIALVELAR_PLACE_TEXT
-    if place == Place.LABIAL_PALATAL:
+    elif place == Place.LABIAL_PALATAL:
         return LABIALPALATAL_PLACE_TEXT
-    if place == Place.ALVEOLOPALATAL:
+    elif place == Place.ALVEOLOPALATAL:
         return ALVEOLOPALATAL_PLACE_TEXT
-    if place == Place.PALATOALVEOLAR:
+    elif place == Place.PALATOALVEOLAR:
         return PALATOALVEOLAR_PLACE_TEXT
-    if isinstance(place, MultiPlace):
+    elif isinstance(place, MultiPlace):
         return " ".join(map(show_place, place.places()))
-    return UNRECOGNIZED_PLACE
+    else:
+        return UNRECOGNIZED_PLACE
 
 
 def show_manner(manner1: Manner) -> str:
@@ -855,27 +866,28 @@ def show_manner(manner1: Manner) -> str:
     """
     if manner1 == Manner.PLOSIVE:
         return PLOSIVE_MANNER_TEXT
-    if manner1 == Manner.NASAL:
+    elif manner1 == Manner.NASAL:
         return NASAL_MANNER_TEXT
-    if manner1 == Manner.TRILL:
+    elif manner1 == Manner.TRILL:
         return TRILL_MANNER_TEXT
-    if manner1 == Manner.TAP_OR_FLAP:
+    elif manner1 == Manner.TAP_OR_FLAP:
         return TAP_OR_FLAP_MANNER_TEXT
-    if manner1 == Manner.APPROXIMANT:
+    elif manner1 == Manner.APPROXIMANT:
         return APPROXIMANT_MANNER_TEXT
-    if manner1 == Manner.FRICATIVE:
+    elif manner1 == Manner.FRICATIVE:
         return FRICATIVE_MANNER_TEXT
-    if manner1 == Manner.AFFRICATE:
+    elif manner1 == Manner.AFFRICATE:
         return AFFRICATE_MANNER_TEXT
-    if manner1 == Manner.LATERAL_FRICATIVE:
+    elif manner1 == Manner.LATERAL_FRICATIVE:
         return LATERAL_FRICATIVE_MANNER_TEXT
-    if manner1 == Manner.LATERAL_APPROXIMANT:
+    elif manner1 == Manner.LATERAL_APPROXIMANT:
         return LATERAL_APPROXIMANT_MANNER_TEXT
-    if manner1 == Manner.LATERAL_FLAP:
+    elif manner1 == Manner.LATERAL_FLAP:
         return LATERAL_FLAP_MANNER_TEXT
-    if manner1 == Manner.LATERAL:
+    elif manner1 == Manner.LATERAL:
         return LATERAL_MANNER_TEXT
-    return UNRECOGNIZED_MANNER
+    else:
+        return UNRECOGNIZED_MANNER
 
 
 def show_airstream(airstream_1: Airstream) -> str:
@@ -886,11 +898,12 @@ def show_airstream(airstream_1: Airstream) -> str:
     """
     if airstream_1 == Airstream.PULMONIC_EGRESSIVE:
         return PULMONIC_EGRESSIVE_AIRSTREAM_TEXT
-    if airstream_1 == Airstream.CLICK:
+    elif airstream_1 == Airstream.CLICK:
         return CLICK_AIRSTREAM_TEXT
-    if airstream_1 == Airstream.IMPLOSIVE:
+    elif airstream_1 == Airstream.IMPLOSIVE:
         return IMPLOSIVE_AIRSTREAM_TEXT
-    return UNRECOGNIZED_AIRSTREAM
+    else:
+        return UNRECOGNIZED_AIRSTREAM
 
 
 def show_vocal_folds(vocal_folds_1: VocalFolds) -> str:
@@ -900,15 +913,16 @@ def show_vocal_folds(vocal_folds_1: VocalFolds) -> str:
     """
     if vocal_folds_1 == VocalFolds.VOICED:
         return VOICED_VOCAL_FOLDS_TEXT
-    if vocal_folds_1 == VocalFolds.VOICELESS:
+    elif vocal_folds_1 == VocalFolds.VOICELESS:
         return VOICELESS_VOCAL_FOLDS_TEXT
-    if vocal_folds_1 == VocalFolds.VOICED_ASPIRATED:
+    elif vocal_folds_1 == VocalFolds.VOICED_ASPIRATED:
         return VOICED_ASPIRATED_VOCAL_FOLDS_TEXT
-    if vocal_folds_1 == VocalFolds.VOICELESS_ASPIRATED:
+    elif vocal_folds_1 == VocalFolds.VOICELESS_ASPIRATED:
         return VOICELESS_ASPIRATED_VOCAL_FOLDS_TEXT
-    if vocal_folds_1 == VocalFolds.CREAKY_VOICED:
+    elif vocal_folds_1 == VocalFolds.CREAKY_VOICED:
         return CREAKY_VOICED_VOCAL_FOLDS_TEXT
-    return UNRECOGNIZED_VOCAL_FOLDS
+    else:
+        return UNRECOGNIZED_VOCAL_FOLDS
 
 
 def show_secondary_articulation(secondary_articulation: SecondaryArticulation) -> str:
@@ -918,15 +932,16 @@ def show_secondary_articulation(secondary_articulation: SecondaryArticulation) -
     """
     if secondary_articulation == SecondaryArticulation.LABIALIZED:
         return LABIALIZED_TEXT
-    if secondary_articulation == SecondaryArticulation.PALATALIZED:
+    elif secondary_articulation == SecondaryArticulation.PALATALIZED:
         return PALATALIZED_TEXT
-    if secondary_articulation == SecondaryArticulation.VELARIZED:
+    elif secondary_articulation == SecondaryArticulation.VELARIZED:
         return VELARIZED_TEXT
-    if secondary_articulation == SecondaryArticulation.PHARYNGEALIZED:
+    elif secondary_articulation == SecondaryArticulation.PHARYNGEALIZED:
         return PHARYNGEALIZED_TEXT
-    if secondary_articulation == SecondaryArticulation.NORMAL:
+    elif secondary_articulation == SecondaryArticulation.NORMAL:
         return ""
-    return ""
+    else:
+        return ""
 
 
 def show_phonet_inventory(inventory: PhonetInventory) -> str:
@@ -968,7 +983,7 @@ def show_phonet(phonet: Phonet) -> str:
             ]
         )
         return remove_extra_two_spaces(joined)
-    if isinstance(phonet, Vowel):
+    elif isinstance(phonet, Vowel):
         height = phonet.height
         backness = phonet.backness
         rounding = phonet.rounding
@@ -985,4 +1000,5 @@ def show_phonet(phonet: Phonet) -> str:
             ]
         )
         return remove_extra_two_spaces(joined)
-    return UNRECOGNIZED_KIND_OF_PHONEME
+    else:
+        return UNRECOGNIZED_KIND_OF_PHONEME

@@ -106,9 +106,7 @@ def is_diacritic_above(some_text: str) -> bool:
     Whether a diacritic goes above
     the character it is placed on.
     """
-    if some_text == "̊":
-        return True
-    return False
+    return some_text == "̊"
 
 
 def is_diacritic_below(some_text: str) -> bool:
@@ -116,9 +114,7 @@ def is_diacritic_below(some_text: str) -> bool:
     Whether a diacritic goes below
     the character which it is placed on.
     """
-    if some_text == "̥":
-        return True
-    return False
+    return some_text == "̥"
 
 
 def lower_diacritic(some_text: str) -> str:
@@ -130,7 +126,8 @@ def lower_diacritic(some_text: str) -> str:
     """
     if some_text == "̊":
         return "̥"
-    return some_text
+    else:
+        return some_text
 
 
 def raise_diacritic(some_diacritic: str) -> str:
@@ -142,7 +139,8 @@ def raise_diacritic(some_diacritic: str) -> str:
     """
     if some_diacritic == "̥":
         return "̊"
-    return some_diacritic
+    else:
+        return some_diacritic
 
 
 def is_ascender(character: str) -> bool:
@@ -171,7 +169,8 @@ def append_voiceless_diacritic(ipa_text: str) -> str:
     """
     if is_descender(ipa_text):
         return ipa_text + "̊"  # add diacritic for voiceless that goes above
-    return ipa_text + "̥"  # add diacritic for voiceless that goes below
+    else:
+        return ipa_text + "̥"  # add diacritic for voiceless that goes below
 
 
 def append_voiced_diacritic(ipa_text: str) -> str:

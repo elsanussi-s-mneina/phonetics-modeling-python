@@ -249,18 +249,21 @@ def prepostdiacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
 
     if preresult is None:
         return None
-    (prepart, middle) = preresult
-    if is_exponential_after_at(0, middle):
-        length_of_first: int = len(prepart)
-        segmental: str = prepart[(length_of_first - 1) :]
-        postresult: Optional[Tuple[str, str]] = postdiacritic_parser_function(
-            segmental + middle
-        )
-        if postresult is None:
+    else:
+        (prepart, middle) = preresult
+        if is_exponential_after_at(0, middle):
+            length_of_first: int = len(prepart)
+            segmental: str = prepart[(length_of_first - 1) :]
+            postresult: Optional[Tuple[str, str]] = postdiacritic_parser_function(
+                segmental + middle
+            )
+            if postresult is None:
+                return None
+            else:
+                (postpart, rest) = postresult
+                return prepart + postpart[1:], rest
+        else:
             return None
-        (postpart, rest) = postresult
-        return prepart + postpart[1:], rest
-    return None
 
 
 def postdiacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
@@ -275,7 +278,7 @@ def postdiacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
         number_of_postdiacritics: int = count_post_diacritics_in_a_row(text, 1)
         chunk_length: int = number_of_postdiacritics + 1
         return text[:chunk_length], text[chunk_length:]
-    if (
+    elif (
         is_segmental_at(0, text)
         and is_tie_bar_at(1, text)
         and is_exponential_after_at(2, text)
@@ -283,7 +286,8 @@ def postdiacritic_parser_function(text: str) -> Optional[Tuple[str, str]]:
         number_of_postdiacritics: int = count_post_diacritics_in_a_row(text, 3)
         chunk_length: int = number_of_postdiacritics + 3
         return text[:chunk_length], text[chunk_length:]
-    return None
+    else:
+        return None
 
 
 def count_post_diacritics_in_a_row(some_text: str, start_index: int) -> int:
@@ -293,7 +297,8 @@ def count_post_diacritics_in_a_row(some_text: str, start_index: int) -> int:
     """
     if is_exponential_after_at(start_index, some_text):
         return 1 + count_post_diacritics_in_a_row(some_text, (start_index + 1))
-    return 0
+    else:
+        return 0
 
 
 def is_exponential(character: str) -> bool:
