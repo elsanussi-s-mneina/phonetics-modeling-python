@@ -198,7 +198,11 @@ BEFORE_SERVER_START_MESSAGE: Final[
     Browse to http://localhost:8080/voice_phoneme/s
     to get the voiced phoneme alternative of [s].
     Browse to http://localhost:8080/devoice_phoneme/z
-    to get the voiceless phoneme alternative of [z]."""
+    to get the voiceless phoneme alternative of [z].
+    Browse to http://localhost:8080/english_phonemes
+    to get the English phoneme inventory
+    Browse to http://localhost:8080/arabic_phonemes
+    to get the Arabic phoneme inventory"""
 
 
 UNRECOGNIZED_KIND_OF_PHONEME: Final[str] = "[Unrecognized kind of phonete!]"

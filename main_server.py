@@ -13,7 +13,7 @@ from flask import Flask, jsonify, render_template
 # to handle HTTP requests conveniently.
 
 from english_us_text import BEFORE_SERVER_START_MESSAGE
-from ipa import voiced_transcription, devoiced_transcription
+from ipa import arabic_phonet_inventory_report, english_phonet_inventory_report, voiced_transcription, devoiced_transcription
 
 app = Flask(__name__)
 
@@ -57,6 +57,22 @@ def devoice_phoneme_text(phoneme: str) -> str:
     when server is running.
     """
     return devoiced_transcription(phoneme)
+
+
+@app.route("/arabic_phonemes", methods=["GET"])
+def arabic_phonemes_javascript() -> str:
+    """
+    Give a list of Arabic Phonemes as text
+    """
+    return arabic_phonet_inventory_report
+
+
+@app.route("/english_phonemes", methods=["GET"])
+def english_phonemes_javascript() -> str:
+    """
+    Give a list of English Phonemes as text
+    """
+    return english_phonet_inventory_report
 
 
 def start_server():
