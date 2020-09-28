@@ -14,6 +14,7 @@ MENU: Final[
   6) divide IPA text into phonemes (chunk)
   7) open window (user-friendly mode)
   8) start web server
+  9) view the Arabic phoneme inventory (as IPA graphemes).
   Enter the number representing your selection below:
   after the prompt: and press enter/return.\n\n\n"""
 
@@ -25,7 +26,7 @@ USER_INPUT_DESCRIBE_A_PHONEME_IN_SPE: Final[str] = "5"
 USER_INPUT_CHUNK_IPA_BY_PHONEME: Final[str] = "6"
 USER_INPUT_OPEN_WINDOW: Final[str] = "7"
 USER_INPUT_START_SERVER: Final[str] = "8"
-
+USER_INPUT_VIEW_ARABIC_PHONEME_INVENTORY: Final[str] = "9"
 
 PROMPT: Final[str] = "(PROMPT:) "
 

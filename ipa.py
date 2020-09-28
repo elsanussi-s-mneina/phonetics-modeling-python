@@ -13,6 +13,7 @@ from grapheme_grammar import (
     diacritics_and_suprasegmentals,
 )
 from language_specific.english_specific import english_phonet_inventory
+from language_specific.arabic_specific import arabic_phoneme_inventory
 from lib_functions import (
     retract_phonet,
     deaspirate,
@@ -2570,4 +2571,8 @@ def show_transcription(inventory: PhonetInventory) -> str:
 
 english_phonet_inventory_report: str = ipa_text_to_phonet_list_report(
     show_transcription(english_phonet_inventory())
+)
+
+arabic_phonet_inventory_report: str = ipa_text_to_phonet_list_report(
+    show_transcription(arabic_phoneme_inventory())
 )

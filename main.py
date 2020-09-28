@@ -32,6 +32,7 @@ from english_us_text import (
     NO_ANALYSIS_FOUND_MESSAGE,
     MENU,
     USER_INPUT_START_SERVER,
+    USER_INPUT_VIEW_ARABIC_PHONEME_INVENTORY,
 )
 from lib_functions import show_phonet
 from ipa import (
@@ -43,6 +44,7 @@ from ipa import (
     describe_transcription,
     analyze_transcription_to_sound_patterns_of_english,
     english_phonet_inventory_report,
+    arabic_phonet_inventory_report,
 )
 from lib_types import Phonet
 from main_server import start_server
@@ -199,6 +201,8 @@ def respond_to_selection(selection: str) -> None:
     """
     if selection == USER_INPUT_VIEW_ENGLISH_PHONEME_INVENTORY:
         print(english_phonet_inventory_report)
+    elif selection == USER_INPUT_VIEW_ARABIC_PHONEME_INVENTORY:
+        print(arabic_phonet_inventory_report)
     elif selection == USER_INPUT_MAKE_A_PHONEME_VOICED:
         prompt_for_phoneme_to_voice()
     elif selection == USER_INPUT_MAKE_A_PHONEME_UNVOICED:
