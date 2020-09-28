@@ -5,6 +5,7 @@ from tkinter import Button, Tk, StringVar, Label, RAISED, LEFT, N, W, E, S, Entr
 
 from english_us_text import (
     SHOW_PHONEME_INVENTORY_TEXT,
+    SHOW_ARABIC_PHONEME_INVENTORY_TEXT,
     MAKE_A_PHONEME_VOICED_TEXT,
     DESCRIBE_PHONEME_TEXT,
     GET_FEATURES_OF_PHONEME_TEXT,
@@ -18,6 +19,7 @@ from english_us_text import (
     FEATURES_HEADER,
     RESULT_HEADER,
     ENGLISH_PHONEME_INVENTORY_HEADER,
+    ARABIC_PHONEME_INVENTORY_HEADER,
     APPLICATION_TITLE,
     INPUT_HEADER,
 )
@@ -28,6 +30,7 @@ from ipa import (
     describe_transcription,
     analyze_transcription_to_sound_patterns_of_english,
     english_phonet_inventory_report,
+    arabic_phonet_inventory_report,
 )
 
 
@@ -74,48 +77,53 @@ class Application:
         self.output_description.set(RESULT_HEADER)
 
         input_box_label = Label(master, text=INPUT_HEADER)
-        input_box_label.grid(row=1, column=0, sticky=W)
+        input_box_label.grid(row=2, column=0, sticky=W)
 
         self.input_box = Entry(master)
-        self.input_box.grid(row=2, column=0, sticky=W, pady=20, padx=10)
+        self.input_box.grid(row=3, column=0, sticky=W, pady=20, padx=10)
 
         show_inventory_button = Button(self.master, text=SHOW_PHONEME_INVENTORY_TEXT)
         show_inventory_button.grid(
             row=0, column=0, sticky=W, pady=20, padx=20, ipadx=5, ipady=10
         )
 
+        show_arabic_inventory_button = Button(self.master, text=SHOW_ARABIC_PHONEME_INVENTORY_TEXT)
+        show_arabic_inventory_button.grid(
+            row=1, column=0, sticky=W, pady=20, padx=20, ipadx=5, ipady=10
+        )
+
         voice_phoneme_button = Button(self.master, text=MAKE_A_PHONEME_VOICED_TEXT)
         voice_phoneme_button.grid(
-            row=3, column=0, sticky=W, pady=20, padx=20, ipadx=5, ipady=10
+            row=4, column=0, sticky=W, pady=20, padx=20, ipadx=5, ipady=10
         )
 
         devoice_phoneme_button = Button(self.master, text=MAKE_A_PHONEME_UNVOICED_TEXT)
         devoice_phoneme_button.grid(
-            row=4, column=0, sticky=W, pady=20, padx=20, ipadx=5, ipady=10
+            row=5, column=0, sticky=W, pady=20, padx=20, ipadx=5, ipady=10
         )
 
         describe_phoneme_button = Button(self.master, text=DESCRIBE_PHONEME_TEXT)
         describe_phoneme_button.grid(
-            row=5, column=0, sticky=W, pady=20, padx=20, ipadx=5, ipady=10
+            row=6, column=0, sticky=W, pady=20, padx=20, ipadx=5, ipady=10
         )
 
         featurize_phoneme_button = Button(
             self.master, text=GET_FEATURES_OF_PHONEME_TEXT
         )
         featurize_phoneme_button.grid(
-            row=6, column=0, sticky=W, pady=20, padx=20, ipadx=5, ipady=10
+            row=7, column=0, sticky=W, pady=20, padx=20, ipadx=5, ipady=10
         )
 
         split_transcription_button = Button(self.master, text=SPLIT_TRANSCRIPTION_TEXT)
         split_transcription_button.grid(
-            row=7, column=0, sticky=W, pady=20, padx=20, ipadx=5, ipady=10
+            row=8, column=0, sticky=W, pady=20, padx=20, ipadx=5, ipady=10
         )
 
         quit_button = Button(
             self.master, text=QUIT_TEXT, fg="red", command=self.master.destroy
         )
         quit_button.grid(
-            row=7, column=1, sticky=E, pady=20, padx=20, ipadx=10, ipady=10
+            row=9, column=1, sticky=E, pady=20, padx=20, ipadx=10, ipady=10
         )
 
         voice_phoneme_button["command"] = self.prompt_for_phoneme_to_voice
@@ -128,6 +136,7 @@ class Application:
             "command"
         ] = self.prompt_for_transcription_text_to_split
         show_inventory_button["command"] = self.show_english_phoneme_inventory
+        show_arabic_inventory_button["command"] = self.show_arabic_phoneme_inventory
 
     def show_english_phoneme_inventory(self) -> None:
         """
@@ -136,6 +145,14 @@ class Application:
         """
         self.output_to_user.set(english_phonet_inventory_report)
         self.output_description.set(ENGLISH_PHONEME_INVENTORY_HEADER)
+
+    def show_arabic_phoneme_inventory(self) -> None:
+        """
+        Show all the phonemes in Arabic.
+        :return: None
+        """
+        self.output_to_user.set(arabic_phonet_inventory_report)
+        self.output_description.set(ARABIC_PHONEME_INVENTORY_HEADER)
 
     def prompt_for_phoneme_to_voice(self) -> None:
         """

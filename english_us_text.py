@@ -169,6 +169,7 @@ VELARIZED_TEXT: str = "velarized"
 PHARYNGEALIZED_TEXT: str = "pharyngealized"
 
 SHOW_PHONEME_INVENTORY_TEXT: Final[str] = "Show English phoneme inventory"
+SHOW_ARABIC_PHONEME_INVENTORY_TEXT: Final[str] = "Show Arabic phoneme inventory"
 MAKE_A_PHONEME_VOICED_TEXT: Final[str] = "Make a phoneme voiced…"
 QUIT_TEXT: Final[str] = "Quit"
 MAKE_A_PHONEME_UNVOICED_TEXT: Final[str] = "Make a phoneme unvoiced…"
@@ -186,6 +187,7 @@ PHONEME_DESCRIPTION_HEADER: Final[str] = "Description of Phoneme"
 FEATURES_HEADER: Final[str] = "SPE Features of Phoneme"
 PHONEMES_SPLIT_HEADER: Final[str] = "Phonemes After Being Split"
 ENGLISH_PHONEME_INVENTORY_HEADER: Final[str] = "English Phoneme Inventory"
+ARABIC_PHONEME_INVENTORY_HEADER: Final[str] = "Arabic Phoneme Inventory"
 INPUT_HEADER: Final[str] = "Input:"
 
 
