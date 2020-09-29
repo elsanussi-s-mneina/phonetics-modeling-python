@@ -59,9 +59,11 @@ from english_us_text import (
     PALATALIZED_TEXT,
     VELARIZED_TEXT,
     PHARYNGEALIZED_TEXT,
+    NO_SECONDARY_ARTICULATION_TEXT,
     EXTRA_SHORT_TEXT,
     HALF_LONG_TEXT,
     LONG_TEXT,
+    NORMAL_LENGTH_TEXT,
     UNRECOGNIZED_KIND_OF_PHONEME,
     UNRECOGNIZED_VOCAL_FOLDS,
     UNRECOGNIZED_AIRSTREAM,
@@ -814,6 +816,24 @@ def show_vowel_length(length: VowelLength) -> str:
         return UNRECOGNIZED_VOWEL_LENGTH
 
 
+def show_vowel_length_verbosely(length: VowelLength) -> str:
+    """
+    Provide user readable text for representing
+    vowel length. But no empty strings may be returned.
+    e.g. "half-long"
+    """
+    if length == VowelLength.NORMAL:
+        return NORMAL_LENGTH_TEXT
+    elif length == VowelLength.EXTRA_SHORT:
+        return EXTRA_SHORT_TEXT
+    elif length == VowelLength.HALF_LONG:
+        return HALF_LONG_TEXT
+    elif length == VowelLength.LONG:
+        return LONG_TEXT
+    else:
+        return UNRECOGNIZED_VOWEL_LENGTH
+
+
 def show_place(place: Place) -> str:
     """
     Provide user readable text for representing
@@ -940,6 +960,26 @@ def show_secondary_articulation(secondary_articulation: SecondaryArticulation) -
         return PHARYNGEALIZED_TEXT
     elif secondary_articulation == SecondaryArticulation.NORMAL:
         return ""
+    else:
+        return ""
+
+def show_secondary_articulation_verbosely(secondary_articulation: SecondaryArticulation) -> str:
+    """
+    user-readable text representation of a secondary articulation
+    But no empty strings may be returned.
+
+    e.g. "pharyngealized"
+    """
+    if secondary_articulation == SecondaryArticulation.LABIALIZED:
+        return LABIALIZED_TEXT
+    elif secondary_articulation == SecondaryArticulation.PALATALIZED:
+        return PALATALIZED_TEXT
+    elif secondary_articulation == SecondaryArticulation.VELARIZED:
+        return VELARIZED_TEXT
+    elif secondary_articulation == SecondaryArticulation.PHARYNGEALIZED:
+        return PHARYNGEALIZED_TEXT
+    elif secondary_articulation == SecondaryArticulation.NORMAL:
+        return NO_SECONDARY_ARTICULATION_TEXT
     else:
         return ""
 

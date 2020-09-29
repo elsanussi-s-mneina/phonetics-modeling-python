@@ -98,6 +98,7 @@ UNROUNDED_ROUNDING_TEXT: Final[str] = "unrounded"
 EXTRA_SHORT_TEXT: Final[str] = "extra-short"
 HALF_LONG_TEXT: Final[str] = "half-long"
 LONG_TEXT: Final[str] = "long"
+NORMAL_LENGTH_TEXT: Final[str] = "normal"
 
 BILABIAL_PLACE_TEXT: Final[str] = "bilabial"
 LABIODENTAL_PLACE_TEXT: Final[str] = "labio-dental"
@@ -167,6 +168,7 @@ LABIALIZED_TEXT: str = "labialized"
 PALATALIZED_TEXT: str = "palatalized"
 VELARIZED_TEXT: str = "velarized"
 PHARYNGEALIZED_TEXT: str = "pharyngealized"
+NO_SECONDARY_ARTICULATION_TEXT: str = "none"
 
 SHOW_PHONEME_INVENTORY_TEXT: Final[str] = "Show English phoneme inventory"
 SHOW_ARABIC_PHONEME_INVENTORY_TEXT: Final[str] = "Show Arabic phoneme inventory"
@@ -195,14 +197,24 @@ BEFORE_SERVER_START_MESSAGE: Final[
     str
 ] = """Starting server...
     Server running... at port 8080 locally.
+    
     Browse to http://localhost:8080/voice_phoneme/s
     to get the voiced phoneme alternative of [s].
+    
     Browse to http://localhost:8080/devoice_phoneme/z
     to get the voiceless phoneme alternative of [z].
+    
     Browse to http://localhost:8080/english_phonemes
-    to get the English phoneme inventory
+    to get the English phoneme inventory.
+    
+    Browse to http://localhost:8080/english_phonemes.json
+    to get the English phoneme inventory as JSON.
+    
     Browse to http://localhost:8080/arabic_phonemes
-    to get the Arabic phoneme inventory"""
+    to get the Arabic phoneme inventory.
+    
+    Browse to http://localhost:8080/arabic_phonemes.json
+    to get the Arabic phoneme inventory as JSON"""
 
 
 UNRECOGNIZED_KIND_OF_PHONEME: Final[str] = "[Unrecognized kind of phonete!]"

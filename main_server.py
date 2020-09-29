@@ -8,12 +8,15 @@ The API follows REST conventions.
 """
 
 from flask import Flask, jsonify, render_template
+from json_encode import (encode_phonet_inventory)
 
 # Flask is a third-party framework we use to be able
 # to handle HTTP requests conveniently.
 
 from english_us_text import BEFORE_SERVER_START_MESSAGE
-from ipa import arabic_phonet_inventory_report, english_phonet_inventory_report, voiced_transcription, devoiced_transcription
+from ipa import (arabic_phonet_inventory_report, english_phonet_inventory_report, voiced_transcription, \
+                devoiced_transcription, english_phonet_inventory)
+from language_specific.arabic_specific import arabic_phoneme_inventory
 
 app = Flask(__name__)
 
@@ -60,19 +63,35 @@ def devoice_phoneme_text(phoneme: str) -> str:
 
 
 @app.route("/arabic_phonemes", methods=["GET"])
-def arabic_phonemes_javascript() -> str:
+def arabic_phonemes() -> str:
     """
     Give a list of Arabic Phonemes as text
     """
     return arabic_phonet_inventory_report
 
 
+@app.route("/arabic_phonemes.json", methods=["GET"])
+def arabic_phonemes_javascript() -> str:
+    """
+    Give a list of Arabic Phonemes as JSON
+    """
+    return encode_phonet_inventory(arabic_phoneme_inventory())
+
+
 @app.route("/english_phonemes", methods=["GET"])
-def english_phonemes_javascript() -> str:
+def english_phonemes() -> str:
     """
     Give a list of English Phonemes as text
     """
     return english_phonet_inventory_report
+
+
+@app.route("/english_phonemes.json", methods=["GET"])
+def english_phonemes_javascript() -> str:
+    """
+    Give a list of English Phonemes as JSON
+    """
+    return encode_phonet_inventory(english_phonet_inventory())
 
 
 def start_server():
