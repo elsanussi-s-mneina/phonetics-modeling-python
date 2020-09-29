@@ -15,7 +15,7 @@ from json_encode import (encode_phonet_inventory)
 
 from english_us_text import BEFORE_SERVER_START_MESSAGE
 from ipa import (arabic_phonet_inventory_report, english_phonet_inventory_report, voiced_transcription, \
-                devoiced_transcription, english_phonet_inventory)
+                devoiced_transcription, english_phonet_inventory, describe_transcription)
 from language_specific.arabic_specific import arabic_phoneme_inventory
 
 app = Flask(__name__)
@@ -92,6 +92,15 @@ def english_phonemes_javascript() -> str:
     Give a list of English Phonemes as JSON
     """
     return encode_phonet_inventory(english_phonet_inventory())
+
+
+@app.route("/describe_phoneme/<phoneme>", methods=["GET"])
+def describe_phoneme(phoneme: str) -> str:
+    """
+    Given a phoneme, returns an English description of it.
+    """
+    return describe_transcription(phoneme)
+
 
 
 def start_server():

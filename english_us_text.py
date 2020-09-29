@@ -204,6 +204,9 @@ BEFORE_SERVER_START_MESSAGE: Final[
     Browse to http://localhost:8080/devoice_phoneme/z
     to get the voiceless phoneme alternative of [z].
     
+    Browse to http://localhost:8080/describe_phoneme/m
+    to get the English description of [m].
+    
     Browse to http://localhost:8080/english_phonemes
     to get the English phoneme inventory.
     
