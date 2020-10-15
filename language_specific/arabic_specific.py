@@ -13,6 +13,7 @@ from lib_types import (
     VowelLength,
 )
 
+
 def arabic_phoneme_inventory() -> PhonetInventory:
     """
     This is the phoneme inventory found in Modern Standard Arabic
@@ -190,39 +191,36 @@ def arabic_phoneme_inventory() -> PhonetInventory:
                 Airstream.PULMONIC_EGRESSIVE,
                 SecondaryArticulation.NORMAL,
             ),
-
             # Consonants with phonemic secondary articulation
             Consonant(
                 VocalFolds.VOICELESS,
                 Place.ALVEOLAR,
                 Manner.PLOSIVE,
                 Airstream.PULMONIC_EGRESSIVE,
-                SecondaryArticulation.PHARYNGEALIZED
+                SecondaryArticulation.PHARYNGEALIZED,
             ),
             Consonant(
                 VocalFolds.VOICED,
                 Place.ALVEOLAR,
                 Manner.PLOSIVE,
                 Airstream.PULMONIC_EGRESSIVE,
-                SecondaryArticulation.PHARYNGEALIZED
+                SecondaryArticulation.PHARYNGEALIZED,
             ),
             Consonant(
                 VocalFolds.VOICED,
                 Place.DENTAL,
                 Manner.FRICATIVE,
                 Airstream.PULMONIC_EGRESSIVE,
-                SecondaryArticulation.PHARYNGEALIZED
+                SecondaryArticulation.PHARYNGEALIZED,
             ),
             Consonant(
                 VocalFolds.VOICELESS,
                 Place.ALVEOLAR,
                 Manner.FRICATIVE,
                 Airstream.PULMONIC_EGRESSIVE,
-                SecondaryArticulation.PHARYNGEALIZED
+                SecondaryArticulation.PHARYNGEALIZED,
             ),
-
             # Short vowels:
-
             Vowel(
                 Height.CLOSE,
                 Backness.FRONT,
@@ -244,7 +242,6 @@ def arabic_phoneme_inventory() -> PhonetInventory:
                 VocalFolds.VOICED,
                 VowelLength.NORMAL,
             ),
-
             # Long vowels:
             Vowel(
                 Height.CLOSE,
@@ -252,7 +249,7 @@ def arabic_phoneme_inventory() -> PhonetInventory:
                 Rounding.UNROUNDED,
                 VocalFolds.VOICED,
                 VowelLength.LONG,
-            ), # cursor
+            ),  # cursor
             Vowel(
                 Height.OPEN,
                 Backness.FRONT,
@@ -266,8 +263,6 @@ def arabic_phoneme_inventory() -> PhonetInventory:
                 Rounding.ROUNDED,
                 VocalFolds.VOICED,
                 VowelLength.LONG,
-            )
+            ),
         ]
     )
-
-
